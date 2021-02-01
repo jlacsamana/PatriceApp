@@ -24,6 +24,7 @@ those who are having the most trouble with the early part of the course.
 I named the program in honour of Dr. Patrice Belleville, who made CPSC 121
 a thoroughly more enjoyeable experience. <br> <br>
 <img src = "https://www.cs.ubc.ca/sites/default/files/styles/profile_page/public/people/belleville.jpg?h=2e255112&itok=1-exgS5S">
+</img>
 <br>
 The man, the legend himself
 
