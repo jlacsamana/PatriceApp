@@ -29,12 +29,12 @@ a thoroughly more enjoyeable experience. <br> </br> <br> </br>
 The man, the legend himself
 
 
-##User Stories
+## User Stories
 - As a user,  I want to be able to write a boolean logical statement 
 and have the program generate the correct corresponding logical circuit
 - As a user, I want to be able to design my own logical circuit and have 
 the program generate the correct corresponding logical statement.
 - (OPTIONAL): As a user I want to be able to switch between the two above
-activites and still recieve a properly generated logical statement or it's 
+activities and still receive a properly generated logical statement, or it's 
 representation as a logical circuit
 
