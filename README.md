@@ -30,11 +30,10 @@ The man, the legend himself
 
 
 ## User Stories
-- As a user,  I want to be able to write a boolean logical statement 
-and have the program generate the correct corresponding logical circuit
-- As a user, I want to be able to design my own logical circuit and have 
-the program generate the correct corresponding logical statement.
-- (OPTIONAL): As a user I want to be able to switch between the two above
-activities and still receive a properly generated logical statement, or it's 
-representation as a logical circuit
-
+- As a user,  I want to be able to create a new logical circuit and add circuit components to it
+- As a user,  I want to be able to be able to edit connections between components in my logical circuit
+- As a user,  I want to be able to be able to delete circuit components
+- As a user,  I want to be able to have the program generate a logical statement from a logical circuit
+- As a user,  I want to be able to have the program generate a logical circuit from a logical statement
+- As a user,  I want to be able to be able to save logical statements & their accompanying 
+circuit as data readable by this program or at the very in one of the widely used image formats (PNG, JPEG, etc)

@@ -1,16 +1,16 @@
 package model;
 
-//represents a AND gate in a logical circuit; outputs a true signal if at least one of the input signals are true
-public class OrGate extends BinaryGate {
+//represents an OR gate on a logical circuit
+public class OrGate extends BinaryCircuitGate {
 
-    public OrGate(CircuitComponent input1, CircuitComponent input2) {
-        super(input1, input2);
-        this.componentIdentifier = CircuitCompType.OR;
+    //EFFECTS: creates a new OR gate and sets its component type identifier to OR
+    public OrGate(){
+
     }
 
-    //MODIFIES: THIS
-    //switches outputSignal to true if at least one of the connected inputs are true, false otherwise
     @Override
+    //MODIFIES: this
+    //EFFECTS: sets this' outputSignal to true if at least one of it's input signals' outputSignals are true
     public void gateLogicCalc() {
 
     }

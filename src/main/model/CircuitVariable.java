@@ -1,27 +1,18 @@
 package model;
 
-//represents a variable in a logical circuit; has no inputs, only an output that can be toggled
+//represents a variable on a logical circuit, only has an output, whose value can be toggled by the user
 public class CircuitVariable extends CircuitComponent {
-    private final VariableIdentifier variableID;
+    VariableIdentifier variableIdentity;
 
-    //REQUIRES: that no VariableIdentifier already in use be assigned to a new object
-    //EFFECTS: creates a new circuit variable that can be identified with varID, outputSignal is set to false
-    public CircuitVariable(VariableIdentifier varID) {
-        componentIdentifier = CircuitCompType.VARIABLE;
-        variableID = varID;
-        outputSignal = false;
+    //EFFECTS: creates a new variable and sets it's variableIdentity and ComponentTypeIdentifier,
+    // and outgoing connection
+    public CircuitVariable(){
+
     }
 
     //MODIFIES: this
-    //EFFECTS: sets this' outputSignal
-    public void setOutSignal(boolean newSignal) {
-        this.outputSignal = newSignal;
+    //EFFECT: toggles the value of outputSignal; sets to true if false and vice versa
+    public void toggleOutputSignal(){
+
     }
-
-    //EFFECTS: returns this' variableID
-    public VariableIdentifier getVariableID() {
-        return variableID;
-    }
-
-
 }

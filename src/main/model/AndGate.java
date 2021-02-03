@@ -1,16 +1,15 @@
 package model;
 
-//represents a AND gate in a logical circuit; outputs a true signal if both input signals are also true
-public class AndGate extends BinaryGate {
+public class AndGate extends BinaryCircuitGate {
 
-    public AndGate(CircuitComponent input1, CircuitComponent input2) {
-        super(input1, input2);
-        this.componentIdentifier = CircuitCompType.AND;
+    //EFFECTS: creates a new AND gate and sets its component type identifier to AND
+    public AndGate(){
+
     }
 
-    //MODIFIES: THIS
-    //switches outputSignal to true if both connected inputs are true, false otherwise
     @Override
+    //MODIFIES: this
+    //EFFECTS: sets this' outputSignal to true if it's input signals' outputSignals are both also true
     public void gateLogicCalc() {
 
     }

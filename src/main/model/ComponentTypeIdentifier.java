@@ -1,7 +1,7 @@
 package model;
 
 //an enum representing all the types of circuit components
-public enum CircuitCompType {
+public enum ComponentTypeIdentifier {
     VARIABLE,
     NOT,
     AND,
