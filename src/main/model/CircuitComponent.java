@@ -5,7 +5,7 @@ public abstract class CircuitComponent {
     String componentName;
     ComponentTypeIdentifier componentIdentifier;
     boolean outputSignal;
-    CircuitComponent outgoingConnection;
+    CircuitComponent outputConnection;
 
     //MODIFIES: this
     //EFFECT: changes outgoingConnection's reference to newConnection's

@@ -5,5 +5,6 @@ public enum ComponentTypeIdentifier {
     VARIABLE,
     NOT,
     AND,
-    OR
+    OR,
+    OUTPUT
 }

@@ -4,8 +4,8 @@ package model;
 public class CircuitVariable extends CircuitComponent {
     VariableIdentifier variableIdentity;
 
-    //EFFECTS: creates a new variable and sets it's variableIdentity and ComponentTypeIdentifier,
-    // and outgoing connection
+    //EFFECTS: creates a new variable and sets it's variableIdentity to an available variable, ComponentTypeIdentifier
+    // to VARIABLE, and outgoing connection
     public CircuitVariable(){
 
     }
