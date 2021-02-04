@@ -44,7 +44,7 @@ public class LogicalCircuit {
     //MODIFIES: circPart, newConnection
     //EFFECTS: sets the outputConnection of circPart to newConnection. The input corresponding to inputPlace in
     //newConnection is set to circPart. The output of the CircuitComponent previously connected to that input
-    //is set to null
+    //is set to null(if that CircuitComponent isn't null)
     public void changeOutPutConnection(CircuitComponent circPart, CircuitComponent newConnection, int inputPlace) {
 
     }
