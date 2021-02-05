@@ -4,15 +4,24 @@ package model;
 public class CircuitVariable extends CircuitComponent {
     VariableIdentifier variableIdentity;
 
-    //EFFECTS: creates a new variable and sets it's variableIdentity to an available variable, ComponentTypeIdentifier
-    // to VARIABLE, and outgoing connection
-    public CircuitVariable(){
+    //represents all available variable identifiers
+    public enum VariableIdentifier {
+        A,
+        B,
+        C,
+        D
+    }
 
+    //EFFECTS: creates a new variable and sets it's variableIdentity to an available variable, ComponentTypeIdentifier
+    // to VARIABLE, and sets outputSignal to false
+    public CircuitVariable() {
+        super();
+        componentIdentifier = ComponentTypeIdentifier.VARIABLE;
     }
 
     //MODIFIES: this
-    //EFFECT: toggles the value of outputSignal; sets to true if false and vice versa
-    public void toggleOutputSignal(){
+    //EFFECT: sets the value of outputSignal to newOut
+    public void setOutputSignal(boolean newOut){
 
     }
 }

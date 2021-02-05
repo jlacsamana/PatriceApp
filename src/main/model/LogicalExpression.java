@@ -2,7 +2,7 @@ package model;
 
 //represents a Logical expression; provides a means to generate an equivalent logical circuit
 public class LogicalExpression {
-    String logicalExpressionStr;
+    protected String logicalExpressionStr;
 
     //EFFECTS: creates a new blank logical expression
     public LogicalExpression() {
@@ -16,6 +16,17 @@ public class LogicalExpression {
         LogicalCircuit newCircuit = new LogicalCircuit();
 
         return newCircuit;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets this' logical expression
+    public void setLogicalExpression(String logSentence) {
+        logicalExpressionStr = logSentence;
+    }
+
+    //EFFECTS: gets this' logical expression
+    public String getLogicalExpression() {
+        return logicalExpressionStr;
     }
 
 }
