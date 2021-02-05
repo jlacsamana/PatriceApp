@@ -30,5 +30,3 @@ a thoroughly more enjoyeable experience. <br> </br> <br>
 - As a user,  I want to be able to be able to delete circuit components
 - As a user,  I want to be able to have the program generate a logical statement from a logical circuit
 - As a user,  I want to be able to have the program generate a logical circuit from a logical statement
-- As a user,  I want to be able to be able to save logical statements & their accompanying 
-circuit as data readable by this program or at the very in one of the widely used image formats (PNG, JPEG, etc)
