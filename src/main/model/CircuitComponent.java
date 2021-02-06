@@ -16,21 +16,23 @@ public abstract class CircuitComponent {
         OUTPUT
     }
 
-    //EFFECT: creates a new circuit component and sets its output connection to null
-    public CircuitComponent(){
-
+    //EFFECT: creates a new circuit component and sets its output connection to null,
+    // and outPutSignal to false
+    public CircuitComponent() {
+        outputSignal = false;
+        outputConnection = null;
     }
 
     //REQUIRES: that newConnection not be null
     //MODIFIES: this
     //EFFECT: changes outgoingConnection's reference to newConnection's
     public void changeOutputConnection(CircuitComponent newConnection) {
-
+        outputConnection = newConnection;
     }
 
     //EFFECT: returns output signal
     public boolean getOutputSig() {
-        return true; //stub
+        return outputSignal;
     }
 
     //EFFECTS: returns output connection

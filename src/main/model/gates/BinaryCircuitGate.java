@@ -14,8 +14,8 @@ public abstract class BinaryCircuitGate extends CircuitGate {
     //REQUIRES: that newConnection not be null
     //MODIFIES: this
     //EFFECT: sets inputConnection2's reference to newConnection's
-    public void changeInputConnection2(CircuitComponent newConnection){
-
+    public void changeInputConnection2(CircuitComponent newConnection) {
+        inputConnection2 = newConnection;
     }
 
     //EFFECTS: returns the CircuitComponent referenced by inputConnection2

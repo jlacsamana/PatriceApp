@@ -9,13 +9,14 @@ public abstract class CircuitGate extends CircuitComponent {
     //EFFECT: creates a new circuit gate and sets the input connection to null
     public CircuitGate() {
         super();
+        inputConnection1 = null;
     }
 
     //REQUIRES: that newConnection not be null
     //MODIFIES: this
     //EFFECT: sets inputConnection1's reference to newConnection's
-    public void changeInputConnection1(CircuitComponent newConnection){
-
+    public void changeInputConnection1(CircuitComponent newConnection) {
+        inputConnection1 = newConnection;
     }
 
     //MODIFIES: this

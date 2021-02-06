@@ -14,6 +14,6 @@ public class NotGate extends CircuitGate {
     //MODIFIES: this
     //EFFECTS: sets this' outputSignal to true if it's input signal's outputSignal is false and vice versa
     public void gateLogicCalc() {
-
+        outputSignal = !(inputConnection1.getOutputSig());
     }
 }

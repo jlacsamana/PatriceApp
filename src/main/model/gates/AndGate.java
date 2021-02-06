@@ -13,6 +13,6 @@ public class AndGate extends BinaryCircuitGate {
     //MODIFIES: this
     //EFFECTS: sets this' outputSignal to true if it's input signals' outputSignals are both also true
     public void gateLogicCalc() {
-
+        outputSignal = inputConnection1.getOutputSig() && inputConnection2.getOutputSig();
     }
 }
