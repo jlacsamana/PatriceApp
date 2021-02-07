@@ -63,7 +63,7 @@ public abstract class CircuitComponent {
                 binaryGate.getInputConnection1().removeConnection(binaryGate);
             }
             binaryGate.changeInputConnection1(this);
-        } else if (inputPlace == 2) {
+        } else {
             if (binaryGate.getInputConnection2() != null) {
                 binaryGate.getInputConnection2().removeConnection(binaryGate);
             }
@@ -71,7 +71,7 @@ public abstract class CircuitComponent {
         }
     }
 
-    //REQUIRES: that compToRemove not be null
+    //REQUIRES: that compToRemove not be null and can't be a Circuit Input
     //MODIFIES: this
     //EFFECTS: disconnects compToRemove from this component and
     // removes it from the list of output connections
@@ -81,11 +81,10 @@ public abstract class CircuitComponent {
             if (((BinaryCircuitGate) compToRemove).getInputConnection2() != null
                     && ((BinaryCircuitGate) compToRemove).getInputConnection2().equals(this)) {
                 ((BinaryCircuitGate) compToRemove).changeInputConnection2(null);
-            } else if (((BinaryCircuitGate) compToRemove).getInputConnection1() != null
-                    && ((BinaryCircuitGate) compToRemove).getInputConnection1().equals(this)) {
+            } else if (((BinaryCircuitGate) compToRemove).getInputConnection1() != null) {
                 ((BinaryCircuitGate) compToRemove).changeInputConnection1(null);
             }
-        } else if (compToRemove instanceof CircuitGate) {
+        } else {
             removeConnectionInput1(compToRemove);
         }
     }
@@ -93,8 +92,7 @@ public abstract class CircuitComponent {
     //MODIFIES: compToRemove
     //EFFECTS: if compToRemove input is not null and equal to this, sets it to null
     private void removeConnectionInput1(CircuitComponent compToRemove) {
-        if (((CircuitGate) compToRemove).getInputConnection1() != null
-                && ((CircuitGate) compToRemove).getInputConnection1().equals(this)) {
+        if (((CircuitGate) compToRemove).getInputConnection1() != null) {
             ((CircuitGate) compToRemove).changeInputConnection1(null);
         }
     }

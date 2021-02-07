@@ -116,5 +116,14 @@ public abstract class CircuitComponentTest {
         assertNull(notGate.getInputConnection1());
     }
 
+    @Test
+    public void testRemoveConnectionDisconnectedUnaryGate(){
+        NotGate notGate = new NotGate();
+        assertFalse(testCircComp.getOutputConnections().contains(notGate));
+        assertEquals(notGate.getInputConnection1(), null);
+        testCircComp.removeConnection(notGate);
+
+        assertNull(notGate.getInputConnection1());
+    }
 
 }

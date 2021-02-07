@@ -105,6 +105,17 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    public void testRemoveCircuitPartDisconnectedGate(){
+        AndGate andGate = new AndGate();
+        testLogicalCircuit.addCircuitPart(andGate);
+        assertTrue(testLogicalCircuit.getCircuitComponents().contains(andGate));
+
+        testLogicalCircuit.removeCircuitPart(andGate);
+        assertFalse(testLogicalCircuit.getCircuitComponents().contains(andGate));
+
+    }
+
+    @Test
     public void testRemoveCircuitPartCircVar() {
         CircuitVariable newCircVar = new CircuitVariable();
         testLogicalCircuit.addCircuitPart(newCircVar);
