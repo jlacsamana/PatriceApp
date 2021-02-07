@@ -79,7 +79,7 @@ public class LogicalCircuit {
     }
 
     //REQUIRES: the given CircuitComponent must exist in the list of circuit parts. Variable Outputs
-    //cant be removes
+    //cant be removed
     //MODIFIES: this
     //EFFECTS: Changes all input/output connections that reference circuitToRemove to null and removes it from the
     //list of circuit parts. If component is a CircuitVariable, removes its assigned variableID from the list
