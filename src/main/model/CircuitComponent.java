@@ -71,17 +71,19 @@ public abstract class CircuitComponent {
         }
     }
 
-    //REQUIRES: that compToRemove not be null and can't be a Circuit Input
+    //REQUIRES: that compToRemove not be null and can't be a Circuit Input. compToRemove must also exist in
+    // this' list of output connections
     //MODIFIES: this
     //EFFECTS: disconnects compToRemove from this component and
     // removes it from the list of output connections
     public void removeConnection(CircuitComponent compToRemove) {
         outputConnections.remove(compToRemove);
         if (compToRemove instanceof BinaryCircuitGate) {
+            System.out.println(((BinaryCircuitGate) compToRemove).getInputConnection1() != null);
             if (((BinaryCircuitGate) compToRemove).getInputConnection2() != null
                     && ((BinaryCircuitGate) compToRemove).getInputConnection2().equals(this)) {
                 ((BinaryCircuitGate) compToRemove).changeInputConnection2(null);
-            } else if (((BinaryCircuitGate) compToRemove).getInputConnection1() != null) {
+            } else {
                 ((BinaryCircuitGate) compToRemove).changeInputConnection1(null);
             }
         } else {
