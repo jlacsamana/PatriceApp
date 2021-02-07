@@ -30,12 +30,6 @@ public class CircuitVariableTest extends CircuitComponentTest{
         assertFalse(testCircuitVar.getOutputSig());
     }
 
-    @Test
-    public void testSetOutputConnection(){
-        CircuitOutput testOutput = new CircuitOutput();
-        testCircuitVar.changeOutputConnection(testOutput);
-        assertEquals(testOutput, testCircuitVar.getOutputConnection());
-    }
 
 
 }

@@ -11,9 +11,9 @@ import java.util.Set;
 //represents a logical circuit, and provides a means to edit, append to it, and to generate an equivalent
 //logical expression
 public class LogicalCircuit {
-    ArrayList<CircuitComponent> circuitParts;
-    public final CircuitOutput headPart;
-    Set<VariableIdentifier> usedVarIDs;
+    protected ArrayList<CircuitComponent> circuitParts;
+    protected final CircuitOutput headPart;
+    protected Set<VariableIdentifier> usedVarIDs;
 
     //represents all available variable identifiers; each one may only be used by a single CircuitVariable
     public enum VariableIdentifier {
@@ -85,43 +85,43 @@ public class LogicalCircuit {
     //list of circuit parts. If component is a CircuitVariable, removes its assigned variableID from the list
     // of used IDs
     public void removeCircuitPart(CircuitComponent circuitToRemove) {
-        removeOutputConnections(circuitToRemove);
-        removeInputConnection(circuitToRemove);
-        this.circuitParts.remove(circuitToRemove);
+        if (circuitToRemove instanceof BinaryCircuitGate) {
+            clearInputConnection1((CircuitGate) circuitToRemove);
+            clearInputConnection2((BinaryCircuitGate) circuitToRemove);
+        } else if (circuitToRemove instanceof CircuitGate) {
+            clearInputConnection1((CircuitGate) circuitToRemove);
+        }
+        clearAllOutputConnections(circuitToRemove);
+        circuitParts.remove(circuitToRemove);
+
         if (circuitToRemove instanceof CircuitVariable) {
             usedVarIDs.remove(((CircuitVariable) circuitToRemove).getVarID());
         }
+
     }
 
-    //MODIFIES: circToDisconnect
-    //EFFECT: disconnects circToDisconnect's output from anything connected to it;
-    public void removeOutputConnections(CircuitComponent circToDisconnect) {
-        if (circToDisconnect.getOutputConnection() != null) {
-            if (circToDisconnect.getOutputConnection() instanceof BinaryCircuitGate) {
-                BinaryCircuitGate binaryConnToNullify = (BinaryCircuitGate) circToDisconnect.getOutputConnection();
-                if (binaryConnToNullify.getInputConnection1().equals(circToDisconnect)) {
-                    binaryConnToNullify.changeInputConnection1(null);
-                } else {
-                    binaryConnToNullify.changeInputConnection2(null);
-                }
-            } else if (circToDisconnect.getOutputConnection() instanceof CircuitGate) {
-                CircuitGate unaryConnectionToNullify = (CircuitGate) circToDisconnect.getOutputConnection();
-                unaryConnectionToNullify.changeInputConnection1(null);
-            }
-            circToDisconnect.changeOutputConnection(null);
+    //MODIFIES: this
+    //EFFECTS: sets all output connections from partToDisconnect to null
+    private void clearAllOutputConnections(CircuitComponent partToDisconnect) {
+        ArrayList<CircuitComponent> duplicateOutputList = new ArrayList<>(partToDisconnect.getOutputConnections());
+        for (CircuitComponent circPart : duplicateOutputList) {
+            partToDisconnect.removeConnection(circPart);
         }
     }
 
-    //MODIFIES: circToDisconnect
-    //EFFECT: disconnects circToDisconnect's input(s) from anything connected to it;
-    public void removeInputConnection(CircuitComponent circToDisconnect) {
-        if (circToDisconnect instanceof BinaryCircuitGate) {
-            BinaryCircuitGate binaryCircToRemove = (BinaryCircuitGate) circToDisconnect;
-            binaryCircToRemove.getInputConnection1().changeOutputConnection(null);
-            binaryCircToRemove.getInputConnection2().changeOutputConnection(null);
-        } else if (circToDisconnect instanceof CircuitGate) {
-            CircuitGate binaryCircToRemove = (CircuitGate) circToDisconnect;
-            binaryCircToRemove.getInputConnection1().changeOutputConnection(null);
+    //MODIFIES: this
+    //EFFECTS: if partToDisconnect's first input is connected to anything, disconnects it
+    private void clearInputConnection1(CircuitGate partToDisconnect) {
+        if (partToDisconnect.getInputConnection1() != null) {
+            partToDisconnect.getInputConnection1().removeConnection(partToDisconnect);
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: if partToDisconnect's second input is connected to anything, disconnects it
+    private void clearInputConnection2(BinaryCircuitGate partToDisconnect) {
+        if (partToDisconnect.getInputConnection2() != null) {
+            partToDisconnect.getInputConnection2().removeConnection(partToDisconnect);
         }
     }
 
@@ -134,46 +134,15 @@ public class LogicalCircuit {
     //is set to null(if that CircuitComponent isn't null)
     public void changeOutPutConnection(CircuitComponent circPart, CircuitComponent newConnection, int inputPlace) {
         if (newConnection instanceof BinaryCircuitGate) {
-            if (inputPlace == 1) {
-                switchConnection1(circPart, (CircuitGate) newConnection);
-            } else if (inputPlace == 2) {
-                switchConnection2(circPart, (BinaryCircuitGate) newConnection);
-            }
-
+            circPart.addBinaryConnection((BinaryCircuitGate) newConnection, inputPlace);
         } else {
-            switchConnection1(circPart, (CircuitGate) newConnection);
+            circPart.addUnaryConnection((CircuitGate) newConnection);
         }
-        circPart.changeOutputConnection(newConnection);
     }
 
-    //MODIFIES: circPart, newConnection
-    //EFFECTS: disconnects circPart's outputConnection and newConnection's first input connection
-    //from whatever they're connected to, if anything and connects
-    //circPart's outputConnection to newConnection first input connection
-    public void switchConnection1(CircuitComponent circPart, CircuitGate newConnection) {
-        if (circPart.getOutputConnection() != null) {
-            ((CircuitGate) circPart.getOutputConnection()).changeInputConnection1(null);
-        }
-        if (newConnection.getInputConnection1() != null) {
-            newConnection.getInputConnection1().changeOutputConnection(null);
-        }
-        newConnection.changeInputConnection1(circPart);
-        circPart.changeOutputConnection(newConnection);
-    }
-
-    //MODIFIES:circPart, newConnection
-    //EFFECTS: disconnects circPart's outputConnection and newConnection's second input connection
-    //from whatever they're connected to, if anything and connects
-    //circPart's outputConnection to newConnection second input connection
-    public void switchConnection2(CircuitComponent circPart, BinaryCircuitGate newConnection) {
-        if (circPart.getOutputConnection() != null) {
-            ((BinaryCircuitGate) circPart.getOutputConnection()).changeInputConnection2(null);
-        }
-        if (newConnection.getInputConnection2() != null) {
-            newConnection.getInputConnection2().changeOutputConnection(null);
-        }
-        newConnection.changeInputConnection2(circPart);
-        circPart.changeOutputConnection(newConnection);
+    //EFFECT: return currently used variable IDs
+    public Set<VariableIdentifier> getUsedVarIDs() {
+        return usedVarIDs;
     }
 
 
