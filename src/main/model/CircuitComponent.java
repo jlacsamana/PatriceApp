@@ -79,7 +79,6 @@ public abstract class CircuitComponent {
     public void removeConnection(CircuitComponent compToRemove) {
         outputConnections.remove(compToRemove);
         if (compToRemove instanceof BinaryCircuitGate) {
-            System.out.println(((BinaryCircuitGate) compToRemove).getInputConnection1() != null);
             if (((BinaryCircuitGate) compToRemove).getInputConnection2() != null
                     && ((BinaryCircuitGate) compToRemove).getInputConnection2().equals(this)) {
                 ((BinaryCircuitGate) compToRemove).changeInputConnection2(null);

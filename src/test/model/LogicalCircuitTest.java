@@ -33,11 +33,35 @@ public class LogicalCircuitTest {
 
     @Test
     public void testGenerateExpression() {
+        CircuitVariable a = new CircuitVariable();
+        CircuitVariable b = new CircuitVariable();
+        CircuitVariable c = new CircuitVariable();
+        CircuitVariable d = new CircuitVariable();
+        OrGate orGate = new OrGate();
+        AndGate andGate1 = new AndGate();
+        AndGate andGate2 = new AndGate();
+        NotGate notGate = new NotGate();
+        testLogicalCircuit.addCircuitPart(a);
+        testLogicalCircuit.addCircuitPart(b);
+        testLogicalCircuit.addCircuitPart(c);
+        testLogicalCircuit.addCircuitPart(d);
+        testLogicalCircuit.addCircuitPart(orGate);
+        testLogicalCircuit.addCircuitPart(andGate1);
+        testLogicalCircuit.addCircuitPart(andGate2);
+        testLogicalCircuit.addCircuitPart(notGate);
+        testLogicalCircuit.changeOutPutConnection(a, andGate1, 1);
+        testLogicalCircuit.changeOutPutConnection(b, andGate1, 2);
+        testLogicalCircuit.changeOutPutConnection(c, andGate2, 1);
+        testLogicalCircuit.changeOutPutConnection(d, andGate2, 2);
+        testLogicalCircuit.changeOutPutConnection(andGate1, orGate, 1);
+        testLogicalCircuit.changeOutPutConnection(andGate2, notGate, 2);
+        testLogicalCircuit.changeOutPutConnection(notGate, orGate, 2);
+        testLogicalCircuit.changeOutPutConnection(orGate, testLogicalCircuit.getHead(), 1);
         LogicalExpression generatedExpression = testLogicalCircuit.generateExpression();
         LogicalExpression comparitorExpression = new LogicalExpression();
-        comparitorExpression.setLogicalExpression("(A ∧ B) ∨ (C ∧ D)");
+        comparitorExpression.setLogicalExpression("(A ∧ B) ∨ ~(C ∧ D)");
 
-        assertEquals(generatedExpression.getLogicalExpression(), comparitorExpression.getLogicalExpression());
+        assertEquals(comparitorExpression.getLogicalExpression(), generatedExpression.getLogicalExpression());
     }
 
     @Test
