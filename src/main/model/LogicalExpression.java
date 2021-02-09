@@ -64,14 +64,18 @@ public class LogicalExpression {
     //- index 0: stores the first conjunct/disjunct term/variable
     //- index 1: stores the second conjunct/disjunct term/variable
     //- index 2: stores the binary function symbol between the two generated conjunts/disjuncts
-    private String[] getSubExpressions(String originalExpression) {
+    public String[] getSubExpressions(String originalExpression) {
         char[] expChar = originalExpression.toCharArray();
         String[] expressionData = new String[3];
         for (int i = 0; i < expChar.length; i++) {
             if (expChar[i] == '∨' || expChar[i] == '∧') {
                 String firstHalf = originalExpression.substring(0, i - 1);
                 String secondHalf = originalExpression.substring(i + 2);
-                if (isBalanced(firstHalf) && isBalanced(secondHalf)) {
+
+                //only need to test if first half has balanced parentheses, since
+                //if this is true, then the other half is also surely balanced
+                //under the assumptions made in the REQUIRES class
+                if (isBalanced(firstHalf)) {
                     expressionData[0] = firstHalf;
                     expressionData[1] = secondHalf;
                     expressionData[2] = Character.toString(expChar[i]);
