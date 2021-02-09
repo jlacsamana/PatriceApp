@@ -36,60 +36,21 @@ public class LogicalExpression {
     public void appendLogicalCircuit(LogicalCircuit circToEdit, String logicalExp,
                                                CircuitComponent connectTo) {
         if (Arrays.asList(LogicalCircuit.variableStrs).contains(logicalExp)) {
-            CircuitVariable varToConnect = null;
-            for (CircuitVariable circVar: circToEdit.getCircuitVariables()) {
-                if (circVar.getVarID() == LogicalCircuit.charToVarID(logicalExp)) {
-                    varToConnect = circVar;
-                    break;
-                }
-            }
-
-            if (varToConnect == null) {
-                varToConnect = new CircuitVariable();
-                circToEdit.addCircuitPart(varToConnect);
-            }
-
+            CircuitVariable varToConnect = findCircuitVariable(circToEdit, logicalExp);
             determineConnection(circToEdit, connectTo, varToConnect);
-
-
         } else if (logicalExp.charAt(0) == '~') {
             NotGate notGate = new NotGate();
             circToEdit.addCircuitPart(notGate);
             determineConnection(circToEdit, connectTo, notGate);
-            int expressionLength = logicalExp.toCharArray().length;
-            appendLogicalCircuit(circToEdit, logicalExp.substring(1,expressionLength), notGate);
+            appendLogicalCircuit(circToEdit, logicalExp.substring(1, logicalExp.toCharArray().length), notGate);
         } else {
             logicalExp =  prepareSubExpression(logicalExp);
-            char[] expChar = logicalExp.toCharArray();
-            String subExpression1 = "";
-            String subExpression2 = "";
-            char binaryOperator = '☭';
+            String[] expressionData = getSubExpressions(logicalExp);
+            String subExpression1 = expressionData[0];
+            String subExpression2 = expressionData[1];
+            char binaryOperator = expressionData[2].charAt(0);
 
-            for (int i = 0; i < expChar.length; i++) {
-                if (expChar[i] == '∨' || expChar[i] == '∧') {
-                    String firstHalf = logicalExp.substring(0, i - 1);
-                    String secondHalf = logicalExp.substring(i + 2);
-                    if (isBalanced(firstHalf) && isBalanced(secondHalf)) {
-                        subExpression1 = firstHalf;
-                        subExpression2 = secondHalf;
-                        binaryOperator = expChar[i];
-                        break;
-                    }
-                }
-            }
-
-            CircuitComponent partToAdd;
-            switch (binaryOperator) {
-                case '∨':
-                    // connecting character was a conjunction
-                    partToAdd = new OrGate();
-                    break;
-                default:
-                    // connecting character was a disjunction
-                    partToAdd = new AndGate();
-                    break;
-            }
-
+            CircuitComponent partToAdd = determineOperatorToAdd(binaryOperator);
             circToEdit.addCircuitPart(partToAdd);
             determineConnection(circToEdit, connectTo, partToAdd);
             appendLogicalCircuit(circToEdit, subExpression1, partToAdd);
@@ -97,11 +58,71 @@ public class LogicalExpression {
         }
     }
 
+    //REQUIRES: that originalExpression that is a conjunction or disjunction of two terms or variables;
+    // It must also be a valid logical expression
+    //EFFECTS: returns an array of exactly 3 items, which contains data as follows
+    //- index 0: stores the first conjunct/disjunct term/variable
+    //- index 1: stores the second conjunct/disjunct term/variable
+    //- index 2: stores the binary function symbol between the two generated conjunts/disjuncts
+    private String[] getSubExpressions(String originalExpression) {
+        char[] expChar = originalExpression.toCharArray();
+        String[] expressionData = new String[3];
+        for (int i = 0; i < expChar.length; i++) {
+            if (expChar[i] == '∨' || expChar[i] == '∧') {
+                String firstHalf = originalExpression.substring(0, i - 1);
+                String secondHalf = originalExpression.substring(i + 2);
+                if (isBalanced(firstHalf) && isBalanced(secondHalf)) {
+                    expressionData[0] = firstHalf;
+                    expressionData[1] = secondHalf;
+                    expressionData[2] = Character.toString(expChar[i]);
+                    break;
+                }
+            }
+        }
+        return expressionData;
+    }
+
+    //REQUIRES: logicalExp be a single latter, corresponding to one of the possible variables in circToEdit
+    //returns a circuit variable corresponding to the given logicalExp if one can be found already in use
+    // in circToEdit, otherwise, creates a new Variable using an available variable ID
+    private CircuitVariable findCircuitVariable(LogicalCircuit circToEdit, String logicalExp) {
+        CircuitVariable varToConnect = null;
+
+        for (CircuitVariable circVar: circToEdit.getCircuitVariables()) {
+            if (circVar.getVarID() == LogicalCircuit.charToVarID(logicalExp)) {
+                varToConnect = circVar;
+                break;
+            }
+        }
+
+        if (varToConnect == null) {
+            varToConnect = new CircuitVariable();
+            circToEdit.addCircuitPart(varToConnect);
+        }
+        return varToConnect;
+    }
+
+    //EFFECT: returns a new circuit component based on the given character.
+    // a new Or gate if a disjunction char and a new And gate if a conjunction char
+    private CircuitComponent determineOperatorToAdd(char binaryOperator) {
+        CircuitComponent partToAdd;
+        switch (binaryOperator) {
+            case '∨':
+                // connecting character was a conjunction
+                partToAdd = new OrGate();
+                break;
+            default:
+                // connecting character was a disjunction
+                partToAdd = new AndGate();
+                break;
+        }
+        return partToAdd;
+    }
+
     //MODIFIES: cirdToEdit, partToConnect, connectTo
     //EFFECT: inside cirdToEdit, determines which input of connectTo to connect partToConnect.
     //input is chosen based on vacancy and the type of gate partToConnect is
-    private void determineConnection(LogicalCircuit circToEdit,
-                                     CircuitComponent connectTo,
+    private void determineConnection(LogicalCircuit circToEdit, CircuitComponent connectTo,
                                      CircuitComponent partToConnect) {
         if (connectTo instanceof BinaryCircuitGate) {
             if (((BinaryCircuitGate) connectTo).getInputConnection1() == null) {
