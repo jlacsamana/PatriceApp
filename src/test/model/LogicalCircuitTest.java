@@ -59,7 +59,7 @@ public class LogicalCircuitTest {
         testLogicalCircuit.changeOutPutConnection(orGate, testLogicalCircuit.getHead(), 1);
         LogicalExpression generatedExpression = testLogicalCircuit.generateExpression();
         LogicalExpression comparitorExpression = new LogicalExpression();
-        comparitorExpression.setLogicalExpression("(A ∧ B) ∨ ~(C ∧ D)");
+        comparitorExpression.setLogicalExpression("((A ∧ B) ∨ ~(C ∧ D))");
 
         assertEquals(comparitorExpression.getLogicalExpression(), generatedExpression.getLogicalExpression());
     }
