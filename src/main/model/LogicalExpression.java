@@ -79,7 +79,6 @@ public class LogicalExpression {
                     expressionData[0] = firstHalf;
                     expressionData[1] = secondHalf;
                     expressionData[2] = Character.toString(expChar[i]);
-                    break;
                 }
             }
         }
