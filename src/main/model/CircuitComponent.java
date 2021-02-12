@@ -108,4 +108,28 @@ public abstract class CircuitComponent {
         return outputSignal;
     }
 
+    //EFFECT: returns componentName
+    public String getComponentName() {
+        return componentName;
+    }
+
+    //EFFECT: returns the names of all the output connections as a single string; if none, will return "No Connections"
+    public String getOutputNames() {
+        ArrayList<String> outPutNames = new ArrayList<>();
+        for (CircuitComponent c: outputConnections) {
+            outPutNames.add(c.getComponentName());
+        }
+        if (outPutNames.size() > 0) {
+            return outPutNames.toString();
+        } else {
+            return "No Connections";
+        }
+
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets this' name to
+    public void setName(String newName) {
+        this.componentName = newName;
+    }
 }

@@ -101,6 +101,10 @@ public class LogicalExpression {
         if (varToConnect == null) {
             varToConnect = new CircuitVariable();
             circToEdit.addCircuitPart(varToConnect);
+            //Override variable assignment to allow out of alphabetic order variable declaration
+            circToEdit.removeFromUsedVarIDs(varToConnect.getVarID());
+            circToEdit.addToUsedVarIDs(LogicalCircuit.charToVarID(logicalExp));
+            varToConnect.setVarID(LogicalCircuit.charToVarID(logicalExp));
         }
         return varToConnect;
     }
@@ -162,7 +166,6 @@ public class LogicalExpression {
 
         return openingBrackets.size() == closingBrackets.size();
     }
-
 
     //MODIFIES: this
     //EFFECTS: sets this' logical expression

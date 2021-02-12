@@ -9,7 +9,6 @@ public class PatriceApplication {
     //https://github.students.cs.ubc.ca/CPSC210/TellerApp/blob/master/src/main/ca/ubc/cpsc210/bank/ui/TellerApp.java
     private ArrayList<PatriceWorkspace> openWorkspaces;
     private ArrayList<String> patriceWorkspaceNames;
-    private PatriceWorkspace activeWorkSpace;
     private Scanner userInput;
 
     //EFFECT: create a new instance of the PATRICE application, and runs its execution loop;
@@ -18,7 +17,6 @@ public class PatriceApplication {
     public PatriceApplication() {
         openWorkspaces = new ArrayList<>();
         patriceWorkspaceNames = new ArrayList<>();
-        activeWorkSpace = null;
         runPatriceMenu();
     }
 
@@ -73,8 +71,8 @@ public class PatriceApplication {
                 "================================================================================================");
         System.out.println("Usage Information: info");
         System.out.println("Create a new workspace: new");
-        System.out.println("Switch to an already loaded workspace: switch [WIP]");
-        System.out.println("Load an existing workspace load [WIP]");
+        System.out.println("Switch to an already loaded workspace: switch");
+        System.out.println("Load an existing workspace: load [WIP]");
         System.out.println("Close Program: x");
         System.out.println(
                 "================================================================================================");
@@ -92,6 +90,9 @@ public class PatriceApplication {
                 + " but please include them in your statements\n"
                 + " i.e '(~A ∧ B) ∨ A' is won't work, but '((~A ∧ B) ∨ A)' will\n"
                 + "-Please only use the available variable names and always in upper case\n"
+                //todo: enable variables to be defined out of order
+                + "-please introduce the variable names in order in your expressions\n"
+                + "i.e use introduce A before introducing B\n"
                 + "\n"
                 + "=====================================[Circuit Usage Rules]====================================== \n"
                 + "-Can't be sequential \n"
@@ -113,17 +114,6 @@ public class PatriceApplication {
         System.out.println("specified workspace cannot be found");
         return;
     }
-
-    //EFFECTS: display names of all open workspaces
-    public String displayOpenworkSpaceNames() {
-        ArrayList<String> workspaceNames = new ArrayList<>();
-        for (PatriceWorkspace workSpace: openWorkspaces) {
-            workspaceNames.add(workSpace.getWorkspaceName());
-        }
-
-        return workspaceNames.toString();
-    }
-
 
     //EFFECTS: creates a new workspace and prompts user for a name to call it
     //if name is left blank, or user specifies a name already in use, will propmt them again until a valid
@@ -148,11 +138,22 @@ public class PatriceApplication {
     //EFFECTS: prompts user for a name of an opened workspace, and opens it, if there is a
     //workspace of that name in the list of workspaces
     private void switchWorkspaces() {
-        displayOpenworkSpaceNames();
+        System.out.println(displayOpenworkSpaceNames());
         System.out.println("Name workspace to open");
         userInput = new Scanner(System.in);
         String wrkspaceToLoad = userInput.next();
         openLoadedWorkSpace(wrkspaceToLoad);
+    }
+
+
+    //EFFECTS: display names of all open workspaces
+    public String displayOpenworkSpaceNames() {
+        ArrayList<String> workspaceNames = new ArrayList<>();
+        for (PatriceWorkspace workSpace: openWorkspaces) {
+            workspaceNames.add(workSpace.getWorkspaceName());
+        }
+
+        return workspaceNames.toString();
     }
 
 
