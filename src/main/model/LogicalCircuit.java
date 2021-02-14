@@ -197,14 +197,12 @@ public class LogicalCircuit {
         return VariableIdentifier.values()[combinedvarStrs.indexOf(charToConvert) + 1];
     }
 
-    //TODO: write test for this
     //MODIFIES: usedVarIDs
     //EFFECTS: removes idToRemove from usedVarIDs
     public void removeFromUsedVarIDs(VariableIdentifier idToRemove) {
         usedVarIDs.remove(idToRemove);
     }
 
-    //TODO: write test for this
     //MODIFIES: usedVarIDs
     //EFFECTS: adds idToAdd to usedVarIDs
     public void addToUsedVarIDs(VariableIdentifier idToAdd) {

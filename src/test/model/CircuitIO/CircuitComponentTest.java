@@ -23,7 +23,7 @@ public abstract class CircuitComponentTest {
         testCircComp.addBinaryConnection(andGate, 1);
 
         assertTrue(testCircComp.getOutputConnections().contains(andGate));
-        assertEquals(andGate.getInputConnection1(), testCircComp);
+        assertEquals(testCircComp, andGate.getInputConnection1());
     }
 
     @Test
@@ -32,7 +32,7 @@ public abstract class CircuitComponentTest {
         testCircComp.addBinaryConnection(andGate, 2);
 
         assertTrue(testCircComp.getOutputConnections().contains(andGate));
-        assertEquals(andGate.getInputConnection2(), testCircComp);
+        assertEquals(testCircComp, andGate.getInputConnection2());
     }
 
     @Test void testAddBinaryConnectionInput1OverrideExisting(){
@@ -40,7 +40,7 @@ public abstract class CircuitComponentTest {
         AndGate andGate2 = new AndGate();
         testCircComp.addBinaryConnection(andGate, 1);
         assertTrue(testCircComp.getOutputConnections().contains(andGate));
-        assertEquals(andGate.getInputConnection1(), testCircComp);
+        assertEquals(testCircComp, andGate.getInputConnection1());
         andGate2.addBinaryConnection(andGate, 1);
         assertFalse(testCircComp.getOutputConnections().contains(andGate));
 
@@ -52,7 +52,7 @@ public abstract class CircuitComponentTest {
         AndGate andGate2 = new AndGate();
         testCircComp.addBinaryConnection(andGate, 2);
         assertTrue(testCircComp.getOutputConnections().contains(andGate));
-        assertEquals(andGate.getInputConnection2(), testCircComp);
+        assertEquals(testCircComp, andGate.getInputConnection2());
         andGate2.addBinaryConnection(andGate, 2);
         assertFalse(testCircComp.getOutputConnections().contains(andGate));
 
@@ -65,7 +65,7 @@ public abstract class CircuitComponentTest {
         testCircComp.addUnaryConnection(notGate);
 
         assertTrue(testCircComp.getOutputConnections().contains(notGate));
-        assertEquals(notGate.getInputConnection1(), testCircComp);
+        assertEquals(testCircComp, notGate.getInputConnection1());
     }
 
     @Test
@@ -74,11 +74,11 @@ public abstract class CircuitComponentTest {
         CircuitVariable otherVar = new CircuitVariable();
         otherVar.addUnaryConnection(notGate);
         assertTrue(otherVar.getOutputConnections().contains(notGate));
-        assertEquals(notGate.getInputConnection1(), otherVar);
+        assertEquals(otherVar, notGate.getInputConnection1());
 
         testCircComp.addUnaryConnection(notGate);
         assertTrue(testCircComp.getOutputConnections().contains(notGate));
-        assertEquals(notGate.getInputConnection1(), testCircComp);
+        assertEquals(testCircComp, notGate.getInputConnection1());
     }
 
     @Test
@@ -88,7 +88,7 @@ public abstract class CircuitComponentTest {
         testCircComp.addBinaryConnection(andGate, 1);
         andGate2.addBinaryConnection(andGate, 2);
         assertTrue(testCircComp.getOutputConnections().contains(andGate));
-        assertEquals(andGate.getInputConnection1(), testCircComp);
+        assertEquals(testCircComp, andGate.getInputConnection1());
         testCircComp.removeConnection(andGate);
 
         assertNull(andGate.getInputConnection1());
@@ -99,7 +99,7 @@ public abstract class CircuitComponentTest {
         AndGate andGate = new AndGate();
         testCircComp.addBinaryConnection(andGate, 2);
         assertTrue(testCircComp.getOutputConnections().contains(andGate));
-        assertEquals(andGate.getInputConnection2(), testCircComp);
+        assertEquals(testCircComp, andGate.getInputConnection2());
         testCircComp.removeConnection(andGate);
 
         assertNull(andGate.getInputConnection2());
@@ -110,7 +110,7 @@ public abstract class CircuitComponentTest {
         NotGate notGate = new NotGate();
         testCircComp.addUnaryConnection(notGate);
         assertTrue(testCircComp.getOutputConnections().contains(notGate));
-        assertEquals(notGate.getInputConnection1(), testCircComp);
+        assertEquals(testCircComp, notGate.getInputConnection1());
         testCircComp.removeConnection(notGate);
 
         assertNull(notGate.getInputConnection1());
@@ -120,10 +120,29 @@ public abstract class CircuitComponentTest {
     public void testRemoveConnectionDisconnectedUnaryGate(){
         NotGate notGate = new NotGate();
         assertFalse(testCircComp.getOutputConnections().contains(notGate));
-        assertEquals(notGate.getInputConnection1(), null);
+        assertNull(notGate.getInputConnection1());
         testCircComp.removeConnection(notGate);
 
         assertNull(notGate.getInputConnection1());
     }
+
+    @Test
+    public void testSetName() {
+        String newName = "Something";
+        assertNull(testCircComp.getComponentName());
+        testCircComp.setName(newName);
+
+        assertEquals(newName, testCircComp.getComponentName());
+    }
+
+    @Test
+    public void testGetName(){
+        String newName = "Something";
+        testCircComp.setName(newName);
+
+        assertEquals(newName, testCircComp.getComponentName());
+    }
+
+
 
 }

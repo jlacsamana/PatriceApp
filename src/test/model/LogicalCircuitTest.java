@@ -78,7 +78,7 @@ public class LogicalCircuitTest {
         testLogicalCircuit.addCircuitPart(newCircVar);
 
         assertTrue(testLogicalCircuit.getCircuitComponents().contains(newCircVar));
-        assertEquals(newCircVar.getVarID(),  LogicalCircuit.VariableIdentifier.A);
+        assertEquals(LogicalCircuit.VariableIdentifier.A, newCircVar.getVarID());
     }
 
     @Test
@@ -158,6 +158,25 @@ public class LogicalCircuitTest {
 
         testLogicalCircuit.removeCircuitPart(testCircVar);
         assertTrue(testCircVar.getOutputConnections().size() == 0);
+    }
+
+    @Test
+    public void testRemoveFromUsedVarIDs () {
+        LogicalCircuit.VariableIdentifier testVarId = LogicalCircuit.VariableIdentifier.A;
+        testLogicalCircuit.addToUsedVarIDs(testVarId);
+        assertTrue(testLogicalCircuit.getUsedVarIDs().contains(testVarId));
+
+        testLogicalCircuit.removeFromUsedVarIDs(testVarId);
+        assertFalse(testLogicalCircuit.getUsedVarIDs().contains(testVarId));
+    }
+
+    @Test
+    public void testAddToUsedVarIds() {
+        LogicalCircuit.VariableIdentifier testVarId = LogicalCircuit.VariableIdentifier.A;
+        assertFalse(testLogicalCircuit.getUsedVarIDs().contains(testVarId));
+
+        testLogicalCircuit.addToUsedVarIDs(testVarId);
+        assertTrue(testLogicalCircuit.getUsedVarIDs().contains(testVarId));
     }
 
 

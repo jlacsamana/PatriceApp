@@ -20,7 +20,7 @@ public abstract class CircuitGateTest {
     public void testChangeInputConnection1(){
         CircuitVariable testInput2 = new CircuitVariable();
         testCircuitGate.changeInputConnection1(testInput2);
-        assertEquals(testCircuitGate.getInputConnection1(), testInput2);
+        assertEquals(testInput2, testCircuitGate.getInputConnection1());
     }
 
     public void testGateLogicCalcTrueInput() {

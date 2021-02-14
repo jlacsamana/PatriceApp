@@ -15,17 +15,15 @@ public class PatriceWorkspace {
     private Scanner userInput;
     public final String workSpaceName;
 
-
     //EFFECTS: creates a new workspace with an empty logical expression and a blank logical, and sets workSpaceName
     //expression.
     // also starts the interaction loop
     public PatriceWorkspace(String workSpaceName) {
         localCircuit = new LogicalCircuit();
-        localCircuit.getHead().setName("Output");
+        localCircuit.getHead().setName("OUTPUT");
         localExpression = new LogicalExpression();
         this.workSpaceName = workSpaceName;
         interactionLoop();
-
     }
 
     //MODIFIES: localCircuit, localExpression
@@ -41,18 +39,25 @@ public class PatriceWorkspace {
 
             if (chosenCmd.equals("close")) {
                 break;
-            } else if (chosenCmd.equals("view")) {
-                displayLogicalExpression();
-                displayLogicalCircuitAnon(localCircuit);
-            } else if (chosenCmd.equals("newExp")) {
-                tryEnterNewExp();
-            } else if (chosenCmd.equals("modCirc")) {
-                tryCreateNewCirc();
+            } else if (chosenCmd.equals("view") || chosenCmd.equals("newExp") || chosenCmd.equals("modCirc")) {
+                processWorkSpaceMenuCmd(chosenCmd);
             } else {
                 System.out.println("Invalid command, please try again");
             }
         }
         System.out.println("returning to main menu...");
+    }
+
+    //EFFECT: executes the command corresponding to cmd
+    private void processWorkSpaceMenuCmd(String cmd) {
+        if (cmd.equals("view")) {
+            displayLogicalExpression();
+            displayCircuitInfo(localCircuit);
+        } else if (cmd.equals("newExp")) {
+            tryEnterNewExp();
+        } else if (cmd.equals("modCirc")) {
+            tryCreateNewCirc();
+        }
     }
 
     //MODIFIES: localCircuit, localExpression
@@ -86,7 +91,7 @@ public class PatriceWorkspace {
     //the pre-added circuit output will ba named "Out"
     private void tryCreateNewCirc() {
         LogicalCircuit tryNewCirc = new LogicalCircuit();
-        tryNewCirc.getHead().setName("Out");
+        tryNewCirc.getHead().setName("OUTPUT");
         LogicalExpression generatedLogicalExp = new LogicalExpression();
         while (true) {
             String editCmd = circuitCreationDialogue(tryNewCirc);
@@ -113,7 +118,7 @@ public class PatriceWorkspace {
     //EFFECTS: displays the circuit currently being worked on, and available commands to manipulate it
     //and prompts the user for one of those commands. Returns this user-entered command.
 
-    public String circuitCreationDialogue(LogicalCircuit tryNewCirc){
+    public String circuitCreationDialogue(LogicalCircuit tryNewCirc) {
         displayLogicalCircuit(tryNewCirc);
         displayEditCircCommands();
         userInput = new Scanner(System.in);
@@ -132,11 +137,8 @@ public class PatriceWorkspace {
         }
     }
 
-
-
     //MODIFIES: tryNewCirc, generatedLogicalExp
-    //EFFECT: attempts so convert the circuit represented by tryNewCirc to an expression and stores it in
-    // generatedLogicalExp
+    //EFFECT: attempts so convert the circuit represented by tryNewCirc, returns true if this is succcessful
     private boolean attemptConvertCircuitToExpression(LogicalCircuit tryNewCirc) {
         try {
             tryNewCirc.generateExpression();
@@ -146,7 +148,6 @@ public class PatriceWorkspace {
             return false;
         }
     }
-
 
     //MODIFIES: circToAppend, partToEdit
     //EFFECTS: prompts user to input a circuit name to edit its output(partToEdit), and another part to connect it to
@@ -169,7 +170,6 @@ public class PatriceWorkspace {
             System.out.println("The specified part to be edited can't be found");
             return;
         }
-
         if (partToConnectName == null) {
             System.out.println("The specified part that is to be connected to the part to be edited can't be found");
             return;
@@ -270,6 +270,23 @@ public class PatriceWorkspace {
                 "================================================================================================");
     }
 
+    //EFFECT: if all of the circuit parts in the given circuit have names, will display their info with
+    //names, but if even one part doesn't have a name, displays their index in the array of parts as their names instead
+    private void displayCircuitInfo(LogicalCircuit circToDisplay) {
+        boolean displayAnon = false;
+        for (CircuitComponent cc : circToDisplay.getCircuitComponents()) {
+            if (cc.getComponentName() == null) {
+                displayAnon = true;
+            }
+        }
+
+        if (displayAnon) {
+            displayLogicalCircuitAnon(circToDisplay);
+        } else {
+            displayLogicalCircuit(circToDisplay);
+        }
+    }
+
     //EFFECTS: displays the current logical expression
     private void displayLogicalExpression() {
         System.out.println("Logical Expression: " + localExpression.getLogicalExpression() + "\n");
@@ -282,7 +299,6 @@ public class PatriceWorkspace {
         for (CircuitComponent part: circTodisplay.getCircuitComponents()) {
             System.out.println(
                     "------------------------------------------------------------------------------------------------");
-
             System.out.println("Name: " + circTodisplay.getCircuitComponents().indexOf(part));
             System.out.println("Type: " + part.getClass());
             if (part instanceof BinaryCircuitGate) {
@@ -307,7 +323,6 @@ public class PatriceWorkspace {
         for (CircuitComponent part: circTodisplay.getCircuitComponents()) {
             System.out.println(
                     "------------------------------------------------------------------------------------------------");
-
             System.out.println("Name: " + part.getComponentName());
             System.out.println("Type: " + part.getClass());
             if (part instanceof BinaryCircuitGate) {
@@ -336,7 +351,6 @@ public class PatriceWorkspace {
         } else {
             System.out.println("Input 1: " + circToRead.getCircuitComponents().indexOf(part.getInputConnection1()));
         }
-
     }
 
     //EFFECTS: tries to display the name of the circuit component attached to part's first and
@@ -386,7 +400,6 @@ public class PatriceWorkspace {
         for (CircuitComponent c: circPart.getOutputConnections()) {
             indices.add(circToRead.getCircuitComponents().indexOf(c));
         }
-
         return indices;
     }
 

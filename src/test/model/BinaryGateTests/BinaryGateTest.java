@@ -40,6 +40,6 @@ public abstract class BinaryGateTest {
     public void testChangeInputConnection2(){
         CircuitVariable testInput3 = new CircuitVariable();
         testBinaryGate.changeInputConnection2(testInput3);
-        assertEquals(testBinaryGate.getInputConnection2(), testInput3);
+        assertEquals(testInput3, testBinaryGate.getInputConnection2());
     }
 }
