@@ -123,7 +123,7 @@ public class PatriceApplication {
         while (true) {
             System.out.println("What do you want to call this workspace?");
             userInput = new Scanner(System.in);
-            newWorkspaceName = userInput.next();
+            newWorkspaceName = userInput.nextLine();
 
             if (!patriceWorkspaceNames.contains(newWorkspaceName) || newWorkspaceName.equals("")) {
                 break;
