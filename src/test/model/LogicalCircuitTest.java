@@ -16,27 +16,34 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LogicalCircuitTest {
     LogicalCircuit testLogicalCircuit;
+    CircuitVariable a;
+    CircuitVariable b;
+    CircuitVariable c;
+    CircuitVariable d;
 
     @BeforeEach
     public void setupTests() {
         testLogicalCircuit = new LogicalCircuit();
+        a = new CircuitVariable();
+        b = new CircuitVariable();
+        c = new CircuitVariable();
+        d = new CircuitVariable();
     }
 
     @Test
+    //creates a new Circuit, makes sure the one circuit output is added properly and and is set as the head of the
+    //circuit
     public void testCircuitInitialization() {
         CircuitOutput circHead = testLogicalCircuit.headPart;
-        ArrayList<CircuitComponent> comparitorPartList = new ArrayList<CircuitComponent>();
+        ArrayList<CircuitComponent> comparitorPartList = new ArrayList<>();
         comparitorPartList.add(circHead);
         assertEquals(CircuitOutput.class, circHead.getClass());
         assertEquals(comparitorPartList, testLogicalCircuit.getCircuitComponents());
     }
 
     @Test
+    //generates a logical exoression from 4 variables
     public void testGenerateExpression() {
-        CircuitVariable a = new CircuitVariable();
-        CircuitVariable b = new CircuitVariable();
-        CircuitVariable c = new CircuitVariable();
-        CircuitVariable d = new CircuitVariable();
         OrGate orGate = new OrGate();
         AndGate andGate1 = new AndGate();
         AndGate andGate2 = new AndGate();
@@ -65,6 +72,7 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //a circuit component is added to the circuit that isnt a circuit variable
     public void testAddCircuitPartNonVariable() {
         AndGate andGate = new AndGate();
         testLogicalCircuit.addCircuitPart(andGate);
@@ -73,6 +81,7 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //adds a circuit variable to the circuit when there are still available variables
     public void testAddCircuitPartVariableAvailable() {
         CircuitVariable newCircVar = new CircuitVariable();
         testLogicalCircuit.addCircuitPart(newCircVar);
@@ -82,22 +91,20 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //tries (and fails) to add a circuit variable to the circuit when there are no more variables available
     public void testAddCircuitPartVariableUnavailable() {
-        CircuitVariable newCircVar = new CircuitVariable();
-        CircuitVariable newCircVar2 = new CircuitVariable();
-        CircuitVariable newCircVar3 = new CircuitVariable();
-        CircuitVariable newCircVar4 = new CircuitVariable();
         CircuitVariable newCircVar5 = new CircuitVariable();
-        testLogicalCircuit.addCircuitPart(newCircVar);
-        testLogicalCircuit.addCircuitPart(newCircVar2);
-        testLogicalCircuit.addCircuitPart(newCircVar3);
-        testLogicalCircuit.addCircuitPart(newCircVar4);
+        testLogicalCircuit.addCircuitPart(a);
+        testLogicalCircuit.addCircuitPart(b);
+        testLogicalCircuit.addCircuitPart(c);
+        testLogicalCircuit.addCircuitPart(b);
         testLogicalCircuit.addCircuitPart(newCircVar5);
 
         assertFalse(testLogicalCircuit.getCircuitComponents().contains(newCircVar5));
     }
 
     @Test
+    //removes a unary arity gate from the circuit
     public void testRemoveCircuitPartUnaryGate() {
         NotGate notGate = new NotGate();
         CircuitVariable testCircVar = new CircuitVariable();
@@ -114,6 +121,7 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //removes a binary arity gate from a circuit
     public void testRemoveCircuitPartBinaryGate() {
         AndGate andGate = new AndGate();
         CircuitVariable testCircVar = new CircuitVariable();
@@ -129,7 +137,8 @@ public class LogicalCircuitTest {
     }
 
     @Test
-    public void testRemoveCircuitPartDisconnectedGate(){
+    //removes a circuit component with no connections to other circuit components from a circuit
+    public void testRemoveCircuitPartDisconnected(){
         AndGate andGate = new AndGate();
         testLogicalCircuit.addCircuitPart(andGate);
         assertTrue(testLogicalCircuit.getCircuitComponents().contains(andGate));
@@ -140,6 +149,7 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //removes a circuit variable from a circuit
     public void testRemoveCircuitPartCircVar() {
         CircuitVariable newCircVar = new CircuitVariable();
         testLogicalCircuit.addCircuitPart(newCircVar);
@@ -150,6 +160,8 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //tests if all output connections that a circuit component has are discnnected after it is
+    //removed from a circuit
     public void testRemoveCircuitPartClrOutputs() {
         CircuitVariable testCircVar = new CircuitVariable();
         testLogicalCircuit.addCircuitPart(testCircVar);
@@ -157,10 +169,11 @@ public class LogicalCircuitTest {
         assertTrue(testCircVar.getOutputConnections().contains(testLogicalCircuit.getHead()));
 
         testLogicalCircuit.removeCircuitPart(testCircVar);
-        assertTrue(testCircVar.getOutputConnections().size() == 0);
+        assertEquals(testCircVar.getOutputConnections().size(), 0);
     }
 
     @Test
+    //removes a variable identifier from the list of currently in-use variable identifiers
     public void testRemoveFromUsedVarIDs () {
         LogicalCircuit.VariableIdentifier testVarId = LogicalCircuit.VariableIdentifier.A;
         testLogicalCircuit.addToUsedVarIDs(testVarId);
@@ -171,6 +184,7 @@ public class LogicalCircuitTest {
     }
 
     @Test
+    //adds a variable identifier to the list of currently in-use variable identifiers
     public void testAddToUsedVarIds() {
         LogicalCircuit.VariableIdentifier testVarId = LogicalCircuit.VariableIdentifier.A;
         assertFalse(testLogicalCircuit.getUsedVarIDs().contains(testVarId));

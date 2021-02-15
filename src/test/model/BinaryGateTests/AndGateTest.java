@@ -19,6 +19,7 @@ AndGate testAndGate;
 
     @Test
     @Override
+    // both of an AND gate's inputs are connected to a circuit component that's outputting true
     public void testGateLogicCalcTrueInputs(){
         super.testGateLogicCalcTrueInputs();
         testBinaryGate.gateLogicCalc();
@@ -27,6 +28,7 @@ AndGate testAndGate;
 
     @Test
     @Override
+    // both of an AND gate's inputs are connected to a circuit component that's outputting false
     public void testGateLogicCalcFalseInputs(){
         super.testGateLogicCalcFalseInputs();
         testBinaryGate.gateLogicCalc();
@@ -35,6 +37,8 @@ AndGate testAndGate;
 
     @Test
     @Override
+    // the first input of an AND gate is connected to a circuit component that outputs true, but the
+    //other is connected to a component that's outputting false
     public void testGateLogicCalcInputOneTrue(){
         super.testGateLogicCalcInputOneTrue();
         testBinaryGate.gateLogicCalc();
@@ -43,6 +47,8 @@ AndGate testAndGate;
 
     @Test
     @Override
+    // the first input of an AND gate is connected to a circuit component that outputs false, but the
+    //other is connected to a component that's outputting true
     public void testGateLogicCalcInputTwoTrue(){
         super.testGateLogicCalcInputTwoTrue();
         testBinaryGate.gateLogicCalc();

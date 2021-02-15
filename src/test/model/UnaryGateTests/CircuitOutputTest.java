@@ -24,6 +24,7 @@ public class CircuitOutputTest extends CircuitGateTest {
 
     @Test
     @Override
+    //a circuit output is receiving a true input signal and outputting it
     public void testGateLogicCalcTrueInput(){
         super.testGateLogicCalcTrueInput();
         testCircuitOut.gateLogicCalc();
@@ -32,6 +33,7 @@ public class CircuitOutputTest extends CircuitGateTest {
 
     @Test
     @Override
+    //a circuit output is receiving a false input signal and outputting it
     public void testGateLogicCalcFalseInput(){
         super.testGateLogicCalcFalseInput();
         testCircuitOut.gateLogicCalc();

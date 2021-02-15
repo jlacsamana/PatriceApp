@@ -18,6 +18,7 @@ public class OrGateTest extends BinaryGateTest{
 
     @Test
     @Override
+    //both of an OR gate's input's are connected to circuit components that are outputting true
     public void testGateLogicCalcTrueInputs(){
         super.testGateLogicCalcTrueInputs();
         testOrGate.gateLogicCalc();
@@ -26,6 +27,7 @@ public class OrGateTest extends BinaryGateTest{
 
     @Test
     @Override
+    //both of an OR gate's input's are connected to circuit components that are outputting false
     public void testGateLogicCalcFalseInputs(){
         super.testGateLogicCalcFalseInputs();
         testOrGate.gateLogicCalc();
@@ -34,6 +36,8 @@ public class OrGateTest extends BinaryGateTest{
 
     @Test
     @Override
+    //the first of an OR gate's inputs are connected to a circuit component that outputs true, but the other
+    //is connected to one that outputs false
     public void testGateLogicCalcInputOneTrue(){
         super.testGateLogicCalcInputOneTrue();
         testOrGate.gateLogicCalc();
@@ -42,6 +46,8 @@ public class OrGateTest extends BinaryGateTest{
 
     @Test
     @Override
+    //the first of an OR gate's inputs are connected to a circuit component that outputs false, but the other
+    //is connected to one that outputs true
     public void testGateLogicCalcInputTwoTrue(){
         super.testGateLogicCalcInputTwoTrue();
         testOrGate.gateLogicCalc();

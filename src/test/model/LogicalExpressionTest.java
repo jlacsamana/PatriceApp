@@ -10,23 +10,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LogicalExpressionTest {
     LogicalExpression testLogicalExpression;
+    CircuitVariable a;
+    CircuitVariable b;
+    CircuitVariable c;
+    CircuitVariable d;
+    NotGate notGate;
+    AndGate andGate;
+    OrGate orGate;
 
     @BeforeEach
     public void setupTests(){
         testLogicalExpression = new LogicalExpression();
+        a = new CircuitVariable();
+        b = new CircuitVariable();
+        c = new CircuitVariable();
+        d = new CircuitVariable();
+        notGate = new NotGate();
+        andGate = new AndGate();
+        orGate = new OrGate();
+
+
     }
 
     @Test
+    //generates a logical circuit from an expression
     public void testGenerateLogicalCircuit(){
         testLogicalExpression.setLogicalExpression("((A ∨ B) ∧ C)");
         LogicalCircuit generatedCirc = testLogicalExpression.generateCircuit();
         LogicalCircuit comparitorCirc = new LogicalCircuit();
-        CircuitVariable a = new CircuitVariable();
-        CircuitVariable b = new CircuitVariable();
-        CircuitVariable c = new CircuitVariable();
-        OrGate orGate = new OrGate();
-        AndGate andGate = new AndGate();
-
         comparitorCirc.addCircuitPart(andGate);
         comparitorCirc.addCircuitPart(orGate);
         comparitorCirc.addCircuitPart(a);
@@ -44,20 +55,12 @@ public class LogicalExpressionTest {
     }
 
     @Test
-    public void testGenerateLogicalCircuitWithNegation(){
+    //generates a logical circuit from an expression with a negated sub-expression
+    public void testGenerateLogicalCircuitWithNegatedSubExp(){
         testLogicalExpression.setLogicalExpression("((~(A ∨ B) ∨ C) ∧ D)");
         LogicalCircuit generatedCirc = testLogicalExpression.generateCircuit();
         LogicalCircuit comparitorCirc = new LogicalCircuit();
-
-        CircuitVariable a = new CircuitVariable();
-        CircuitVariable b = new CircuitVariable();
-        CircuitVariable c = new CircuitVariable();
-        CircuitVariable d = new CircuitVariable();
-        NotGate notGate = new NotGate();
-        AndGate andGate = new AndGate();
-        OrGate orGate = new OrGate();
         OrGate orGate2 = new OrGate();
-
         comparitorCirc.addCircuitPart(a);
         comparitorCirc.addCircuitPart(b);
         comparitorCirc.addCircuitPart(c);
@@ -81,15 +84,11 @@ public class LogicalExpressionTest {
     }
 
     @Test
+    //generates a logical circuit from an expression that uses a variable more than once
     public void testGenerateLogicalCircuitWithDuplicateVars(){
         testLogicalExpression.setLogicalExpression("(~(A ∧ B) ∨ A)");
         LogicalCircuit generatedCirc = testLogicalExpression.generateCircuit();
         LogicalCircuit comparitorCirc = new LogicalCircuit();
-        CircuitVariable a = new CircuitVariable();
-        CircuitVariable b = new CircuitVariable();
-        NotGate notGate = new NotGate();
-        AndGate andGate = new AndGate();
-        OrGate orGate = new OrGate();
         comparitorCirc.addCircuitPart(a);
         comparitorCirc.addCircuitPart(b);
         comparitorCirc.addCircuitPart(notGate);
@@ -108,15 +107,11 @@ public class LogicalExpressionTest {
     }
 
     @Test
+    //generates a logical circuit from an expression with a negated variable
     public void testGenerateLogicalCircuitWithNegatedVars(){
         testLogicalExpression.setLogicalExpression("((A ∧ B) ∨ ~A)");
         LogicalCircuit generatedCirc = testLogicalExpression.generateCircuit();
         LogicalCircuit comparitorCirc = new LogicalCircuit();
-        CircuitVariable a = new CircuitVariable();
-        CircuitVariable b = new CircuitVariable();
-        NotGate notGate = new NotGate();
-        AndGate andGate = new AndGate();
-        OrGate orGate = new OrGate();
         comparitorCirc.addCircuitPart(a);
         comparitorCirc.addCircuitPart(b);
         comparitorCirc.addCircuitPart(notGate);

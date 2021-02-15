@@ -17,16 +17,19 @@ public abstract class CircuitGateTest {
     }
 
     @Test
+    //changes a unary circuit's only input connection
     public void testChangeInputConnection1(){
         CircuitVariable testInput2 = new CircuitVariable();
         testCircuitGate.changeInputConnection1(testInput2);
         assertEquals(testInput2, testCircuitGate.getInputConnection1());
     }
 
+    //sets the test circuit variable's output to true
     public void testGateLogicCalcTrueInput() {
         testInput1.setOutputSignal(true);
     }
 
+    //sets the circuit variable's output to false
     public void testGateLogicCalcFalseInput() {
         testInput1.setOutputSignal(false);
     }
