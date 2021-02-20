@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //The PATRICE application
+//user input handling based off
+//https://github.students.cs.ubc.ca/CPSC210/TellerApp/blob/master/src/main/ca/ubc/cpsc210/bank/ui/TellerApp.java
 public class PatriceApplication {
-    //based off
-    //https://github.students.cs.ubc.ca/CPSC210/TellerApp/blob/master/src/main/ca/ubc/cpsc210/bank/ui/TellerApp.java
     private ArrayList<PatriceWorkspace> openWorkspaces;
     private ArrayList<String> patriceWorkspaceNames;
     private Scanner userInput;
@@ -111,14 +111,13 @@ public class PatriceApplication {
             }
         }
         System.out.println("specified workspace cannot be found");
-        return;
     }
 
     //EFFECTS: creates a new workspace and prompts user for a name to call it
     //if name is left blank, or user specifies a name already in use, will propmt them again until a valid
     //name is provided
     private void createNewWorkspace() {
-        String newWorkspaceName = "";
+        String newWorkspaceName;
         while (true) {
             System.out.println("What do you want to call this workspace?");
             userInput = new Scanner(System.in);

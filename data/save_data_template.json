@@ -1,0 +1,47 @@
+{
+  "expression": "((A ∧ B) ∨ C)",
+  "circuit": [
+    {
+      "circuit_type": "VARIABLE",
+      "circuit_variable_id": "A",
+      "circuit_name": "A",
+      "outputs": ["AND"]
+    },
+    {
+      "circuit_type": "VARIABLE",
+      "circuit_variable_id": "B",
+      "circuit_name": "B",
+      "outputs": ["AND"]
+    },
+    {
+      "circuit_type": "VARIABLE",
+      "circuit_variable_id": "C",
+      "circuit_name": "C",
+      "outputs": ["OR"]
+    },
+    {
+      "circuit_type": "AND",
+      "circuit_name": "AND",
+      "outputs": ["OR"],
+      "input_1": "A",
+      "input_2": "B"
+    },
+    {
+      "circuit_type": "OR",
+      "circuit_name": "OR",
+      "outputs": ["OUTPUT"],
+      "input_1": "AND",
+      "input_2": "C"
+
+    },
+    {
+      "circuit_type": "OUTPUT",
+      "circuit_name": "OUTPUT",
+      "outputs": [],
+      "input_1": "OR"
+    }
+  ]
+
+
+
+}

@@ -8,7 +8,9 @@ import java.util.Scanner;
 
 //an interactive workspace where the user can manipulate expressions and circuits
 // and convert them to one another
-//provides a way to work on and switch between multiple workspaces,
+//provides a way to work on and switch between multiple workspaces
+//user input handling based off
+//https://github.students.cs.ubc.ca/CPSC210/TellerApp/blob/master/src/main/ca/ubc/cpsc210/bank/ui/TellerApp.java
 public class PatriceWorkspace {
     LogicalCircuit localCircuit;
     LogicalExpression localExpression;
