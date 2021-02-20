@@ -25,10 +25,10 @@ I named the program in honour of Dr. Patrice Belleville, who made CPSC 121
 a thoroughly more enjoyeable experience. <br> </br> <br>
 
 ## User Stories
-- As a user,  I want to be able to **create** a new logical circuit and add circuit components to it
-- As a user,  I want to be able to be able to **edit** connections between components in my logical circuit
-- As a user,  I want to be able to be able to **delete** circuit components
-- As a user,  I want to be able to have the program *generate a logical statement* from a logical circuit
-- As a user,  I want to be able to have the program *generate a logical circuit* from a logical statement
+- As a user, I want to be able to **create** a new logical circuit and add circuit components to it
+- As a user, I want to be able to be able to **edit** connections between components in my logical circuit
+- As a user, I want to be able to be able to **delete** circuit components
+- As a user, I want to be able to have the program *generate a logical statement* from a logical circuit
+- As a user, I want to be able to have the program *generate a logical circuit* from a logical statement
 - As a user, I want to be able to save the data stored in a workspace to a file
 - As a user, I want to be able to load workspace data from a file
