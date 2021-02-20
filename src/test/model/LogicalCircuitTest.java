@@ -42,7 +42,7 @@ public class LogicalCircuitTest {
     }
 
     @Test
-    //generates a logical exoression from 4 variables
+    //generates a logical expression from 4 variables
     public void testGenerateExpression() {
         OrGate orGate = new OrGate();
         AndGate andGate1 = new AndGate();
