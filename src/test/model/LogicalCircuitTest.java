@@ -45,7 +45,7 @@ public class LogicalCircuitTest {
     //generates a logical expression from 4 variables
     public void testGenerateExpression() {
         OrGate orGate = new OrGate();
-        AndGate andGate1 = new AndGate();
+        AndGate andGate1 = new AndGate(); 
         AndGate andGate2 = new AndGate();
         NotGate notGate = new NotGate();
         testLogicalCircuit.addCircuitPart(a);

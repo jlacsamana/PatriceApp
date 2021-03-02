@@ -156,11 +156,11 @@ public class LogicalExpression {
         ArrayList<Character> openingBrackets = new ArrayList<>();
         ArrayList<Character> closingBrackets = new ArrayList<>();
 
-        for (int i = 0; i < toEvalChar.length; i++) {
-            if (toEvalChar[i] == '(') {
-                openingBrackets.add(toEvalChar[i]);
-            } else if (toEvalChar[i] == ')') {
-                closingBrackets.add(toEvalChar[i]);
+        for (char c : toEvalChar) {
+            if (c == '(') {
+                openingBrackets.add(c);
+            } else if (c == ')') {
+                closingBrackets.add(c);
             }
         }
 
