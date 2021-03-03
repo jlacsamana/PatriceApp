@@ -49,7 +49,8 @@ public class WorkspaceSaver {
 
     // MODIFIES: this
     //EFFECTS: opens (or creates a file) at the specified file path and saves the data of the given PATRICE workspace
-    //to it. If it fails to do so at any step, returns
+    //to it. Closes when finished. If it fails to do so at any step, returns a message informing of
+    //where the failure occurred. If successful, returns a message notifying of the success.
     public String saveToFile(String outputDestination, PatriceWorkspace workspaceToSave) {
         try {
             open(outputDestination);

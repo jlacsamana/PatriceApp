@@ -423,5 +423,15 @@ public class PatriceWorkspace {
         return workSpaceName;
     }
 
+    //EFFECT: returns this workspace's current logical circuit
+    public LogicalCircuit getLocalCircuit() {
+        return this.localCircuit;
+    }
+
+    //EFFECT: returns this workspace's current logical expression
+    public LogicalExpression getLocalExpression() {
+        return this.localExpression;
+    }
+
 
 }

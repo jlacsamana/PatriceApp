@@ -154,5 +154,10 @@ public class PatriceApplication {
         return workspaceNames.toString();
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds a workspace instance to this' list of Patrice workspaces
+    public void addWorkSpace(PatriceWorkspace toAdd) {
+        openWorkspaces.add(toAdd);
+    }
 
 }

@@ -1,4 +1,5 @@
 {
+  "workspace-name": "A and B or C",
   "expression": "((A ∧ B) ∨ C)",
   "circuit": [
     {
