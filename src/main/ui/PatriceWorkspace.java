@@ -3,6 +3,7 @@ package ui;
 import model.*;
 import model.gates.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,13 +20,15 @@ public class PatriceWorkspace {
 
     //EFFECTS: creates a new workspace with an empty logical expression and a blank logical, and sets workSpaceName
     //expression.
-    // also starts the interaction loop
-    public PatriceWorkspace(String workSpaceName) {
+    // starts interaction loop if startLoop is passed true, doesn't if false
+    public PatriceWorkspace(String workSpaceName, boolean startLoop) {
         localCircuit = new LogicalCircuit();
         localCircuit.getHead().setName("OUTPUT");
         localExpression = new LogicalExpression();
         this.workSpaceName = workSpaceName;
-        interactionLoop();
+        if (startLoop) {
+            interactionLoop();
+        }
     }
 
     //MODIFIES: localCircuit, localExpression
@@ -336,7 +339,7 @@ public class PatriceWorkspace {
                 System.out.println("Circuit Input takes no input connections");
                 System.out.println(((CircuitVariable) part).getVarID());
             }
-            System.out.println("Outputs:" + getOutputListIndices(part, circTodisplay));
+            System.out.println("Outputs:" + getOutputNames(part));
             System.out.println(
                     "------------------------------------------------------------------------------------------------");
         }
@@ -403,6 +406,16 @@ public class PatriceWorkspace {
             indices.add(circToRead.getCircuitComponents().indexOf(c));
         }
         return indices;
+    }
+
+    //EFFECT: returns a list of the names of the output connections in the given circuit part's output list
+    public ArrayList<String> getOutputNames(CircuitComponent circPart) {
+        ArrayList<String> names = new ArrayList<>();
+        for (CircuitComponent c: circPart.getOutputConnections()) {
+            names.add(c.getComponentName());
+        }
+
+        return names;
     }
 
     //EFFECTS: displays the commands available to the user when editing a logical circuit

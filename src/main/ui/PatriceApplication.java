@@ -1,5 +1,8 @@
 package ui;
 
+import persistence.WorkspaceLoader;
+import persistence.WorkspaceSaver;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,13 +13,16 @@ public class PatriceApplication {
     private ArrayList<PatriceWorkspace> openWorkspaces;
     private ArrayList<String> patriceWorkspaceNames;
     private Scanner userInput;
+    private WorkspaceLoader workspaceLoader;
 
     //EFFECT: create a new instance of the PATRICE application, and runs its execution loop;
     // creates a new list of PATRICE workspaces, and sets the current active workspace to null
     // creates a list to hold all of the names of open workspaces
+    //creates a WorkspaceLoader to facilitate loading saved PATRICE workspaces
     public PatriceApplication() {
         openWorkspaces = new ArrayList<>();
         patriceWorkspaceNames = new ArrayList<>();
+        workspaceLoader = new WorkspaceLoader(this);
         runPatriceMenu();
     }
 
@@ -38,8 +44,7 @@ public class PatriceApplication {
             } else if (chosenCmd.equals("switch")) {
                 switchWorkspaces();
             } else if (chosenCmd.equals("load")) {
-                //TODO: change this text when data persistence is implemented
-                System.out.println("Not yet implemented, please choose another action");
+                tryLoadFromFile();
             } else {
                 System.out.println("Invalid command");
             }
@@ -47,6 +52,16 @@ public class PatriceApplication {
         }
 
         System.out.println("Shutting down...");
+    }
+
+    //MODIFIES: this
+    //EFFECTS: tries to load a file with a name corresponding to the given user input
+    private void tryLoadFromFile() {
+        System.out.println("Enter a file name to try and load:");
+        userInput = new Scanner(System.in);
+        String filename = userInput.next();
+        String loadedFileStatus = workspaceLoader.loadWorkSpaceFromFile(filename);
+        System.out.println(loadedFileStatus);
     }
 
     //EFFECTS: displays the program's (tentative) Logo
@@ -72,7 +87,7 @@ public class PatriceApplication {
         System.out.println("Usage Information: info");
         System.out.println("Create a new workspace: new");
         System.out.println("Switch to an already loaded workspace: switch");
-        System.out.println("Load an existing workspace: load [WIP]");
+        System.out.println("Load an existing workspace: load");
         System.out.println("Close Program: x");
         System.out.println(
                 "================================================================================================");
@@ -128,7 +143,7 @@ public class PatriceApplication {
             }
             System.out.println("Specified Name is in use or invalid.");
         }
-        openWorkspaces.add(new PatriceWorkspace(newWorkspaceName));
+        openWorkspaces.add(new PatriceWorkspace(newWorkspaceName, true));
         patriceWorkspaceNames.add(newWorkspaceName);
 
     }
@@ -139,7 +154,7 @@ public class PatriceApplication {
         System.out.println(displayOpenworkSpaceNames());
         System.out.println("Name workspace to open");
         userInput = new Scanner(System.in);
-        String wrkspaceToLoad = userInput.next();
+        String wrkspaceToLoad = userInput.nextLine();
         openLoadedWorkSpace(wrkspaceToLoad);
     }
 

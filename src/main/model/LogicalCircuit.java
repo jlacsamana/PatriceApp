@@ -40,7 +40,6 @@ public class LogicalCircuit {
     //-no input and output connections point to a null object
     //-no sequential circuitry
     //-there only be a single circuit output
-    //todo: allow for parsing of m-arity conjunctions
     //-a conjunction must only have 2 conjuncts
     //-all other circuit components are either directly or indirectly connected to the circuit output
     //EFFECTS: returns a logical expression that is analogous to the logical circuit represented by this
@@ -207,6 +206,17 @@ public class LogicalCircuit {
     //EFFECTS: adds idToAdd to usedVarIDs
     public void addToUsedVarIDs(VariableIdentifier idToAdd) {
         usedVarIDs.add(idToAdd);
+    }
+
+    //EFFECTS: returns a part in the list of parts of the given name, but if one can't be found,
+    // returns null
+    public CircuitComponent getPartInListByName(String partName) {
+        for (CircuitComponent circPart: this.circuitParts) {
+            if (circPart.getComponentName().equals(partName)) {
+                return circPart;
+            }
+        }
+        return null;
     }
 
 
