@@ -8,7 +8,7 @@ import java.util.ArrayList;
 //represents a part of a logical circuit
 public abstract class CircuitComponent {
     protected String componentName;
-    protected ComponentTypeIdentifier componentIdentifier;
+    protected ComponentTypeIdentifier componentTypeIdentifier;
     protected boolean outputSignal;
     protected ArrayList<CircuitComponent> outputConnections;
 
@@ -124,5 +124,10 @@ public abstract class CircuitComponent {
     //EFFECTS: sets this' name to newName
     public void setName(String newName) {
         this.componentName = newName;
+    }
+
+    //EFFECTS returns this component's componentTypeIdentifier
+    public ComponentTypeIdentifier getComponentTypeIdentifier() {
+        return componentTypeIdentifier;
     }
 }

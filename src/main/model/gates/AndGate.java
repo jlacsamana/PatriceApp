@@ -6,7 +6,7 @@ public class AndGate extends BinaryCircuitGate {
     //EFFECTS: creates a new AND gate and sets its component type identifier to AND
     public AndGate() {
         super();
-        componentIdentifier = ComponentTypeIdentifier.AND;
+        componentTypeIdentifier = ComponentTypeIdentifier.AND;
     }
 
     @Override

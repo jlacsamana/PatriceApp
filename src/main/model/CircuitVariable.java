@@ -8,7 +8,7 @@ public class CircuitVariable extends CircuitComponent {
     // to VARIABLE
     public CircuitVariable() {
         super();
-        componentIdentifier = ComponentTypeIdentifier.VARIABLE;
+        componentTypeIdentifier = ComponentTypeIdentifier.VARIABLE;
         variableIdentity = LogicalCircuit.VariableIdentifier.NONE;
     }
 

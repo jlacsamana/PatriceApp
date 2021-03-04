@@ -6,7 +6,7 @@ public class NotGate extends CircuitGate {
     //EFFECTS: creates a new NOT gate and sets its component type identifier to NOT
     public NotGate() {
         super();
-        componentIdentifier = ComponentTypeIdentifier.NOT;
+        componentTypeIdentifier = ComponentTypeIdentifier.NOT;
     }
 
     @Override

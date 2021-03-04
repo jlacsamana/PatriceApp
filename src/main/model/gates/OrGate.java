@@ -6,7 +6,7 @@ public class OrGate extends BinaryCircuitGate {
     //EFFECTS: creates a new OR gate and sets its component type identifier to OR
     public OrGate() {
         super();
-        componentIdentifier = ComponentTypeIdentifier.OR;
+        componentTypeIdentifier = ComponentTypeIdentifier.OR;
     }
 
     @Override
