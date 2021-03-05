@@ -164,7 +164,7 @@ public class WorkspaceLoader {
     public String loadWorkSpaceFromFile(String filePath) {
         String rawData;
         try {
-            String fullFilePath = "./data/" + filePath;
+            String fullFilePath = "./data/" + filePath + ".json";
             rawData = readFile(fullFilePath);
         } catch (IOException e) {
             return "could not read file";

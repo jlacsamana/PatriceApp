@@ -2,6 +2,7 @@ package ui;
 
 import model.*;
 import model.gates.*;
+import persistence.WorkspaceSaver;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,14 +18,16 @@ public class PatriceWorkspace {
     LogicalExpression localExpression;
     private Scanner userInput;
     public final String workSpaceName;
+    private WorkspaceSaver workspaceSaver;
 
     //EFFECTS: creates a new workspace with an empty logical expression and a blank logical, and sets workSpaceName
-    //expression.
+    //expression. Also creates a workspace saver object to save data.
     // starts interaction loop if startLoop is passed true, doesn't if false
     public PatriceWorkspace(String workSpaceName, boolean startLoop) {
         localCircuit = new LogicalCircuit();
         localCircuit.getHead().setName("OUTPUT");
         localExpression = new LogicalExpression();
+        workspaceSaver = new WorkspaceSaver();
         this.workSpaceName = workSpaceName;
         if (startLoop) {
             interactionLoop();
@@ -40,11 +43,12 @@ public class PatriceWorkspace {
             System.out.println("Current workspace: " + this.workSpaceName);
             displayWorkspaceOptions();
             userInput = new Scanner(System.in);
-            String chosenCmd = userInput.next();
+            String chosenCmd = userInput.nextLine();
 
             if (chosenCmd.equals("close")) {
                 break;
-            } else if (chosenCmd.equals("view") || chosenCmd.equals("newExp") || chosenCmd.equals("modCirc")) {
+            } else if (chosenCmd.equals("view") || chosenCmd.equals("newExp") || chosenCmd.equals("modCirc")
+                    || chosenCmd.equals("save")) {
                 processWorkSpaceMenuCmd(chosenCmd);
             } else {
                 System.out.println("Invalid command, please try again");
@@ -62,8 +66,22 @@ public class PatriceWorkspace {
             tryEnterNewExp();
         } else if (cmd.equals("modCirc")) {
             tryCreateNewCirc();
+        } else if (cmd.equals("save")) {
+            trySaveFile();
         }
     }
+
+    //EFFECTS: attempts to save this workspace's data to a file corresponding to the name of the file specified
+    //by the user, If no such file exists, a new one is created of that name and the data is saved to it
+    private void trySaveFile() {
+        System.out.println("Enter a file name:");
+        userInput = new Scanner(System.in);
+        String fileName = userInput.nextLine();
+        String saveStatus = workspaceSaver.saveToFile(fileName, this);
+        System.out.println(saveStatus);
+    }
+
+    //EFFECT: saves
 
     //MODIFIES: localCircuit, localExpression
     //EFFECT: prompts user to enter a new expression, and tries to convert it to a circuit. If successful this
@@ -127,7 +145,7 @@ public class PatriceWorkspace {
         displayLogicalCircuit(tryNewCirc);
         displayEditCircCommands();
         userInput = new Scanner(System.in);
-        return userInput.next();
+        return userInput.nextLine();
     }
 
     //MODIFIES: tryNewCirc
@@ -203,7 +221,7 @@ public class PatriceWorkspace {
     private void connectToBinaryGateInputs(LogicalCircuit circToAppend, CircuitComponent partToEdit,
                                            CircuitComponent newConnection) {
         System.out.println("Enter one of the following inputs: [1] [2]");
-        String chosenInput = userInput.next();
+        String chosenInput = userInput.nextLine();
         if (chosenInput.equals("1")) {
             circToAppend.changeOutPutConnection(partToEdit, newConnection, 1);
         } else if (chosenInput.equals("2")) {
@@ -224,7 +242,7 @@ public class PatriceWorkspace {
         System.out.println("Types: [and] [or] [not] [variable]");
         System.out.println("Enter a type for the new part(All listed above): ");
         userInput = new Scanner(System.in);
-        String newPartType = userInput.next();
+        String newPartType = userInput.nextLine();
         CircuitComponent circpartAlreadyExists = findPartInList(circToAppend, newPartName);
 
         if (circpartAlreadyExists != null) {
@@ -269,6 +287,7 @@ public class PatriceWorkspace {
         System.out.println("View current expression and it's associated circuit: view");
         System.out.println("Enter a new expression and translate it to a circuit: newExp");
         System.out.println("Modify Existing circuit and derive an expression from it: modCirc");
+        System.out.println("Save current Patrice Workspace: save");
         System.out.println("Return to Main menu: close");
         System.out.println("\n");
         System.out.println(

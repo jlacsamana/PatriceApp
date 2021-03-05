@@ -32,7 +32,7 @@ public class PatriceApplication {
         while (true) {
             displayMenuCommOptions();
             userInput = new Scanner(System.in);
-            String chosenCmd = userInput.next();
+            String chosenCmd = userInput.nextLine();
 
             if (chosenCmd.equals("x")) {
                 break;
@@ -59,7 +59,7 @@ public class PatriceApplication {
     private void tryLoadFromFile() {
         System.out.println("Enter a file name to try and load:");
         userInput = new Scanner(System.in);
-        String filename = userInput.next();
+        String filename = userInput.nextLine();
         String loadedFileStatus = workspaceLoader.loadWorkSpaceFromFile(filename);
         System.out.println(loadedFileStatus);
     }

@@ -117,7 +117,7 @@ public class WorkspaceSaver {
     //where the failure occurred. If successful, returns a message notifying of the success.
     public String saveToFile(String outputDestination, PatriceWorkspace workspaceToSave) {
         try {
-            open(outputDestination);
+            open("./data/" + outputDestination + ".json");
         } catch (FileNotFoundException e) {
             return "file was not found";
         }
