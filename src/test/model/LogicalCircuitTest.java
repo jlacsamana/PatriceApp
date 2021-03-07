@@ -192,7 +192,23 @@ public class LogicalCircuitTest {
         assertTrue(testLogicalCircuit.getUsedVarIDs().contains(testVarId));
     }
 
+    @Test
+    //fetches a component from the list of components in a circuit by name that exists in that list
+    public void testGetPartInListByName() {
+        a.setName("A");
+        testLogicalCircuit.addCircuitPart(a);
+        CircuitComponent testFindPart = testLogicalCircuit.getPartInListByName("A");
+        assertEquals(a, testFindPart);
+    }
 
+    @Test
+    //fetches a component from the list of components in a circuit by name that doesnt exist in the list
+    public void testGetPartInListByNameDoesntExist() {
+        testLogicalCircuit = new LogicalCircuit("");
+        CircuitComponent testFindPart = testLogicalCircuit.getPartInListByName("A");
+
+        assertNull(testFindPart);
+    }
 
 
 

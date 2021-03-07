@@ -36,6 +36,16 @@ public class LogicalCircuit {
         headPart = headComp;
     }
 
+    //EFFECTS: creates a new logical circuit with no parts
+    //creates a new list of used variables, and
+    // creates a list containing the variables in the circuit
+    public LogicalCircuit(String debug) {
+        circuitParts = new ArrayList<>();
+        circuitVariables = new ArrayList<>();
+        usedVarIDs = new HashSet<>();
+        headPart = null;
+    }
+
     //REQUIRES: That the logical circuit that this represents be valid:
     //-no input and output connections point to a null object
     //-no sequential circuitry
