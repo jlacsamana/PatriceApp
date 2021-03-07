@@ -54,8 +54,25 @@ public class WorkspaceSaverTest {
     public void testSaveToFileNormalEmpty() {
         String saveResult = testWorkSpaceSaver.saveToFile("test-writeto-workshop" , testWorkSpace);
         assertEquals("successfully saved!", saveResult);
+        //todo
 
     }
+
+    @Test
+    //saves a file to a valid path normally; saves a workspace with a circuit with disconnected parts
+    public void testSaveToFileNormalDisconnectedParts() {
+        AndGate and = new AndGate();
+        LogicalCircuit circuit = new LogicalCircuit();
+        circuit.addCircuitPart(and);
+        testWorkSpace.debugSetCircuit(circuit);
+
+        String saveResult = testWorkSpaceSaver.saveToFile("test-writeto-workshop" , testWorkSpace);
+        assertEquals("successfully saved!", saveResult);
+        //todo
+
+    }
+
+
 
 
 

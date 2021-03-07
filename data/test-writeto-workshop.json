@@ -1,9 +1,17 @@
 {
-    "circuit": [{
-        "circuit_name": "OUTPUT",
-        "circuit_type": "OUTPUT",
-        "input_1": "NONE"
-    }],
+    "circuit": [
+        {
+            "circuit_name": "",
+            "circuit_type": "OUTPUT",
+            "input_1": "NONE"
+        },
+        {
+            "circuit_name": "",
+            "circuit_type": "AND",
+            "input_1": "NONE",
+            "input_2": "NONE"
+        }
+    ],
     "expression": "",
     "workspace-name": "test"
 }
