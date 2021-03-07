@@ -26,6 +26,18 @@ public class PatriceApplication {
         runPatriceMenu();
     }
 
+    //EFFECT: create a new instance of the PATRICE application, but does not run its execution loop;
+    // creates a new list of PATRICE workspaces, and sets the current active workspace to null
+    // creates a list to hold all of the names of open workspaces
+    //creates a WorkspaceLoader to facilitate loading saved PATRICE workspaces
+    public PatriceApplication(String debug) {
+        openWorkspaces = new ArrayList<>();
+        patriceWorkspaceNames = new ArrayList<>();
+        workspaceLoader = new WorkspaceLoader(this);
+    }
+
+
+
     //EFFECTS: displays the main menu
     public void runPatriceMenu() {
         displayProgramStart();
@@ -175,4 +187,19 @@ public class PatriceApplication {
         openWorkspaces.add(toAdd);
     }
 
+    //returns this' workspace loader
+    public WorkspaceLoader getWorkspaceLoader() {
+        return this.workspaceLoader;
+    }
+
+    //returns the workspace with the given name  from this' list of opened workspaces
+    //returns null if one can't be found
+    public PatriceWorkspace getWorkspaceByName(String name) {
+        for (PatriceWorkspace p: openWorkspaces) {
+            if (p.getWorkspaceName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
 }

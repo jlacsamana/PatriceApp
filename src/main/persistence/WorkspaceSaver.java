@@ -119,7 +119,7 @@ public class WorkspaceSaver {
         try {
             open("./data/" + outputDestination + ".json");
         } catch (FileNotFoundException e) {
-            return "file was not found";
+            return "specified path to save to is invalid";
         }
 
         JSONObject objectToSave;

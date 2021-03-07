@@ -465,5 +465,11 @@ public class PatriceWorkspace {
         return this.localExpression;
     }
 
+    //EFFECT: returns this' workspaceSaver
+    public WorkspaceSaver getWorkspaceSaver() {
+        return this.workspaceSaver;
+    }
+
+
 
 }
