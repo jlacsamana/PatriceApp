@@ -1,0 +1,54 @@
+{
+    "circuit": [
+        {
+            "circuit_name": "",
+            "circuit_type": "OUTPUT",
+            "input_1": ""
+        },
+        {
+            "circuit_name": "",
+            "circuit_type": "OR",
+            "input_1": "",
+            "input_2": ""
+        },
+        {
+            "circuit_name": "",
+            "circuit_type": "AND",
+            "input_1": "",
+            "input_2": ""
+        },
+        {
+            "circuit_name": "",
+            "circuit_variable_id": "A",
+            "circuit_type": "VARIABLE"
+        },
+        {
+            "circuit_name": "",
+            "circuit_variable_id": "B",
+            "circuit_type": "VARIABLE"
+        },
+        {
+            "circuit_name": "",
+            "circuit_type": "AND",
+            "input_1": "",
+            "input_2": ""
+        },
+        {
+            "circuit_name": "",
+            "circuit_type": "NOT",
+            "input_1": ""
+        },
+        {
+            "circuit_name": "",
+            "circuit_variable_id": "C",
+            "circuit_type": "VARIABLE"
+        },
+        {
+            "circuit_name": "",
+            "circuit_variable_id": "D",
+            "circuit_type": "VARIABLE"
+        }
+    ],
+    "expression": "((A ∧ B) ∨ (~C ∧ D))",
+    "workspace-name": "test"
+}

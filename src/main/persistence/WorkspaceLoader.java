@@ -31,9 +31,6 @@ public class WorkspaceLoader {
 
     }
 
-    private static class CantTranslateConnection extends Exception {
-
-    }
 
     //EFFECTS: creates a new WorkspaceLoader and sets its PatriceApp instance
     public WorkspaceLoader(PatriceApplication patriceApp) {
@@ -56,7 +53,7 @@ public class WorkspaceLoader {
     //EFFECTS reads the given json save data and generates a workspace from it. Returns the generated workspace.
     // Throws an CantParseIntoWorkRoomError error if it fails to
     private PatriceWorkspace buildWorkspaceFromJsonData(JSONObject jsonSaveData) throws
-            CantTranslateJsonToPart, CantTranslateConnection {
+            CantTranslateJsonToPart {
         PatriceWorkspace constructedWorkspace =
                 new PatriceWorkspace(jsonSaveData.getString("workspace-name"), false);
 
@@ -118,9 +115,7 @@ public class WorkspaceLoader {
 
     //MODIFIES: constructedWorkspace
     //EFFECTS: adds the connections described in the json array to the circuit in  constructedWorkspace
-    // Throws CantTranslateConnection if it is unable to set a connection
-    private void addConnectionsToWorkSpace(PatriceWorkspace constructedWorkspace, JSONArray circuit)
-            throws CantTranslateConnection {
+    private void addConnectionsToWorkSpace(PatriceWorkspace constructedWorkspace, JSONArray circuit) {
         for (Object part: circuit) {
             JSONObject jsonPart = (JSONObject) part;
             String currentPartName = jsonPart.getString("circuit_name");
@@ -145,13 +140,13 @@ public class WorkspaceLoader {
 
     //MODIFIES: circToEdit
     //EFFECTS: connects the first part to the second at the specified input (1 or 2) in the given circuit
-    //throws CantTranslateConnection if either or the parts can't be found
+    //doesn't connect anything if part1 is null
     public void connectParts(LogicalCircuit circToEdit, CircuitComponent part1, CircuitComponent part2,
-                             int inputNumber)
-            throws CantTranslateConnection {
+                             int inputNumber) {
 
-        if (part1 == null || part2 == null) {
-            throw new CantTranslateConnection();
+        if (part1 == null) {
+            // do not connect
+            return;
         }
 
         circToEdit.changeOutPutConnection(part1, part2, inputNumber);
@@ -176,8 +171,6 @@ public class WorkspaceLoader {
             workspaceToAdd = buildWorkspaceFromJsonData(parsedData);
         } catch (CantTranslateJsonToPart e) {
             return "something went wrong during part translation";
-        } catch (CantTranslateConnection e) {
-            return "something went wrong when connections were being established";
         }
 
         activeAppInstance.addWorkSpace(workspaceToAdd);

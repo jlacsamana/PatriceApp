@@ -235,16 +235,19 @@ public class PatriceWorkspace {
     //EFFECTS: attempts to create a new circuit part of the given
     // type and with that name and adds it to the circuit. Does nothing if there is already exists a part
     // in the circuit with the given name
+    //NONE is not allowed as a name because the system utilises it as a null value for json save encoding
     private void tryAddCircuit(LogicalCircuit circToAppend) {
-        System.out.println("Enter a name for the new part: ");
-        userInput = new Scanner(System.in);
-        String newPartName = userInput.nextLine();
+        String newPartName = getInputForPartName();
         System.out.println("Types: [and] [or] [not] [variable]");
         System.out.println("Enter a type for the new part(All listed above): ");
         userInput = new Scanner(System.in);
         String newPartType = userInput.nextLine();
         CircuitComponent circpartAlreadyExists = findPartInList(circToAppend, newPartName);
 
+        if (newPartName.equals("NONE")) {
+            System.out.println("NONE is a reserved name. Please try again");
+            return;
+        }
         if (circpartAlreadyExists != null) {
             System.out.println("A part with this name already exists");
             return;
@@ -258,6 +261,13 @@ public class PatriceWorkspace {
                 newPart.setName(newPartName);
             }
         }
+    }
+
+    //EFFECTS: promptsuser to enter a name for a new part
+    private String getInputForPartName() {
+        System.out.println("Enter a name for the new part: ");
+        userInput = new Scanner(System.in);
+        return userInput.nextLine();
     }
 
     //MODIFIES: circToAppend
@@ -468,6 +478,18 @@ public class PatriceWorkspace {
     //EFFECT: returns this' workspaceSaver
     public WorkspaceSaver getWorkspaceSaver() {
         return this.workspaceSaver;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets this' current logical expression to the given one
+    public void debugSetExpression(LogicalExpression newExp) {
+        this.localExpression = newExp;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets this' current logical circuit to the given one
+    public void debugSetCircuit(LogicalCircuit newCirc) {
+        this.localCircuit = newCirc;
     }
 
 

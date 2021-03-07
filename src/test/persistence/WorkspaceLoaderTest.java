@@ -1,5 +1,6 @@
 package persistence;
 
+import model.CircuitComponent;
 import model.CircuitVariable;
 import model.LogicalCircuit;
 import model.gates.AndGate;
@@ -37,14 +38,6 @@ public class WorkspaceLoaderTest {
     public void testLoadWorkspaceFromFileInvalidCircComp(){
         String loadState = testLoader.loadWorkSpaceFromFile("nonexistent-circuit-comp-type-workspace");
         assertEquals("something went wrong during part translation", loadState);
-    }
-
-    @Test
-    //tries to load a workspace from a file that has a circuit component detailing a circuit component that names a
-    // connection to a circuit component that doesn't exist
-    public void testLoadWorkspaceFromFileInvalidConnection(){
-        String loadState = testLoader.loadWorkSpaceFromFile("nonexistent-connection-workspace");
-        assertEquals("something went wrong when connections were being established", loadState);
     }
 
     @Test

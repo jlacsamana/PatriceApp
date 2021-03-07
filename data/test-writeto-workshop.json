@@ -1,0 +1,9 @@
+{
+    "circuit": [{
+        "circuit_name": "OUTPUT",
+        "circuit_type": "OUTPUT",
+        "input_1": "NONE"
+    }],
+    "expression": "",
+    "workspace-name": "test"
+}

@@ -12,6 +12,7 @@ import ui.PatriceWorkspace;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Collection;
 
 import static model.CircuitComponent.ComponentTypeIdentifier.*;
 
@@ -40,9 +41,10 @@ public class WorkspaceSaver {
     private JSONObject convertWorkspaceToJson(PatriceWorkspace toConvert) {
         JSONObject toExport = new JSONObject();
 
-        toExport.put("workspace-name", toConvert.getWorkspaceName());
-        toExport.put("expression", toConvert.getLocalExpression().getLogicalExpression());
         toExport.put("circuit", convertCircuitArrayToJsonArray(toConvert.getLocalCircuit()));
+        toExport.put("expression", toConvert.getLocalExpression().getLogicalExpression());
+        toExport.put("workspace-name", toConvert.getWorkspaceName());
+
 
         return toExport;
     }
@@ -72,20 +74,43 @@ public class WorkspaceSaver {
             case VARIABLE:
                 converted.put("circuit_type", "VARIABLE");
                 addVarIDToJson((CircuitVariable) partToConvert, converted);
+                break;
             case NOT:
                 converted.put("circuit_type", "NOT");
-                converted.put("input_1", ((CircuitGate) partToConvert).getInputConnection1().getComponentName());
+                break;
             case OUTPUT:
                 converted.put("circuit_type", "OUTPUT");
-                converted.put("input_1", ((CircuitGate) partToConvert).getInputConnection1().getComponentName());
+                break;
             case AND:
                 converted.put("circuit_type", "AND");
-                converted.put("input_1", ((CircuitGate) partToConvert).getInputConnection1().getComponentName());
-                converted.put("input_2", ((BinaryCircuitGate) partToConvert).getInputConnection2().getComponentName());
+                break;
             case OR:
                 converted.put("circuit_type", "OR");
+                break;
+        }
+
+        assignConnections(partToConvert, converted);
+
+    }
+
+    //MODIFIES: converted
+    //EFFECT: records connections to inputs, if there are any, in converted
+    private void assignConnections(CircuitComponent partToConvert, JSONObject converted) {
+        if (partToConvert instanceof CircuitGate) {
+            if (((CircuitGate) partToConvert).getInputConnection1() != null) {
                 converted.put("input_1", ((CircuitGate) partToConvert).getInputConnection1().getComponentName());
+            } else {
+                converted.put("input_1", "NONE");
+            }
+
+        }
+
+        if (partToConvert instanceof BinaryCircuitGate) {
+            if (((BinaryCircuitGate) partToConvert).getInputConnection2() != null) {
                 converted.put("input_2", ((BinaryCircuitGate) partToConvert).getInputConnection2().getComponentName());
+            } else {
+                converted.put("input_2", "NONE");
+            }
         }
     }
 
@@ -95,12 +120,16 @@ public class WorkspaceSaver {
         switch (partToConvert.getVarID()) {
             case A:
                 converted.put("circuit_variable_id", "A");
+                break;
             case B:
                 converted.put("circuit_variable_id", "B");
+                break;
             case C:
                 converted.put("circuit_variable_id", "C");
+                break;
             case D:
                 converted.put("circuit_variable_id", "D");
+                break;
         }
     }
 
@@ -122,8 +151,7 @@ public class WorkspaceSaver {
             return "specified path to save to is invalid";
         }
 
-        JSONObject objectToSave;
-        objectToSave = convertWorkspaceToJson(workspaceToSave);
+        JSONObject objectToSave = convertWorkspaceToJson(workspaceToSave);
         save(objectToSave.toString(TAB));
         close();
         return "successfully saved!";

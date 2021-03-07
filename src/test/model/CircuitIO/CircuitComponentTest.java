@@ -168,7 +168,7 @@ public abstract class CircuitComponentTest {
     //assign a name to a circuit component
     public void testSetName() {
         String newName = "Something";
-        assertNull(testCircComp.getComponentName());
+        assertEquals("", testCircComp.getComponentName());
         testCircComp.setName(newName);
 
         assertEquals(newName, testCircComp.getComponentName());

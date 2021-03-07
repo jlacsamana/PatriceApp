@@ -27,6 +27,7 @@ public abstract class CircuitComponent {
         outputSignal = false;
         outputConnections = null;
         outputConnections = new ArrayList<>();
+        componentName = "";
     }
 
     //REQUIRES: that newConnection not be null

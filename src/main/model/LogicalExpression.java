@@ -16,7 +16,7 @@ public class LogicalExpression {
 
     //EFFECTS: creates a new blank logical expression
     public LogicalExpression() {
-
+        logicalExpressionStr = "";
     }
 
     //REQUIRES: That the logical expression be a valid one, adherent to the normal rules and conventions of
