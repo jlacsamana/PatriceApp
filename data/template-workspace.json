@@ -1,7 +1,13 @@
 {
-  "workspace-name": "",
+  "workspace-name": "TEST",
   "expression": "",
-  "circuit": []
+  "circuit": [
+    {
+    "circuit_name": "output",
+    "circuit_type": "OUTPUT",
+    "input_1": "NONE"
+    }
+  ]
 
 
 

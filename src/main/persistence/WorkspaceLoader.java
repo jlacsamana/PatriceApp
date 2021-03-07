@@ -91,23 +91,19 @@ public class WorkspaceLoader {
     //If a corresponding part specification can't be found, throws CantTranslateJsonToPart
     private CircuitComponent createComponent(JSONObject partToTranslate) throws CantTranslateJsonToPart {
         CircuitComponent partToCreate;
-        switch (partToTranslate.getString("circuit_type")) {
-            case "OUTPUT":
-                return null;
-            case "VARIABLE":
-                partToCreate = new CircuitVariable();
-                break;
-            case "NOT":
-                partToCreate = new NotGate();
-                break;
-            case "OR":
-                partToCreate = new OrGate();
-                break;
-            case "AND":
-                partToCreate = new AndGate();
-                break;
-            default:
-                throw new CantTranslateJsonToPart();
+        String circuitType = partToTranslate.getString("circuit_type");
+        if ("OUTPUT".equals(circuitType)) {
+            return null;
+        } else if ("VARIABLE".equals(circuitType)) {
+            partToCreate = new CircuitVariable();
+        } else if ("NOT".equals(circuitType)) {
+            partToCreate = new NotGate();
+        } else if ("OR".equals(circuitType)) {
+            partToCreate = new OrGate();
+        } else if ("AND".equals(circuitType)) {
+            partToCreate = new AndGate();
+        } else {
+            throw new CantTranslateJsonToPart();
         }
         partToCreate.setName(partToTranslate.getString("circuit_name"));
         return partToCreate;

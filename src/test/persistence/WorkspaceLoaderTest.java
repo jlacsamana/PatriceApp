@@ -83,6 +83,15 @@ public class WorkspaceLoaderTest {
                 loadedWorkSpace.getLocalCircuit().generateExpression().getLogicalExpression());
     }
 
+    @Test
+    //loads a workspace from a file that has no issues and should load properly; empty file
+    public void testLoadWorkspaceFromFileValidEmptyFile(){
+        String loadState = testLoader.loadWorkSpaceFromFile("template-workspace");
+        assertEquals("TEST successfully loaded!", loadState);
+        //todo
+
+    }
+
 
 
 }

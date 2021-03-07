@@ -70,23 +70,17 @@ public class WorkspaceSaver {
     //MODIFIES: converted
     //EFFECTS: add circuit type-specific data to converted, a json representation of a circuit component
     private void addCircCompDataToJson(CircuitComponent partToConvert, JSONObject converted) {
-        switch (partToConvert.getComponentTypeIdentifier()) {
-            case VARIABLE:
-                converted.put("circuit_type", "VARIABLE");
-                addVarIDToJson((CircuitVariable) partToConvert, converted);
-                break;
-            case NOT:
-                converted.put("circuit_type", "NOT");
-                break;
-            case OUTPUT:
-                converted.put("circuit_type", "OUTPUT");
-                break;
-            case AND:
-                converted.put("circuit_type", "AND");
-                break;
-            case OR:
-                converted.put("circuit_type", "OR");
-                break;
+        if (partToConvert.getComponentTypeIdentifier() == VARIABLE) {
+            converted.put("circuit_type", "VARIABLE");
+            addVarIDToJson((CircuitVariable) partToConvert, converted);
+        } else if (partToConvert.getComponentTypeIdentifier() == NOT) {
+            converted.put("circuit_type", "NOT");
+        } else if (partToConvert.getComponentTypeIdentifier() == OUTPUT) {
+            converted.put("circuit_type", "OUTPUT");
+        } else if (partToConvert.getComponentTypeIdentifier() == AND) {
+            converted.put("circuit_type", "AND");
+        } else if (partToConvert.getComponentTypeIdentifier() == OR) {
+            converted.put("circuit_type", "OR");
         }
 
         assignConnections(partToConvert, converted);
@@ -117,19 +111,15 @@ public class WorkspaceSaver {
     //MODIFIES: converted
     //EFFECTS: adds variable ID data to converted, a json representation of a circuit variable
     private void addVarIDToJson(CircuitVariable partToConvert, JSONObject converted) {
-        switch (partToConvert.getVarID()) {
-            case A:
-                converted.put("circuit_variable_id", "A");
-                break;
-            case B:
-                converted.put("circuit_variable_id", "B");
-                break;
-            case C:
-                converted.put("circuit_variable_id", "C");
-                break;
-            case D:
-                converted.put("circuit_variable_id", "D");
-                break;
+        //todo
+        if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.A) {
+            converted.put("circuit_variable_id", "A");
+        } else if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.B) {
+            converted.put("circuit_variable_id", "B");
+        } else if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.C) {
+            converted.put("circuit_variable_id", "C");
+        } else if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.D) {
+            converted.put("circuit_variable_id", "D");
         }
     }
 
