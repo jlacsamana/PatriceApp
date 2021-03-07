@@ -25,6 +25,7 @@ public class LogicalExpression {
     public LogicalCircuit generateCircuit() {
         LogicalCircuit newCircuit = new LogicalCircuit();
         appendLogicalCircuit(newCircuit, this.logicalExpressionStr, newCircuit.getHead());
+        assignOrdinalNames(newCircuit);
         return newCircuit;
     }
 
@@ -55,6 +56,16 @@ public class LogicalExpression {
             determineConnection(circToEdit, connectTo, partToAdd);
             appendLogicalCircuit(circToEdit, subExpression1, partToAdd);
             appendLogicalCircuit(circToEdit, subExpression2, partToAdd);
+        }
+    }
+
+    //MODIFIES: circToEdit
+    //EFFECTS: assigns an ordinal name to each of the parts in circToEdit's list of parts
+    private void assignOrdinalNames(LogicalCircuit circToEdit) {
+        int ordinalCounter = 0;
+        for (CircuitComponent c: circToEdit.getCircuitComponents()) {
+            c.setName(String.valueOf(ordinalCounter));
+            ordinalCounter += 1;
         }
     }
 

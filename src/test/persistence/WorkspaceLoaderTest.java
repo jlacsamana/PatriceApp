@@ -88,7 +88,13 @@ public class WorkspaceLoaderTest {
     public void testLoadWorkspaceFromFileValidEmptyFile(){
         String loadState = testLoader.loadWorkSpaceFromFile("template-workspace");
         assertEquals("TEST successfully loaded!", loadState);
-        //todo
+
+        PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("TEST");
+
+        assertEquals("", loaded.getLocalExpression().getLogicalExpression());
+        assertEquals(1, loaded.getLocalCircuit().getCircuitComponents().size());
+        assertEquals("OUTPUT", loaded.getLocalCircuit().getCircuitComponents().get(0).getComponentName());
+
 
     }
 

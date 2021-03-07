@@ -23,6 +23,10 @@ public class WorkspaceSaver {
     private static final int TAB = 4;
     private PrintWriter writer;
 
+    public class InvalidPartEexception extends Exception {}
+
+    public class IllegalVariableException extends Exception {}
+
     // MODIFIES: this
     // tries to open the file at the specified outputDestination
     private void open(String outputDestination) throws FileNotFoundException {
@@ -36,9 +40,11 @@ public class WorkspaceSaver {
     }
 
     // MODIFIES: toExport
-    // EFFECTS: tries to convert the given PatriceWorkspace's data into a serializable JSON onject, throws
-    // WorkspaceToJsonTranslateError if it can't
-    private JSONObject convertWorkspaceToJson(PatriceWorkspace toConvert) {
+    // EFFECTS: tries to convert the given PatriceWorkspace's data into a serializable JSON object, throws
+    // if any difficulty is encountered in saving the circuit as data, throws IllegalVariableException
+    // or InvalidPartEexception depending on the issue
+    private JSONObject convertWorkspaceToJson(PatriceWorkspace toConvert)
+            throws IllegalVariableException, InvalidPartEexception {
         JSONObject toExport = new JSONObject();
 
         toExport.put("circuit", convertCircuitArrayToJsonArray(toConvert.getLocalCircuit()));
@@ -51,7 +57,10 @@ public class WorkspaceSaver {
 
 
     //EFFECTS: converts the data in circToConvert to a Json Array and returns it
-    private JSONArray convertCircuitArrayToJsonArray(LogicalCircuit circToConvert) {
+    //throws InvalidPartException if any difficulty is encountered converting any of the parts to savable data
+    //throws an IllegalVariableException if any of the parts in the list have an invalid variable ID
+    private JSONArray convertCircuitArrayToJsonArray(LogicalCircuit circToConvert)
+            throws InvalidPartEexception, IllegalVariableException {
         JSONArray converted = new JSONArray();
         for (CircuitComponent c: circToConvert.getCircuitComponents()) {
             converted.put(convertCircuitPartToJson(c));
@@ -60,7 +69,10 @@ public class WorkspaceSaver {
     }
 
     //EFFECTS: converts the data in a circuit component, partToConvert to Json and returns it
-    private JSONObject convertCircuitPartToJson(CircuitComponent partToConvert) {
+    //throws InvalidPartException if the partToConvert is not a circuit type permitted by the program
+    //throws an IllegalVariableException if the part is a variable that had an invalid id
+    private JSONObject convertCircuitPartToJson(CircuitComponent partToConvert)
+            throws InvalidPartEexception, IllegalVariableException {
         JSONObject converted = new JSONObject();
         addCircCompDataToJson(partToConvert, converted);
         converted.put("circuit_name", partToConvert.getComponentName());
@@ -69,7 +81,10 @@ public class WorkspaceSaver {
 
     //MODIFIES: converted
     //EFFECTS: add circuit type-specific data to converted, a json representation of a circuit component
-    private void addCircCompDataToJson(CircuitComponent partToConvert, JSONObject converted) {
+    //throws an InvalidPartException if given part is not one of the allowed types
+    //throws an IllegalVariableException if a variable is used other the ones allowed
+    private void addCircCompDataToJson(CircuitComponent partToConvert, JSONObject converted)
+            throws InvalidPartEexception, IllegalVariableException {
         if (partToConvert.getComponentTypeIdentifier() == VARIABLE) {
             converted.put("circuit_type", "VARIABLE");
             addVarIDToJson((CircuitVariable) partToConvert, converted);
@@ -81,6 +96,8 @@ public class WorkspaceSaver {
             converted.put("circuit_type", "AND");
         } else if (partToConvert.getComponentTypeIdentifier() == OR) {
             converted.put("circuit_type", "OR");
+        } else {
+            throw new InvalidPartEexception();
         }
 
         assignConnections(partToConvert, converted);
@@ -110,8 +127,9 @@ public class WorkspaceSaver {
 
     //MODIFIES: converted
     //EFFECTS: adds variable ID data to converted, a json representation of a circuit variable
-    private void addVarIDToJson(CircuitVariable partToConvert, JSONObject converted) {
-        //todo
+    //throws an illegal Variable exception if the given part is a variable with a forbidden ID
+    private void addVarIDToJson(CircuitVariable partToConvert, JSONObject converted)
+            throws IllegalVariableException {
         if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.A) {
             converted.put("circuit_variable_id", "A");
         } else if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.B) {
@@ -120,6 +138,8 @@ public class WorkspaceSaver {
             converted.put("circuit_variable_id", "C");
         } else if (partToConvert.getVarID() == LogicalCircuit.VariableIdentifier.D) {
             converted.put("circuit_variable_id", "D");
+        } else {
+            throw new IllegalVariableException();
         }
     }
 
@@ -141,7 +161,14 @@ public class WorkspaceSaver {
             return "specified path to save to is invalid";
         }
 
-        JSONObject objectToSave = convertWorkspaceToJson(workspaceToSave);
+        JSONObject objectToSave = null;
+        try {
+            objectToSave = convertWorkspaceToJson(workspaceToSave);
+        } catch (IllegalVariableException e) {
+            return "there is an illegal variable used in the circuit that was to be translated";
+        } catch (InvalidPartEexception invalidPartEexception) {
+            return "there is a part that can't be saved as data because it is not of any of the allowed part types";
+        }
         save(objectToSave.toString(TAB));
         close();
         return "successfully saved!";

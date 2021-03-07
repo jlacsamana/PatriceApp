@@ -3,7 +3,7 @@
   "expression": "",
   "circuit": [
     {
-    "circuit_name": "output",
+    "circuit_name": "OUTPUT",
     "circuit_type": "OUTPUT",
     "input_1": "NONE"
     }

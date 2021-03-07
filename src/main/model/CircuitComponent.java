@@ -18,7 +18,8 @@ public abstract class CircuitComponent {
         NOT,
         AND,
         OR,
-        OUTPUT
+        OUTPUT,
+        NONE
     }
 
     //EFFECT: creates a new circuit component, an empty list of its output connections
@@ -130,5 +131,10 @@ public abstract class CircuitComponent {
     //EFFECTS returns this component's componentTypeIdentifier
     public ComponentTypeIdentifier getComponentTypeIdentifier() {
         return componentTypeIdentifier;
+    }
+
+    //MODIFIES: this
+    public void setComponentTypeIdentifier(ComponentTypeIdentifier typeID) {
+        this.componentTypeIdentifier = typeID;
     }
 }

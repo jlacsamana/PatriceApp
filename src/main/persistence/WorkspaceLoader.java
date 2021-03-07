@@ -140,12 +140,9 @@ public class WorkspaceLoader {
     public void connectParts(LogicalCircuit circToEdit, CircuitComponent part1, CircuitComponent part2,
                              int inputNumber) {
 
-        if (part1 == null) {
-            // do not connect
-            return;
+        if (part1 != null) {
+            circToEdit.changeOutPutConnection(part1, part2, inputNumber);
         }
-
-        circToEdit.changeOutPutConnection(part1, part2, inputNumber);
     }
 
 
