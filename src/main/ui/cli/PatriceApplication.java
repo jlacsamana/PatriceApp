@@ -1,7 +1,6 @@
-package ui;
+package ui.cli;
 
 import persistence.WorkspaceLoader;
-import persistence.WorkspaceSaver;
 
 import java.util.ArrayList;
 import java.util.Scanner;

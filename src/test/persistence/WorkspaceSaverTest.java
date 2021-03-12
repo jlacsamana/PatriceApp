@@ -9,8 +9,8 @@ import model.gates.BinaryCircuitGate;
 import model.gates.CircuitGate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import ui.PatriceApplication;
-import ui.PatriceWorkspace;
+import ui.cli.PatriceApplication;
+import ui.cli.PatriceWorkspace;
 
 import static org.junit.jupiter.api.Assertions.*;
 

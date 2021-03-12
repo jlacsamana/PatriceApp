@@ -1,6 +1,5 @@
 package persistence;
 
-import model.CircuitComponent;
 import model.CircuitVariable;
 import model.LogicalCircuit;
 import model.gates.AndGate;
@@ -8,8 +7,8 @@ import model.gates.NotGate;
 import model.gates.OrGate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import ui.PatriceApplication;
-import ui.PatriceWorkspace;
+import ui.cli.PatriceApplication;
+import ui.cli.PatriceWorkspace;
 
 import static org.junit.jupiter.api.Assertions.*;
 

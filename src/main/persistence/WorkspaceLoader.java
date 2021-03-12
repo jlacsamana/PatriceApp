@@ -1,25 +1,20 @@
 package persistence;
 
 import model.CircuitComponent;
-import model.CircuitOutput;
 import model.CircuitVariable;
 import model.LogicalCircuit;
 import model.gates.*;
 import org.json.JSONObject;
-import ui.Main;
-import ui.PatriceApplication;
-import ui.PatriceWorkspace;
+import ui.cli.PatriceApplication;
+import ui.cli.PatriceWorkspace;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.json.*;
-
-import javax.smartcardio.CardNotPresentException;
 
 //represents a system that loads a PATRICE workstation from a given save file (in json format)
 //code based on and partially derived from:

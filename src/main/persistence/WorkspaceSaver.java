@@ -7,12 +7,11 @@ import model.gates.BinaryCircuitGate;
 import model.gates.CircuitGate;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ui.PatriceWorkspace;
+import ui.cli.PatriceWorkspace;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Collection;
 
 import static model.CircuitComponent.ComponentTypeIdentifier.*;
 

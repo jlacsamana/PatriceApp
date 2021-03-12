@@ -1,5 +1,8 @@
 package ui;
 
+import ui.cli.PatriceApplication;
+import ui.gui.PatriceGuiApplication;
+
 import java.util.Scanner;
 
 
@@ -11,17 +14,17 @@ public class BootStrapper {
     //EFFECT: starts the bootstrapper and provides dialogues for loading the program
     public BootStrapper() {
         while (true) {
-            System.out.println("OPTIONS: \n"
+            System.out.println("Patrice Application Launch Options: \n"
                     + "[1] Load CLI app\n"
                     + "[2] Load GUI app\n"
                     + "[x] close program\n");
             String userChoice = promptUserForUIChoice();
 
             if (userChoice.equals("1")) {
-                new PatriceGuiApplication();
+                new PatriceApplication();
                 break;
             } else if (userChoice.equals("2")) {
-                new PatriceApplication();
+                new PatriceGuiApplication();
                 break;
             } else if (userChoice.equals("x")) {
                 System.out.println("Quit Program");
