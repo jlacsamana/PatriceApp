@@ -148,6 +148,7 @@ public class WorkspaceSaver {
     // EFFECTS: writes string to the file associated with the current writer
     private void save(String toWrite) {
         writer.print(toWrite);
+        writer.flush();
     }
 
     // MODIFIES: this
