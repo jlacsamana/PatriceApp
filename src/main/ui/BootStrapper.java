@@ -1,7 +1,7 @@
 package ui;
 
 import ui.cli.PatriceApplication;
-import ui.gui.PatriceGuiApplication;
+import ui.gui.PatriceGuiFrame;
 
 import java.util.Scanner;
 
@@ -24,11 +24,13 @@ public class BootStrapper {
                 new PatriceApplication();
                 break;
             } else if (userChoice.equals("2")) {
-                new PatriceGuiApplication();
+                new PatriceGuiFrame();
                 break;
             } else if (userChoice.equals("x")) {
                 System.out.println("Quit Program");
                 break;
+            } else {
+                System.out.println("Invalid input. try again.");
             }
         }
 
