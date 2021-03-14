@@ -8,9 +8,8 @@ import java.awt.*;
 public class PatriceGuiWorkSpace extends JPanel {
 
 
-    public PatriceGuiWorkSpace(int width, int height) {
-        setPreferredSize(new Dimension(width, height));
-        setBackground(Color.LIGHT_GRAY);
+    public PatriceGuiWorkSpace() {
+        setBackground(Color.WHITE);
 
     }
 

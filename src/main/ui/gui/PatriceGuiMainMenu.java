@@ -1,13 +1,18 @@
 package ui.gui;
 
+import ui.gui.submenus.InformationPanel;
+import ui.gui.submenus.MainMenuBG;
+import ui.gui.submenus.SwitchMenu;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 //the GUI for the Patrice Application's main menu
-public class PatriceGuiMainMenu extends JPanel {
+public class PatriceGuiMainMenu extends JLayeredPane {
     int height;
     int width;
 
@@ -17,23 +22,32 @@ public class PatriceGuiMainMenu extends JPanel {
     JButton loadWorkspaceBtn;
     JButton closeBtn;
 
-    ImageIcon infoIcon;
-    ImageIcon newWorkspaceIcon;
-    ImageIcon switchWorkspaceIcon;
-    ImageIcon loadWorkspaceIcon;
-    ImageIcon closeIcon;
+    JPanel bg;
+    JPanel infoPanel;
+    JPanel switchMenu;
+
+    PatriceGuiWorkSpace activeGuiWorkspace;
+    ArrayList<PatriceGuiWorkSpace> loadedWorkspaces;
+
+
 
     // EFFECT: launches the Patrice main menu
     PatriceGuiMainMenu(int width, int height) {
         this.height = height;
         this.width = width;
 
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
 
         setPreferredSize(new Dimension(this.width, this.height));
         setBackground(Color.WHITE);
+
+        renderDefaultMenuViews();
+
         renderMenuButtons();
         assignMenuBehaviors();
+
+        loadedWorkspaces = new ArrayList<>();
+
     }
 
     //MODIFIES: this
@@ -41,16 +55,8 @@ public class PatriceGuiMainMenu extends JPanel {
     // based on and borrowing from:
     //https://stackoverflow.com/questions/42964669/placing-button-panel-in-center-java-swing
     public void renderMenuButtons() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets((int) (this.height / 1.15),0, 0,0);
-
-        GridBagConstraints btnGbc = new GridBagConstraints();
-        btnGbc.ipadx = 25;
-        btnGbc.ipady = 15;
+        GridBagConstraints gbc = generateMenuGBC();
+        GridBagConstraints btnGbc = generateMenuBtnGBC();
 
         JPanel buttons = new JPanel(new GridBagLayout());
         infoBtn = new JButton("Usage Information");
@@ -65,26 +71,39 @@ public class PatriceGuiMainMenu extends JPanel {
         buttons.add(loadWorkspaceBtn, btnGbc);
         buttons.add(closeBtn, btnGbc);
 
-        add(buttons, gbc);
+        JPanel container = new JPanel();
+        container.setLayout(new GridBagLayout());
+        container.add(buttons, gbc);
+        add(container, BorderLayout.SOUTH);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: renders some pre-loaded menu elements
+    public void renderDefaultMenuViews() {
+        bg = new MainMenuBG();
+        add(bg);
     }
 
     //MODIFIES: this
     //EFFECTS: gives the menu buttons behaviors
     public void assignMenuBehaviors() {
-
-
-        closeBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                closeApplication();
-            }
-        });
+        infoBtn.addActionListener(e -> displayInformation());
+        newWorkspaceBtn.addActionListener(e -> startNewWorkspace());
+        switchWorkspaceBtn.addActionListener(e -> switchWorkSpace());
+        loadWorkspaceBtn.addActionListener(e -> loadWorkSpace());
+        closeBtn.addActionListener(e -> closeApplication()
+        );
     }
 
     //MODIFIES: this
     //EFFECTS: displays the information on how to use the application
     public void displayInformation() {
+        closeSubMenuPanels();
+        infoPanel = new InformationPanel();
+        add(infoPanel);
+        moveToFront(infoPanel);
 
+        updateGUI();
     }
 
     //MODIFIES: this
@@ -96,7 +115,11 @@ public class PatriceGuiMainMenu extends JPanel {
     //MODIFIES: this
     //EFFECTS: switches active workspace to the one specified by the user from the list of loaded ones
     public void switchWorkSpace() {
-
+        closeSubMenuPanels();
+        switchMenu = new SwitchMenu();
+        add(switchMenu);
+        moveToFront(switchMenu);
+        updateGUI();
     }
 
     //MODIFIES: this
@@ -108,6 +131,47 @@ public class PatriceGuiMainMenu extends JPanel {
     //EFFECTS: closes the GUI application
     private void closeApplication() {
         System.exit(0);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: returns gridbag constraints for menu buttons
+    private GridBagConstraints generateMenuBtnGBC() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.ipadx = 25;
+        gbc.ipady = 15;
+        return gbc;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: returns gridbag constraints for menu
+    private GridBagConstraints generateMenuGBC() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        return gbc;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: closes all open submenu panels
+    private void closeSubMenuPanels() {
+        if (infoPanel != null) {
+            remove(infoPanel);
+            infoPanel = null;
+        }
+
+        if (switchMenu != null) {
+            remove(switchMenu);
+            switchMenu = null;
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: updates UI
+    public void updateGUI() {
+        revalidate();
+        repaint();
     }
 
 }
