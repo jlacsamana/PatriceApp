@@ -1,14 +1,13 @@
 package ui.gui;
 
+import ui.gui.popupdialogues.CreateNewWorkSpace;
 import ui.gui.submenus.InformationPanel;
 import ui.gui.submenus.MainMenuBG;
+import ui.gui.submenus.PatriceGuiWorkSpace;
 import ui.gui.submenus.SwitchMenu;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 //the GUI for the Patrice Application's main menu
@@ -26,8 +25,9 @@ public class PatriceGuiMainMenu extends JLayeredPane {
     JPanel infoPanel;
     JPanel switchMenu;
 
-    PatriceGuiWorkSpace activeGuiWorkspace;
     ArrayList<PatriceGuiWorkSpace> loadedWorkspaces;
+
+    boolean dialogueCurrentlyOpen = false;
 
 
 
@@ -97,40 +97,60 @@ public class PatriceGuiMainMenu extends JLayeredPane {
 
     //MODIFIES: this
     //EFFECTS: displays the information on how to use the application
+    // does not do anything if a popup dialogue is open
     public void displayInformation() {
-        closeSubMenuPanels();
-        infoPanel = new InformationPanel();
-        add(infoPanel);
-        moveToFront(infoPanel);
-
-        updateGUI();
+        if (!dialogueCurrentlyOpen) {
+            closeSubMenuPanels();
+            infoPanel = new InformationPanel();
+            add(infoPanel);
+            moveToFront(infoPanel);
+            updateGUI();
+        }
     }
 
     //MODIFIES: this
     //EFFECTS: instantiates a new workspace and adds it to the list of loaded gui workspaces
+    // does not do anything if a popup dialogue is open
     public void startNewWorkspace() {
-
+        if (!dialogueCurrentlyOpen) {
+            dialogueCurrentlyOpen = true;
+            closeSubMenuPanels();
+            CreateNewWorkSpace newWorkSpacePrompt = new CreateNewWorkSpace(this);
+            updateGUI();
+        }
     }
 
     //MODIFIES: this
     //EFFECTS: switches active workspace to the one specified by the user from the list of loaded ones
+    // does not do anything if a popup dialogue is open
     public void switchWorkSpace() {
-        closeSubMenuPanels();
-        switchMenu = new SwitchMenu();
-        add(switchMenu);
-        moveToFront(switchMenu);
-        updateGUI();
+        if (!dialogueCurrentlyOpen) {
+            closeSubMenuPanels();
+            switchMenu = new SwitchMenu();
+            add(switchMenu);
+            moveToFront(switchMenu);
+            updateGUI();
+        }
     }
 
     //MODIFIES: this
     //EFFECTS: opens a file system dialogue and prompts user to select a file to load into a workspace
+    // does not do anything if a popup dialogue is open
     public void loadWorkSpace() {
+        if (!dialogueCurrentlyOpen) {
+            dialogueCurrentlyOpen = true;
 
+
+            updateGUI();
+        }
     }
 
     //EFFECTS: closes the GUI application
+    // does not do anything if a popup dialogue is open
     private void closeApplication() {
-        System.exit(0);
+        if (!dialogueCurrentlyOpen) {
+            System.exit(0);
+        }
     }
 
     //MODIFIES: this
@@ -172,6 +192,24 @@ public class PatriceGuiMainMenu extends JLayeredPane {
     public void updateGUI() {
         revalidate();
         repaint();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: closes current dialogue
+    public void closeDialogue() {
+        dialogueCurrentlyOpen = false;
+    }
+
+    //EFFECTS: returns the list of loaded workspaces
+    public ArrayList<PatriceGuiWorkSpace> getLoadedWorkspaces() {
+        return loadedWorkspaces;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: adds the given GUI workspace to the list of loaded GUI workspaces, and adds it to the graphics stack
+    public void addToWorkspaces(PatriceGuiWorkSpace toAdd) {
+        add(toAdd);
+        loadedWorkspaces.add(toAdd);
     }
 
 }

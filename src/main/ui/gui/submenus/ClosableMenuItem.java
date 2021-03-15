@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ClosableMenuItem extends JPanel {
+//a generic submenu with a close button and layered UI
+public abstract class ClosableMenuItem extends JPanel {
     JLayeredPane contentFrame;
     JButton closeButton;
     JPanel container;
@@ -18,7 +19,7 @@ public class ClosableMenuItem extends JPanel {
         loadCloseButton();
 
         container = new JPanel();
-        container.setBounds(80, 0, 1760, 1080);
+        container.setBounds(80, 0, 1920 - 160, 1080);
         add(container);
     }
 
