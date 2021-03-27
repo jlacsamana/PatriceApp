@@ -74,6 +74,7 @@ public class PatriceGuiMainMenu extends JLayeredPane {
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
         container.add(buttons, gbc);
+        container.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         add(container, BorderLayout.SOUTH);
     }
 

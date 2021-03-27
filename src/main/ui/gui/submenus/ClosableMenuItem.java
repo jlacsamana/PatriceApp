@@ -14,6 +14,7 @@ public abstract class ClosableMenuItem extends JPanel {
     //EFFECTS: renders a closable menu with a close button
     public ClosableMenuItem() {
         setBackground(Color.LIGHT_GRAY);
+        setLayout(null);
         contentFrame = new JLayeredPane();
         add(contentFrame);
         loadCloseButton();
@@ -27,7 +28,6 @@ public abstract class ClosableMenuItem extends JPanel {
     //EFFECTS: loads close button
     public void loadCloseButton() {
         closeButton = new JButton("Close");
-        setLayout(null);
         closeButton.setBounds(0,0, 80,40);
         add(closeButton);
         closeButton.addActionListener(e -> closeThis());

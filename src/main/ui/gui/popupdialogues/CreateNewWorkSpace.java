@@ -70,12 +70,15 @@ public class CreateNewWorkSpace extends Dialogue {
         for (PatriceGuiWorkSpace workSpace : parentMenu.getLoadedWorkspaces()) {
             if (nameEntryField.getText().equals(workSpace.getWorkSpaceName())) {
                 closeDialogue();
+                return;
             }
         }
+        System.out.println("executing");
         PatriceGuiWorkSpace newWorkSpace = new PatriceGuiWorkSpace(nameEntryField.getText());
         parentMenu.addToWorkspaces(newWorkSpace);
         parentMenu.moveToFront(newWorkSpace);
         closeDialogue();
+
     }
 
     //EFFECTS: closes this pop-up dialogue
