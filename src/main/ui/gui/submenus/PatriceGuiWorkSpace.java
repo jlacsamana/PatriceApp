@@ -99,19 +99,23 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     private void assignCircButtonBehaviors() {
         andBtn.addActionListener(e -> {
             ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.AND));
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.AND,
+                            (InteractableCircuitArea) interactiveCircuitSpace));
         });
         orBtn.addActionListener(e -> {
             ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.OR));
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.OR,
+                            (InteractableCircuitArea) interactiveCircuitSpace));
         });
         notBtn.addActionListener(e -> {
             ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.NOT));
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.NOT,
+                            (InteractableCircuitArea) interactiveCircuitSpace));
         });
         varBtn.addActionListener(e -> {
             ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.VARIABLE));
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.VARIABLE,
+                            (InteractableCircuitArea) interactiveCircuitSpace));
         });
 
     }

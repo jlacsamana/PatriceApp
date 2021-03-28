@@ -73,7 +73,6 @@ public class CreateNewWorkSpace extends Dialogue {
                 return;
             }
         }
-        System.out.println("executing");
         PatriceGuiWorkSpace newWorkSpace = new PatriceGuiWorkSpace(nameEntryField.getText());
         parentMenu.addToWorkspaces(newWorkSpace);
         parentMenu.moveToFront(newWorkSpace);
