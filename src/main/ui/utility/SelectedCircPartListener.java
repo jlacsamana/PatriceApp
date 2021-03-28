@@ -3,6 +3,7 @@ package ui.utility;
 import ui.gui.circuitgui.CircuitComponentGUI;
 import ui.gui.circuitgui.InteractableCircuitArea;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -22,7 +23,12 @@ public class SelectedCircPartListener extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
         if (e.getButton() == MouseEvent.BUTTON1) {
-            oberserver.setCurrentlySelected((CircuitComponentGUI) e.getSource());
+
+            for (CircuitComponentGUI gui: oberserver.getGuiComponents()) {
+                if (gui.getAttachedUIElement() == e.getSource()) {
+                    oberserver.setCurrentlySelected(gui);
+                }
+            }
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
         }

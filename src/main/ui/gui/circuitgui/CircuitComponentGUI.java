@@ -63,6 +63,8 @@ public class CircuitComponentGUI {
     public void moveGuiPartUp() {
         Point pos = attachedUIElement.getLocation();
         attachedUIElement.setLocation(pos.x, pos.y - 10);
+        parent.revalidate();
+        parent.repaint();
     }
 
     //MODIFIES: this
@@ -70,6 +72,8 @@ public class CircuitComponentGUI {
     public void moveGuiPartDown() {
         Point pos = attachedUIElement.getLocation();
         attachedUIElement.setLocation(pos.x, pos.y + 10);
+        parent.revalidate();
+        parent.repaint();
     }
 
     //MODIFIES: this
@@ -77,6 +81,8 @@ public class CircuitComponentGUI {
     public void moveGuiPartRight() {
         Point pos = attachedUIElement.getLocation();
         attachedUIElement.setLocation(pos.x + 10, pos.y);
+        parent.revalidate();
+        parent.repaint();
     }
 
     //MODIFIES: this
@@ -84,6 +90,8 @@ public class CircuitComponentGUI {
     public void moveGuiPartLeft() {
         Point pos = attachedUIElement.getLocation();
         attachedUIElement.setLocation(pos.x - 10, pos.y);
+        parent.revalidate();
+        parent.repaint();
     }
 
 
