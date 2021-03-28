@@ -107,8 +107,8 @@ public class LogicalCircuit {
     //REQUIRES: newPart can't be a Circuit Output
     //MODIFIES: this
     //EFFECTS: adds the circuit component newPart to the list of parts; if its a CircuitVariable, assigns an unused
-    //variableID to it. If no variables are free, the part is not added
-    public void addCircuitPart(CircuitComponent newPart) {
+    //variableID to it; returns True if successful. If no variables are free, the part is not added and returns false.
+    public Boolean addCircuitPart(CircuitComponent newPart) {
         if (newPart instanceof CircuitVariable) {
             CircuitVariable newVar = (CircuitVariable) newPart;
             for (VariableIdentifier varID : VariableIdentifier.values()) {
@@ -118,11 +118,13 @@ public class LogicalCircuit {
                     usedVarIDs.add(varID);
                     circuitVariables.add(newVar);
                     this.circuitParts.add(newVar);
-                    break;
+                    return true;
                 }
             }
+            return false;
         } else {
             this.circuitParts.add(newPart);
+            return true;
         }
 
     }

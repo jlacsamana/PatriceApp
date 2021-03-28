@@ -1,13 +1,19 @@
 package ui.gui.submenus;
 
 
+import model.CircuitComponent;
 import model.LogicalCircuit;
 import model.LogicalExpression;
+import model.gates.NotGate;
+import ui.gui.circuitgui.CircuitComponentGUI;
+import ui.gui.circuitgui.InteractableCircuitArea;
 import ui.gui.submenus.ClosableMenuItem;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //TODO work on on GUI
 //TODO implement backend
@@ -15,6 +21,11 @@ import java.awt.*;
 public class PatriceGuiWorkSpace extends ClosableMenuItem {
     public final String workSpaceName;
     private JPanel interactiveCircuitSpace;
+
+    JButton andBtn;
+    JButton orBtn;
+    JButton notBtn;
+    JButton varBtn;
 
     //EFFECTS: creates a gui workspace, and sets its name
     public PatriceGuiWorkSpace(String newName) {
@@ -71,23 +82,44 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
 
-        JButton addAND = new JButton("AND gate");
-        JButton addOR = new JButton("OR gate");
-        JButton addNOT = new JButton("NOT gate");
-        JButton addVar = new JButton("Variable");
-        container.add(addAND, generateGBC());
-        container.add(addOR, generateGBC());
-        container.add(addNOT, generateGBC());
-        container.add(addVar, generateGBC());
+        andBtn = new JButton("AND gate");
+        orBtn = new JButton("OR gate");
+        notBtn = new JButton("NOT gate");
+        varBtn = new JButton("Variable");
+        container.add(andBtn, generateGBC());
+        container.add(orBtn, generateGBC());
+        container.add(notBtn, generateGBC());
+        container.add(varBtn, generateGBC());
+        assignCircButtonBehaviors();
         return container;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: assigns behaviors to the Buttons that create new circuit parts
+    private void assignCircButtonBehaviors() {
+        andBtn.addActionListener(e -> {
+            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.AND));
+        });
+        orBtn.addActionListener(e -> {
+            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.OR));
+        });
+        notBtn.addActionListener(e -> {
+            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.NOT));
+        });
+        varBtn.addActionListener(e -> {
+            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
+                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.VARIABLE));
+        });
+
     }
 
     //MODIFIES: this
     //EFFECTS: sets up the interactive circuit area
     public void renderCircuitArea() {
-        interactiveCircuitSpace = new JPanel();
-        interactiveCircuitSpace.setBackground(new Color(216, 235, 255));
-        interactiveCircuitSpace.setBounds(400, 0, 1520, 1080);
+        interactiveCircuitSpace = new InteractableCircuitArea();
 
         container.add(interactiveCircuitSpace);
     }
