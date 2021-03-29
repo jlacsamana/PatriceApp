@@ -7,6 +7,7 @@ import model.LogicalExpression;
 import model.gates.NotGate;
 import ui.gui.circuitgui.CircuitComponentGUI;
 import ui.gui.circuitgui.InteractableCircuitArea;
+import ui.gui.expressiongui.LogicalExpressionField;
 import ui.gui.submenus.ClosableMenuItem;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ import java.awt.event.ActionListener;
 public class PatriceGuiWorkSpace extends ClosableMenuItem {
     public final String workSpaceName;
     private JPanel interactiveCircuitSpace;
+    private JPanel logicalExpressionField;
 
     JButton andBtn;
     JButton orBtn;
@@ -44,7 +46,16 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     private void renderLayout() {
         renderPrimaryLayout();
         renderCircuitArea();
+        renderExpressionField();
         renderToolBox();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: renders the expression field and convert buttons
+    private void renderExpressionField() {
+        LogicalExpressionField expField = new LogicalExpressionField(this);
+
+        container.add(expField);
     }
 
     //MODIFIES: this
@@ -180,5 +191,10 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
         constraints.ipadx = 25;
         constraints.ipady = 35;
         return constraints;
+    }
+
+    //EFFECTS: returns the interactiveCircuitSpace
+    public JPanel getInteractiveCircuitSpace() {
+        return interactiveCircuitSpace;
     }
 }

@@ -35,7 +35,7 @@ public class InteractableCircuitArea extends JPanel {
         guiCompConnections = new ArrayList<>();
         setLayout(null);
         setBackground(new Color(216, 235, 255));
-        setBounds(400, 40, 1520, 1080);
+        setBounds(400, 40, 1520, 800);
         addCircOutput();
         initKeyListener();
 
@@ -61,7 +61,7 @@ public class InteractableCircuitArea extends JPanel {
     //EFFECTS: gives the circuit output a visual representation
     public void addCircOutput() {
         CircuitComponentGUI circuitOut = new CircuitComponentGUI(localCircuit.getHead(), this);
-        circuitOut.getAttachedUIElement().setBounds(960, 540, 75, 75);
+        circuitOut.getAttachedUIElement().setBounds(900, 400, 75, 75);
         add(circuitOut.getAttachedUIElement());
         circuitOut.getAttachedUIElement().addMouseListener(listener);
         guiComponents.add(circuitOut);
@@ -263,6 +263,16 @@ public class InteractableCircuitArea extends JPanel {
     //EFFECTS: returns this' local logical expression
     public LogicalExpression getLocalExpression() {
         return localExpression;
+    }
+
+    //EFFECTS: sets this' local logical expression to this
+    public void setLocalExpression(LogicalExpression newExp) {
+        localExpression = newExp;
+    }
+
+    //EFFECTS: sets this' local logical Circuit
+    public void setLocalCircuit(LogicalCircuit newCirc) {
+        localCircuit = newCirc;
     }
 
     //EFFECTS: sets to connection mode or disconnect mode
