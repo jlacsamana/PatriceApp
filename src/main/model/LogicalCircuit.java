@@ -184,12 +184,16 @@ public class LogicalCircuit {
     //EFFECTS: sets the outputConnection of circPart to newConnection. The input corresponding to inputPlace in
     //newConnection is set to circPart. The output of the CircuitComponent previously connected to that input
     //is set to null(if that CircuitComponent isn't null)
-    public void changeOutPutConnection(CircuitComponent circPart, CircuitComponent newConnection, int inputPlace) {
+    //returns a part that was disconnected if there was one
+    public CircuitComponent changeOutPutConnection(CircuitComponent circPart, CircuitComponent newConnection,
+                                                   int inputPlace) {
+        CircuitComponent hasChanged = null;
         if (newConnection instanceof BinaryCircuitGate) {
-            circPart.addBinaryConnection((BinaryCircuitGate) newConnection, inputPlace);
+            hasChanged = circPart.addBinaryConnection((BinaryCircuitGate) newConnection, inputPlace);
         } else {
-            circPart.addUnaryConnection((CircuitGate) newConnection);
+            hasChanged = circPart.addUnaryConnection((CircuitGate) newConnection);
         }
+        return hasChanged;
     }
 
     //EFFECT: return currently used variable IDs

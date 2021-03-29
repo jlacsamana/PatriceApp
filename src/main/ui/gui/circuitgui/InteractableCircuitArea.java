@@ -1,5 +1,6 @@
 package ui.gui.circuitgui;
 
+import model.CircuitComponent;
 import model.LogicalCircuit;
 import model.LogicalExpression;
 import ui.utility.SelectedCircPartListener;
@@ -8,7 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.awt.Graphics;
 
 //represents the area that allows the user to interact with a visual representation of the circuit
 public class InteractableCircuitArea extends JPanel {
@@ -18,16 +22,23 @@ public class InteractableCircuitArea extends JPanel {
     SelectedCircPartListener listener;
     ArrayList<CircuitComponentGUI> guiComponents;
 
+    ArrayList<Connection> guiCompConnections;
+
+    boolean isConnecting = true;
+
     //EFFECTS: creates a new area that allows the user to interact with the circuit (a visual representation of it)
     public InteractableCircuitArea() {
+        guiComponents = new ArrayList<>();
         localCircuit = new LogicalCircuit();
         localExpression = new LogicalExpression();
-        guiComponents = new ArrayList<>();
         listener = new SelectedCircPartListener(this);
+        guiCompConnections = new ArrayList<>();
         setLayout(null);
         setBackground(new Color(216, 235, 255));
         setBounds(400, 40, 1520, 1080);
+        addCircOutput();
         initKeyListener();
+
 
     }
 
@@ -44,6 +55,76 @@ public class InteractableCircuitArea extends JPanel {
             toAdd.getAttachedUIElement().revalidate();
             toAdd.getAttachedUIElement().repaint();
         }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: gives the circuit output a visual representation
+    public void addCircOutput() {
+        CircuitComponentGUI circuitOut = new CircuitComponentGUI(localCircuit.getHead(), this);
+        circuitOut.getAttachedUIElement().setBounds(960, 540, 75, 75);
+        add(circuitOut.getAttachedUIElement());
+        circuitOut.getAttachedUIElement().addMouseListener(listener);
+        guiComponents.add(circuitOut);
+        circuitOut.getAttachedUIElement().revalidate();
+        circuitOut.getAttachedUIElement().repaint();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: establishes a connection between the two given circuit component GUIs at the given connection
+    // (1 = input1, 2 = input2)
+    //overrides an existing one
+    public void establishConnection(CircuitComponentGUI from, CircuitComponentGUI to, int connection) {
+        CircuitComponent disconnected = localCircuit.changeOutPutConnection(from.attachedCircComponent,
+                to.attachedCircComponent, connection);
+        System.out.println("wprking");
+        if (disconnected != null) {
+            Connection connectionToRemove = null;
+            for (Connection c: guiCompConnections) {
+                if (c.getOrigin().getAttachedCircComponent().equals(disconnected)
+                        && c.getDestination().equals(to)) {
+                    connectionToRemove = c;
+                }
+            }
+            if (connectionToRemove != null) {
+                guiCompConnections.remove(connectionToRemove);
+            }
+        }
+        guiCompConnections.add(new Connection(from, to));
+
+        revalidate();
+        repaint();
+    }
+
+    //MODIFIES:
+    //EFFECTS: disconnects the given circuit GUi component from all others that it is connected to
+    public void disconnectFromAll(CircuitComponentGUI toDC) {
+        ArrayList<Connection> toRemove = new ArrayList<>();
+        for (Connection c: guiCompConnections) {
+            if (c.getOrigin() == toDC || c.getDestination() == toDC) {
+                toRemove.add(c);
+            }
+        }
+        guiCompConnections.removeAll(toRemove);
+    }
+
+    @Override
+    //EFFECTS: draws connections between connected circuit parts
+    //derived and borrowed from:
+    //https://stackoverflow.com/questions/31755985/draw-a-movable-line-between-two-java-graphics
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        Graphics2D g2 = (Graphics2D) graphics.create();
+
+        for (Connection c: guiCompConnections) {
+            Point2D p1 = new Point2D.Double(c.getOrigin().getAttachedUIElement().getBounds().getCenterX(),
+                    c.getOrigin().getAttachedUIElement().getBounds().getCenterY());
+            Point2D p2 = new Point2D.Double(c.getDestination().getAttachedUIElement().getBounds().getCenterX(),
+                    c.getDestination().getAttachedUIElement().getBounds().getCenterY());
+
+            g2.draw(new Line2D.Double(p1, p2));
+
+        }
+        g2.dispose();
     }
 
 
@@ -151,6 +232,52 @@ public class InteractableCircuitArea extends JPanel {
                 currentlySelected.moveGuiPartLeft();
             }
         }
+    }
+
+    //represents a link between two circuit GUI components
+    public class Connection {
+
+        private CircuitComponentGUI from;
+        private CircuitComponentGUI to;
+
+        public Connection(CircuitComponentGUI from, CircuitComponentGUI to) {
+            this.from = from;
+            this.to = to;
+        }
+
+        public CircuitComponentGUI getOrigin() {
+            return from;
+        }
+
+        public CircuitComponentGUI getDestination() {
+            return to;
+        }
+
+    }
+
+    //EFFECTS: returns this' local logical circuit
+    public LogicalCircuit getLocalCircuit() {
+        return localCircuit;
+    }
+
+    //EFFECTS: returns this' local logical expression
+    public LogicalExpression getLocalExpression() {
+        return localExpression;
+    }
+
+    //EFFECTS: sets to connection mode or disconnect mode
+    public void setConnecting(boolean connecting) {
+        isConnecting = connecting;
+    }
+
+    //EFFECTS: returns whether connecting mode is on or disconnect mode
+    public boolean isConnecting() {
+        return isConnecting;
+    }
+
+    //EFFECTS: returns the list of connections
+    public ArrayList<Connection> getGuiCompConnections() {
+        return guiCompConnections;
     }
 
 }

@@ -43,34 +43,43 @@ public abstract class CircuitComponent {
     //EFFECT: add newConnection to list of output connections, and
     //if unaryGate's input isn't null, disconnects it from whatever is connected
     //and connects this instead.
-    public void addUnaryConnection(CircuitGate unaryGate) {
+    //Returns the part that was disconnected, if there is one
+    public CircuitComponent addUnaryConnection(CircuitGate unaryGate) {
         addOutputConnection(unaryGate);
+        CircuitComponent disconnectedPart = null;
         if (unaryGate.getInputConnection1() != null) {
+            disconnectedPart = unaryGate.getInputConnection1();
             unaryGate.getInputConnection1().removeConnection(unaryGate);
         }
         unaryGate.changeInputConnection1(this);
 
-
+        return disconnectedPart;
     }
 
     //REQUIRES: that binaryGate not be null
     //MODIFIES: this
     //EFFECT: add newConnection to list of output connections, and
     //if unaryGate's input corresponding to inputPlace isn't null, disconnects it from whatever is connected
-    //and connects this instead.
-    public void addBinaryConnection(BinaryCircuitGate binaryGate, int inputPlace) {
+    //and connects this instead. Returns true if a connection is overwritten, false otherwise
+    //Returns the part that was disconnected, if there is one
+    public CircuitComponent addBinaryConnection(BinaryCircuitGate binaryGate, int inputPlace) {
         addOutputConnection(binaryGate);
+        CircuitComponent disconnectedPart = null;
         if (inputPlace == 1) {
             if (binaryGate.getInputConnection1() != null) {
+                disconnectedPart = binaryGate.getInputConnection1();
                 binaryGate.getInputConnection1().removeConnection(binaryGate);
+
             }
             binaryGate.changeInputConnection1(this);
         } else {
             if (binaryGate.getInputConnection2() != null) {
+                disconnectedPart = binaryGate.getInputConnection2();
                 binaryGate.getInputConnection2().removeConnection(binaryGate);
             }
             binaryGate.changeInputConnection2(this);
         }
+        return disconnectedPart;
     }
 
     //REQUIRES: that compToRemove not be null and can't be a Circuit Input. compToRemove must also exist in

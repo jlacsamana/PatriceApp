@@ -71,9 +71,31 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
         JPanel circuitBtns = renderCircPartButtons();
         circuitBtns.setBounds(50, 100, 300, 300);
         toolBoxFrame.add(circuitBtns);
+        JPanel modeBtns = renderModeButtons();
+        modeBtns.setBounds(50, 500, 300, 40);
+        toolBoxFrame.add(modeBtns);
         container.add(toolBoxFrame);
         renderInfoPanel(toolBoxFrame);
+    }
 
+    //MODIFIES: this
+    //EFFECTS: renders mode changing buttons
+    public JPanel renderModeButtons() {
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new GridLayout());
+        JButton setConnectionsMode = new JButton("Connect");
+        JButton deleteConnectionsMode = new JButton("Disconnect");
+        buttons.add(setConnectionsMode);
+        buttons.add(deleteConnectionsMode);
+        setConnectionsMode.addActionListener(e -> {
+            ((InteractableCircuitArea) interactiveCircuitSpace).setConnecting(true);
+        });
+        deleteConnectionsMode.addActionListener(e -> {
+            ((InteractableCircuitArea) interactiveCircuitSpace).setConnecting(false);
+        });
+
+
+        return buttons;
     }
 
     //MODIFIES: this

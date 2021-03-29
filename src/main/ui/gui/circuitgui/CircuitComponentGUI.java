@@ -40,22 +40,33 @@ public class CircuitComponentGUI {
             attachedCircComponent = new OrGate();
             attachedUIElement.add(new JLabel(or));
         } else if (circuitType == CircuitComponent.ComponentTypeIdentifier.OUTPUT) {
-            attachedCircComponent = new CircuitOutput();
-            attachedUIElement.add(new JLabel(output));
+            //this is unreachable
         }
+        attachedUIElement.setOpaque(false);
+    }
+
+    //EFFECTS: a special gui shell initializer for the head part of the Logical circuit specifically
+    public CircuitComponentGUI(CircuitOutput output, InteractableCircuitArea parent) {
+        this.parent = parent;
+        attachedCircComponent = output;
+        attachedUIElement = new JPanel();
+        attachedUIElement.add(new JLabel(this.output));
         attachedUIElement.setOpaque(false);
     }
 
     //MODIFIES: this, CircuitComponentGUIs
     //EFFECTS: removes this circuitComponentGUI from CircuitComponentGUIs and unrenders it, then removes its associated
-    //circuit part from local circuit.
+    //circuit part from local circuit. But does nothing if circuit part is an output
     public void deleteCircPart() {
-        parent.getGuiComponents().remove(this);
-        parent.setCurrentlySelected(null);
-        parent.remove(this.attachedUIElement);
-
-        parent.validate();
-        parent.repaint();
+        if (!(attachedCircComponent instanceof CircuitOutput)) {
+            parent.getGuiComponents().remove(this);
+            parent.setCurrentlySelected(null);
+            parent.remove(this.attachedUIElement);
+            parent.localCircuit.removeCircuitPart(this.attachedCircComponent);
+            parent.disconnectFromAll(this);
+            parent.validate();
+            parent.repaint();
+        }
     }
 
     //MODIFIES: this
