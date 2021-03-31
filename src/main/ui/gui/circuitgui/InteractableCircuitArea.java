@@ -52,6 +52,7 @@ public class InteractableCircuitArea extends JPanel {
             add(toAdd.getAttachedUIElement());
             toAdd.getAttachedUIElement().addMouseListener(listener);
             guiComponents.add(toAdd);
+            toAdd.applyGenericName();
             toAdd.getAttachedUIElement().revalidate();
             toAdd.getAttachedUIElement().repaint();
         }
@@ -76,7 +77,6 @@ public class InteractableCircuitArea extends JPanel {
     public void establishConnection(CircuitComponentGUI from, CircuitComponentGUI to, int connection) {
         CircuitComponent disconnected = localCircuit.changeOutPutConnection(from.attachedCircComponent,
                 to.attachedCircComponent, connection);
-        System.out.println("wprking");
         if (disconnected != null) {
             Connection connectionToRemove = null;
             for (Connection c: guiCompConnections) {
