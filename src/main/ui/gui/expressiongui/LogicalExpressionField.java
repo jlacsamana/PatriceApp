@@ -1,5 +1,6 @@
 package ui.gui.expressiongui;
 
+import model.LogicalCircuit;
 import ui.gui.circuitgui.InteractableCircuitArea;
 import ui.gui.submenus.PatriceGuiWorkSpace;
 
@@ -7,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
 // displays the local logical expression and conversion buttons
 public class LogicalExpressionField extends JPanel {
@@ -54,11 +57,21 @@ public class LogicalExpressionField extends JPanel {
                     ));
 
             } catch (Exception x) {
-                System.out.println("failed conversion attempt");
+                System.out.println("failed conversion Circuit -> Expression attempt");
             }
         });
         expToCircuit.addActionListener(e -> {
-            //todo implement
+            try {
+                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).getLocalExpression()
+                        .setLogicalExpression(expressionField.getText());
+                LogicalCircuit generated =
+                        ((InteractableCircuitArea) parent.getInteractiveCircuitSpace())
+                                .getLocalExpression().generateCircuit();
+                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).setLocalCircuit(generated);
+                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).generateVisualForPreMadeCirc();
+            } catch (Exception x) {
+                System.out.println("failed conversion Expression -> Circuit attempt");
+            }
         });
     }
 

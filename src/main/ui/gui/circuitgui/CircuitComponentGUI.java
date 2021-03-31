@@ -54,6 +54,34 @@ public class CircuitComponentGUI {
         attachedUIElement.add(componentImage);
     }
 
+    //EFFECTS: creates a GUi element for an existing circuit component, the type of component is dependent
+    // on the given type, and assigns a size
+    public CircuitComponentGUI(CircuitComponent circPart, InteractableCircuitArea parent) {
+        this.parent = parent;
+        attachedUIElement = new JPanel();
+        attachedCircComponent = circPart;
+        if (attachedCircComponent.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.VARIABLE) {
+            componentImage = new JLabel(var);
+            attachedUIElement.setSize(75, 75);
+        } else if (attachedCircComponent.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.NOT) {
+            componentImage = new JLabel(not);
+            attachedUIElement.setSize(150, 150);
+        } else if (attachedCircComponent.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.AND) {
+            componentImage = new JLabel(and);
+            attachedUIElement.setSize(150, 150);
+        } else if (attachedCircComponent.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.OR) {
+            componentImage = new JLabel(or);
+            attachedUIElement.setSize(150, 150);
+        } else if (attachedCircComponent.getComponentTypeIdentifier()
+                == CircuitComponent.ComponentTypeIdentifier.OUTPUT) {
+            componentImage = new JLabel(output);
+            attachedUIElement.setSize(75, 75);
+        }
+
+        attachedUIElement.setOpaque(false);
+        attachedUIElement.add(componentImage);
+    }
+
     //MODIFIES: this.attachedCircComponent
     //EFFECTS: applies a generic name to this circuit component
     public void applyGenericName() {

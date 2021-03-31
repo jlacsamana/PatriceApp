@@ -3,6 +3,8 @@ package ui.gui.circuitgui;
 import model.CircuitComponent;
 import model.LogicalCircuit;
 import model.LogicalExpression;
+import model.gates.BinaryCircuitGate;
+import model.gates.CircuitGate;
 import ui.utility.SelectedCircPartListener;
 
 import javax.swing.*;
@@ -127,6 +129,71 @@ public class InteractableCircuitArea extends JPanel {
         g2.dispose();
     }
 
+    //MODIFIES: this
+    //EFFECTS: generates visual representations and connections for a circuit with existing parts and connections,
+    // starts from the head of a circuit and works its way down
+    public void generateVisualForPreMadeCirc() {
+        clearCircuitGUI();
+        generateGuiParts();
+        generateConnections(localCircuit.getHead());
+    }
+
+    //MODIFIES: this
+    //EFFECTS: generates gui components for each items in the local circuit
+    private void generateGuiParts() {
+        for (CircuitComponent circPart : localCircuit.getCircuitComponents()) {
+            CircuitComponentGUI circGUI = new CircuitComponentGUI(circPart, this);
+            circGUI.getAttachedUIElement().setLocation(960, 540);
+            add(circGUI.getAttachedUIElement());
+            circGUI.getAttachedUIElement().addMouseListener(listener);
+            guiComponents.add(circGUI);
+            circGUI.applyGenericName();
+            circGUI.getAttachedUIElement().revalidate();
+            circGUI.getAttachedUIElement().repaint();
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: recursively adds connections between the gui circuit parts
+    private void generateConnections(CircuitComponent circPart) {
+        if (circPart.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.VARIABLE) {
+            return;
+        } else if (circPart.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.AND
+                || circPart.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.OR) {
+            establishConnection(getParentCircCompGUI(((BinaryCircuitGate) circPart).getInputConnection1()),
+                    getParentCircCompGUI(circPart), 1);
+            generateConnections(((BinaryCircuitGate) circPart).getInputConnection1());
+            establishConnection(getParentCircCompGUI(((BinaryCircuitGate) circPart).getInputConnection2()),
+                    getParentCircCompGUI(circPart), 2);
+            generateConnections(((BinaryCircuitGate) circPart).getInputConnection2());
+
+        } else if (circPart.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.NOT
+                    || circPart.getComponentTypeIdentifier() == CircuitComponent.ComponentTypeIdentifier.OUTPUT) {
+            establishConnection(getParentCircCompGUI(((CircuitGate) circPart).getInputConnection1()),
+                    getParentCircCompGUI(circPart), 1);
+            generateConnections(((CircuitGate) circPart).getInputConnection1());
+        }
+    }
+
+    //EFFECTS: returns the circuit GUI component that has the given circuit component
+    private CircuitComponentGUI getParentCircCompGUI(CircuitComponent component) {
+        for (CircuitComponentGUI circ: guiComponents) {
+            if (circ.getAttachedCircComponent().equals(component)) {
+                return circ;
+            }
+        }
+        return null;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: clears all visual representations and connections
+    private void clearCircuitGUI() {
+        this.guiCompConnections.clear();
+        for (CircuitComponentGUI p: guiComponents) {
+            this.remove(p.getAttachedUIElement());
+        }
+        this.guiComponents.clear();
+    }
 
     //EFFECTS: returns this circuit area's list of circuit parts
     public ArrayList<CircuitComponentGUI> getGuiComponents() {
