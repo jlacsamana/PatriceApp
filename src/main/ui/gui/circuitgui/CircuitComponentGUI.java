@@ -22,7 +22,7 @@ public class CircuitComponentGUI {
     protected InteractableCircuitArea parent;
 
     //EFFECTS: creates a new Circuit component with an attached GUI element, the type of component is dependent
-    // on the given type
+    // on the given type, and assigns a size
     public CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier circuitType,
                                InteractableCircuitArea parent) {
         this.parent = parent;
@@ -30,15 +30,19 @@ public class CircuitComponentGUI {
         if (circuitType == CircuitComponent.ComponentTypeIdentifier.VARIABLE) {
             attachedCircComponent = new CircuitVariable();
             attachedUIElement.add(new JLabel(var));
+            attachedUIElement.setSize(75, 75);
         } else if (circuitType == CircuitComponent.ComponentTypeIdentifier.NOT) {
             attachedCircComponent = new NotGate();
             attachedUIElement.add(new JLabel(not));
+            attachedUIElement.setSize(150, 150);
         } else if (circuitType == CircuitComponent.ComponentTypeIdentifier.AND) {
             attachedCircComponent = new AndGate();
             attachedUIElement.add(new JLabel(and));
+            attachedUIElement.setSize(150, 150);
         } else if (circuitType == CircuitComponent.ComponentTypeIdentifier.OR) {
             attachedCircComponent = new OrGate();
             attachedUIElement.add(new JLabel(or));
+            attachedUIElement.setSize(150, 150);
         } else if (circuitType == CircuitComponent.ComponentTypeIdentifier.OUTPUT) {
             //this is unreachable
         }

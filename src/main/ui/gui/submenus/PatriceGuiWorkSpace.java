@@ -16,8 +16,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//TODO work on on GUI
-//TODO implement backend
 //Represents the GUI shell for an individual workspace
 public class PatriceGuiWorkSpace extends ClosableMenuItem {
     public final String workSpaceName;

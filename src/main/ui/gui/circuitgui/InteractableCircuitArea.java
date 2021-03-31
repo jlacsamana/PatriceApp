@@ -48,7 +48,7 @@ public class InteractableCircuitArea extends JPanel {
     //creates it in the middle of the view
     public void addNewGuiCircComp(CircuitComponentGUI toAdd) {
         if (localCircuit.addCircuitPart(toAdd.getAttachedCircComponent())) {
-            toAdd.getAttachedUIElement().setBounds(960, 540, 150, 150);
+            toAdd.getAttachedUIElement().setLocation(960, 540);
             add(toAdd.getAttachedUIElement());
             toAdd.getAttachedUIElement().addMouseListener(listener);
             guiComponents.add(toAdd);
