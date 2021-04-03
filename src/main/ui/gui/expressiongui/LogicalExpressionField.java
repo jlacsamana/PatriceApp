@@ -15,6 +15,8 @@ import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 public class LogicalExpressionField extends JPanel {
     JTextField expressionField;
     PatriceGuiWorkSpace parent;
+    JButton circuitToExp;
+    JButton expToCircuit;
 
     //EFFECTS: creates a new logical expression view
     public LogicalExpressionField(PatriceGuiWorkSpace parent) {
@@ -40,12 +42,37 @@ public class LogicalExpressionField extends JPanel {
     public void renderConversionButtons() {
         JPanel buttonContainer = new JPanel();
         buttonContainer.setLayout(new GridBagLayout());
-        JButton circuitToExp = new JButton("Circuit To Expression");
-        JButton expToCircuit = new JButton("Expression To Circuit");
+        circuitToExp = new JButton("Circuit To Expression");
+        expToCircuit = new JButton("Expression To Circuit");
         buttonContainer.add(circuitToExp, generateGBC());
         buttonContainer.add(expToCircuit, generateGBC());
         buttonContainer.setBounds(1350, 60, 150, 100);
         add(buttonContainer);
+        assignCircToExpBehavior();
+        assignExpToCircBehavior();
+    }
+
+    //MODIFIES: expToCircuit
+    //EFFECTS: assigns the behavior of expression to circuit conversion to expToCircuit
+    private void assignExpToCircBehavior() {
+        expToCircuit.addActionListener(e -> {
+            try {
+                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).getLocalExpression()
+                        .setLogicalExpression(expressionField.getText());
+                LogicalCircuit generated =
+                        ((InteractableCircuitArea) parent.getInteractiveCircuitSpace())
+                                .getLocalExpression().generateCircuit();
+                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).setLocalCircuit(generated);
+                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).generateVisualForPreMadeCirc();
+            } catch (Exception x) {
+                System.out.println("failed conversion Expression -> Circuit attempt");
+            }
+        });
+    }
+
+    //MODIFIES: circToExp
+    //EFFECTS: assigns the behavior of circuit to expression conversion to circToExp
+    private void assignCircToExpBehavior() {
         circuitToExp.addActionListener(e -> {
             try {
                 ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).setLocalExpression(
@@ -58,19 +85,6 @@ public class LogicalExpressionField extends JPanel {
 
             } catch (Exception x) {
                 System.out.println("failed conversion Circuit -> Expression attempt");
-            }
-        });
-        expToCircuit.addActionListener(e -> {
-            try {
-                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).getLocalExpression()
-                        .setLogicalExpression(expressionField.getText());
-                LogicalCircuit generated =
-                        ((InteractableCircuitArea) parent.getInteractiveCircuitSpace())
-                                .getLocalExpression().generateCircuit();
-                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).setLocalCircuit(generated);
-                ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).generateVisualForPreMadeCirc();
-            } catch (Exception x) {
-                System.out.println("failed conversion Expression -> Circuit attempt");
             }
         });
     }
@@ -88,6 +102,11 @@ public class LogicalExpressionField extends JPanel {
         constraints.ipadx = 25;
         constraints.ipady = 35;
         return constraints;
+    }
+
+    //EFFECTS: returns this' exprression field
+    public JTextField getExpressionField() {
+        return expressionField;
     }
 
 

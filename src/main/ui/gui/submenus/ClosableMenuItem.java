@@ -1,5 +1,7 @@
 package ui.gui.submenus;
 
+import ui.gui.PatriceGuiMainMenu;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,10 +37,10 @@ public abstract class ClosableMenuItem extends JPanel {
 
     //MODIFIES: this
     //EFFECTS: closes this submenu
-    private void closeThis() {
+    public void closeThis() {
         Container parent = getParent();
         parent.remove(this);
-
+        ((PatriceGuiMainMenu) parent).closeDialogue();
         parent.revalidate();
         parent.repaint();
 

@@ -2,19 +2,13 @@ package ui.gui.submenus;
 
 
 import model.CircuitComponent;
-import model.LogicalCircuit;
-import model.LogicalExpression;
-import model.gates.NotGate;
 import ui.gui.circuitgui.CircuitComponentGUI;
 import ui.gui.circuitgui.InteractableCircuitArea;
 import ui.gui.expressiongui.LogicalExpressionField;
-import ui.gui.submenus.ClosableMenuItem;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 //Represents the GUI shell for an individual workspace
 public class PatriceGuiWorkSpace extends ClosableMenuItem {
@@ -51,9 +45,9 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     //MODIFIES: this
     //EFFECTS: renders the expression field and convert buttons
     private void renderExpressionField() {
-        LogicalExpressionField expField = new LogicalExpressionField(this);
+        logicalExpressionField = new LogicalExpressionField(this);
 
-        container.add(expField);
+        container.add(logicalExpressionField);
     }
 
     //MODIFIES: this
@@ -80,7 +74,7 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
         JPanel circuitBtns = renderCircPartButtons();
         circuitBtns.setBounds(50, 100, 300, 300);
         toolBoxFrame.add(circuitBtns);
-        JPanel modeBtns = renderModeButtons();
+        JPanel modeBtns = renderSaveButtons();
         modeBtns.setBounds(50, 500, 300, 40);
         toolBoxFrame.add(modeBtns);
         container.add(toolBoxFrame);
@@ -88,23 +82,22 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     }
 
     //MODIFIES: this
-    //EFFECTS: renders mode changing buttons
-    public JPanel renderModeButtons() {
+    //EFFECTS: renders save state button and applies behavior to it
+    public JPanel renderSaveButtons() {
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout());
-        JButton setConnectionsMode = new JButton("Connect");
-        JButton deleteConnectionsMode = new JButton("Disconnect");
-        buttons.add(setConnectionsMode);
-        buttons.add(deleteConnectionsMode);
-        setConnectionsMode.addActionListener(e -> {
-            ((InteractableCircuitArea) interactiveCircuitSpace).setConnecting(true);
-        });
-        deleteConnectionsMode.addActionListener(e -> {
-            ((InteractableCircuitArea) interactiveCircuitSpace).setConnecting(false);
-        });
-
-
+        JButton saveWorkspaceState = new JButton("Save to file");
+        buttons.add(saveWorkspaceState);
+        assignSaveVehavior(saveWorkspaceState);
         return buttons;
+    }
+
+    //MODIFIES: saveWorkspaceState
+    //EFFECTS: assigns the save state behavior to saveWorkspaceState
+    private void assignSaveVehavior(JButton saveWorkspaceState) {
+        saveWorkspaceState.addActionListener(e -> {
+
+        });
     }
 
     //MODIFIES: this
@@ -194,5 +187,10 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     //EFFECTS: returns the interactiveCircuitSpace
     public JPanel getInteractiveCircuitSpace() {
         return interactiveCircuitSpace;
+    }
+
+    //EFFECTS: returns this' expression field
+    public JPanel getLogicalExpressionField() {
+        return logicalExpressionField;
     }
 }

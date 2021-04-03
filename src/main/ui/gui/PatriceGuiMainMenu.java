@@ -1,10 +1,7 @@
 package ui.gui;
 
 import ui.gui.popupdialogues.CreateNewWorkSpace;
-import ui.gui.submenus.InformationPanel;
-import ui.gui.submenus.MainMenuBG;
-import ui.gui.submenus.PatriceGuiWorkSpace;
-import ui.gui.submenus.SwitchMenu;
+import ui.gui.submenus.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -140,8 +137,9 @@ public class PatriceGuiMainMenu extends JLayeredPane {
     public void loadWorkSpace() {
         if (!dialogueCurrentlyOpen) {
             dialogueCurrentlyOpen = true;
-
-
+            SaveFileLoader saveLoader = new SaveFileLoader(this);
+            add(saveLoader);
+            moveToFront(saveLoader);
             updateGUI();
         }
     }

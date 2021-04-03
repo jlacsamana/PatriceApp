@@ -80,7 +80,7 @@ public class WorkspaceSaverTest {
                 testWorkSpace);
         assertEquals("successfully saved!", saveResult);
 
-        testLoader.loadWorkSpaceFromFile("test-writeto-nonempty-workshop");
+        testLoader.loadWorkSpaceFromFile("test-writeto-nonempty-workshop", false);
         PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("test");
         assertEquals("((A ∧ B) ∨ (~C ∧ D))", loaded.getLocalExpression().getLogicalExpression());
         assertEquals(9, loaded.getLocalCircuit().getCircuitComponents().size());
@@ -99,7 +99,7 @@ public class WorkspaceSaverTest {
         String saveResult = testWorkSpaceSaver.saveToFile("test-writeto-workshop" , testWorkSpace);
         assertEquals("successfully saved!", saveResult);
 
-        testLoader.loadWorkSpaceFromFile("test-writeto-workshop");
+        testLoader.loadWorkSpaceFromFile("test-writeto-workshop", false);
         PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("test");
 
         assertEquals("", loaded.getLocalExpression().getLogicalExpression());
@@ -120,7 +120,7 @@ public class WorkspaceSaverTest {
                 "test-writeto-disconnectedparts-workshop" , testWorkSpace);
         assertEquals("successfully saved!", saveResult);
 
-        testLoader.loadWorkSpaceFromFile("test-writeto-disconnectedparts-workshop");
+        testLoader.loadWorkSpaceFromFile("test-writeto-disconnectedparts-workshop", false);
         PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("test");
 
         assertEquals("", loaded.getLocalExpression().getLogicalExpression());

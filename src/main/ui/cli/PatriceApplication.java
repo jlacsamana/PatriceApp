@@ -9,6 +9,7 @@ import java.util.Scanner;
 //user input handling based off
 //https://github.students.cs.ubc.ca/CPSC210/TellerApp/blob/master/src/main/ca/ubc/cpsc210/bank/ui/TellerApp.java
 public class PatriceApplication {
+
     private ArrayList<PatriceWorkspace> openWorkspaces;
     private ArrayList<String> patriceWorkspaceNames;
     private Scanner userInput;
@@ -34,8 +35,6 @@ public class PatriceApplication {
         patriceWorkspaceNames = new ArrayList<>();
         workspaceLoader = new WorkspaceLoader(this);
     }
-
-
 
     //EFFECTS: displays the main menu
     public void runPatriceMenu() {
@@ -71,7 +70,7 @@ public class PatriceApplication {
         System.out.println("Enter a file name to try and load:");
         userInput = new Scanner(System.in);
         String filename = userInput.nextLine();
-        String loadedFileStatus = workspaceLoader.loadWorkSpaceFromFile(filename);
+        String loadedFileStatus = workspaceLoader.loadWorkSpaceFromFile(filename, false);
         System.out.println(loadedFileStatus);
     }
 
@@ -186,12 +185,12 @@ public class PatriceApplication {
         openWorkspaces.add(toAdd);
     }
 
-    //returns this' workspace loader
+    //EFFECTS: returns this' workspace loader
     public WorkspaceLoader getWorkspaceLoader() {
         return this.workspaceLoader;
     }
 
-    //returns the workspace with the given name  from this' list of opened workspaces
+    //EFFECTS: returns the workspace with the given name  from this' list of opened workspaces
     //returns null if one can't be found
     public PatriceWorkspace getWorkspaceByName(String name) {
         for (PatriceWorkspace p: openWorkspaces) {
@@ -200,5 +199,10 @@ public class PatriceApplication {
             }
         }
         return null;
+    }
+
+    //EFFECTS: returns the list of currently loaded workspaces attached to this
+    public ArrayList<PatriceWorkspace> getOpenWorkspaces() {
+        return openWorkspaces;
     }
 }

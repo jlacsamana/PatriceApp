@@ -26,7 +26,7 @@ public class WorkspaceLoaderTest {
     @Test
     //tries to load from a file that doesn't exist
     public void testLoadWorkspaceFromFileInvalidPath(){
-        String loadState = testLoader.loadWorkSpaceFromFile("thicc thanos");
+        String loadState = testLoader.loadWorkSpaceFromFile("thicc thanos", false);
         assertEquals("could not read file", loadState);
 
     }
@@ -35,14 +35,14 @@ public class WorkspaceLoaderTest {
     //tries to load a workspace from a file that has a circuit component detailing a circuit component of a type
     //that doesn't exist
     public void testLoadWorkspaceFromFileInvalidCircComp(){
-        String loadState = testLoader.loadWorkSpaceFromFile("nonexistent-circuit-comp-type-workspace");
+        String loadState = testLoader.loadWorkSpaceFromFile("nonexistent-circuit-comp-type-workspace", false);
         assertEquals("something went wrong during part translation", loadState);
     }
 
     @Test
     //loads a workspace from a file that has no issues and should load properly
     public void testLoadWorkspaceFromFileValidFile(){
-        String loadState = testLoader.loadWorkSpaceFromFile("test-workspace");
+        String loadState = testLoader.loadWorkSpaceFromFile("test-workspace", false);
         assertEquals("big circuit successfully loaded!", loadState);
 
         PatriceWorkspace loadedWorkSpace = testPatriceApp.getWorkspaceByName("big circuit");
@@ -85,7 +85,22 @@ public class WorkspaceLoaderTest {
     @Test
     //loads a workspace from a file that has no issues and should load properly; empty file
     public void testLoadWorkspaceFromFileValidEmptyFile(){
-        String loadState = testLoader.loadWorkSpaceFromFile("template-workspace");
+        String loadState = testLoader.loadWorkSpaceFromFile("template-workspace",false);
+        assertEquals("TEST successfully loaded!", loadState);
+
+        PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("TEST");
+
+        assertEquals("", loaded.getLocalExpression().getLogicalExpression());
+        assertEquals(1, loaded.getLocalCircuit().getCircuitComponents().size());
+        assertEquals("OUTPUT", loaded.getLocalCircuit().getCircuitComponents().get(0).getComponentName());
+
+
+    }
+
+    @Test
+    //loads a workspace from a file that has no issues and should load properly; empty file. Uses a full path
+    public void testLoadWorkspaceFromFileValidEmptyFileWithFullPath(){
+        String loadState = testLoader.loadWorkSpaceFromFile("./data/template-workspace.json",true);
         assertEquals("TEST successfully loaded!", loadState);
 
         PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("TEST");

@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import ui.cli.PatriceApplication;
 import ui.cli.PatriceWorkspace;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import org.json.*;
+import ui.gui.submenus.PatriceGuiWorkSpace;
 
 //represents a system that loads a PATRICE workstation from a given save file (in json format)
 //code based on and partially derived from:
@@ -23,7 +26,6 @@ public class WorkspaceLoader {
     PatriceApplication activeAppInstance;
 
     private static class CantTranslateJsonToPart extends Exception {
-
     }
 
 
@@ -140,14 +142,19 @@ public class WorkspaceLoader {
         }
     }
 
-
     // EFFECTS: tries to read the details of a PATRICE workspace from the given path and adds it to the list
     // of active workspaces. If successful, returns a message notifying of the success
     // If it fails to load from a file, returns one of several messages corresponding to how it failed.
-    public String loadWorkSpaceFromFile(String filePath) {
+    // if fullPath is true, takes in a fullfilepath
+    public String loadWorkSpaceFromFile(String filePath, boolean fullPath) {
         String rawData;
         try {
-            String fullFilePath = "./data/" + filePath + ".json";
+            String fullFilePath = "";
+            if (!fullPath) {
+                fullFilePath = "./data/" + filePath + ".json";
+            } else {
+                fullFilePath = filePath;
+            }
             rawData = readFile(fullFilePath);
         } catch (IOException e) {
             return "could not read file";
@@ -165,6 +172,5 @@ public class WorkspaceLoader {
 
         return parsedData.getString("workspace-name") + " successfully loaded!";
     }
-
 
 }
