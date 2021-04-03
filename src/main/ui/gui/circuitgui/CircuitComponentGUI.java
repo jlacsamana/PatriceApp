@@ -82,6 +82,16 @@ public class CircuitComponentGUI {
         attachedUIElement.add(componentImage);
     }
 
+    //EFFECTS: a special gui shell initializer for the head part of the Logical circuit specifically
+    public CircuitComponentGUI(CircuitOutput output, InteractableCircuitArea parent) {
+        this.parent = parent;
+        attachedCircComponent = output;
+        attachedUIElement = new JPanel();
+        componentImage = new JLabel(this.output);
+        attachedUIElement.add(componentImage);
+        attachedUIElement.setOpaque(false);
+    }
+
     //MODIFIES: this.attachedCircComponent
     //EFFECTS: applies a generic name to this circuit component
     public void applyGenericName() {
@@ -101,7 +111,7 @@ public class CircuitComponentGUI {
                 nameToAssign = placeInOrder + " OR";
             } else  if (attachedCircComponent.getComponentTypeIdentifier()
                     == CircuitComponent.ComponentTypeIdentifier.OUTPUT) {
-                nameToAssign = placeInOrder + "OUT";
+                nameToAssign = "OUTPUT";
             }
         }
         attachedCircComponent.setName(nameToAssign);
@@ -123,16 +133,6 @@ public class CircuitComponentGUI {
             nameToAssign = "D";
         }
         return nameToAssign;
-    }
-
-
-    //EFFECTS: a special gui shell initializer for the head part of the Logical circuit specifically
-    public CircuitComponentGUI(CircuitOutput output, InteractableCircuitArea parent) {
-        this.parent = parent;
-        attachedCircComponent = output;
-        attachedUIElement = new JPanel();
-        attachedUIElement.add(new JLabel(this.output));
-        attachedUIElement.setOpaque(false);
     }
 
     //MODIFIES: this, CircuitComponentGUIs

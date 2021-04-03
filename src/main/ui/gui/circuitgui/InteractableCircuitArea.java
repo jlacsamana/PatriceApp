@@ -68,6 +68,7 @@ public class InteractableCircuitArea extends JPanel {
         add(circuitOut.getAttachedUIElement());
         circuitOut.getAttachedUIElement().addMouseListener(listener);
         guiComponents.add(circuitOut);
+        circuitOut.applyGenericName();
         circuitOut.getAttachedUIElement().revalidate();
         circuitOut.getAttachedUIElement().repaint();
     }

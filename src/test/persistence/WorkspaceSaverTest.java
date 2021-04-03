@@ -33,7 +33,7 @@ public class WorkspaceSaverTest {
     //tries to save a workspace file to an invalid path
     public void testSaveToFileInvalidPath() {
 
-        String saveResult = testWorkSpaceSaver.saveToFile("thicc\0thanos", testWorkSpace);
+        String saveResult = testWorkSpaceSaver.saveToFile("thicc\0thanos", testWorkSpace, false);
         assertEquals("specified path to save to is invalid", saveResult);
     }
 
@@ -44,9 +44,9 @@ public class WorkspaceSaverTest {
         AndGate invalidAND = new AndGate();
         invalidPartCirc.addCircuitPart(invalidAND);
         invalidAND.setComponentTypeIdentifier(CircuitComponent.ComponentTypeIdentifier.NONE);
-        testWorkSpace.debugSetCircuit(invalidPartCirc);
+        testWorkSpace.setCircuit(invalidPartCirc);
 
-        String saveResult = testWorkSpaceSaver.saveToFile("invalid-part-workspace" , testWorkSpace);
+        String saveResult = testWorkSpaceSaver.saveToFile("invalid-part-workspace" , testWorkSpace, false);
         assertEquals("there is a part that can't be saved as data because " +
                 "it is not of any of the allowed part types", saveResult);
     }
@@ -59,9 +59,9 @@ public class WorkspaceSaverTest {
         invalidIDCircuit.addCircuitPart(a);
         a.setVarID(LogicalCircuit.VariableIdentifier.NONE);
 
-        testWorkSpace.debugSetCircuit(invalidIDCircuit);
+        testWorkSpace.setCircuit(invalidIDCircuit);
 
-        String saveResult = testWorkSpaceSaver.saveToFile("invalid-ID-workspace" , testWorkSpace);
+        String saveResult = testWorkSpaceSaver.saveToFile("invalid-ID-workspace" , testWorkSpace, false);
         assertEquals("there is an illegal variable used in the circuit that was to be translated", saveResult);
     }
 
@@ -72,12 +72,12 @@ public class WorkspaceSaverTest {
         LogicalExpression testExp = new LogicalExpression();
         testExp.setLogicalExpression("((A ∧ B) ∨ (~C ∧ D))");
         testCirc = testExp.generateCircuit();
-        testWorkSpace.debugSetCircuit(testCirc);
-        testWorkSpace.debugSetExpression(testExp);
+        testWorkSpace.setCircuit(testCirc);
+        testWorkSpace.setExpression(testExp);
 
 
         String saveResult = testWorkSpaceSaver.saveToFile("test-writeto-nonempty-workshop" ,
-                testWorkSpace);
+                testWorkSpace, false);
         assertEquals("successfully saved!", saveResult);
 
         testLoader.loadWorkSpaceFromFile("test-writeto-nonempty-workshop", false);
@@ -89,14 +89,12 @@ public class WorkspaceSaverTest {
         }
         assertEquals("OUTPUT", loaded.getLocalCircuit().getCircuitComponents().get(0).getComponentName());
         assertEquals("((A ∧ B) ∨ (~C ∧ D))", loaded.getLocalExpression().getLogicalExpression());
-
-
     }
 
     @Test
     //saves a file to a valid path normally; saves an empty workspace
     public void testSaveToFileNormalEmpty() {
-        String saveResult = testWorkSpaceSaver.saveToFile("test-writeto-workshop" , testWorkSpace);
+        String saveResult = testWorkSpaceSaver.saveToFile("test-writeto-workshop" , testWorkSpace, false);
         assertEquals("successfully saved!", saveResult);
 
         testLoader.loadWorkSpaceFromFile("test-writeto-workshop", false);
@@ -114,10 +112,10 @@ public class WorkspaceSaverTest {
         LogicalCircuit circuit = new LogicalCircuit();
         circuit.addCircuitPart(and);
         and.setName("AND");
-        testWorkSpace.debugSetCircuit(circuit);
+        testWorkSpace.setCircuit(circuit);
 
         String saveResult = testWorkSpaceSaver.saveToFile(
-                "test-writeto-disconnectedparts-workshop" , testWorkSpace);
+                "test-writeto-disconnectedparts-workshop" , testWorkSpace, false);
         assertEquals("successfully saved!", saveResult);
 
         testLoader.loadWorkSpaceFromFile("test-writeto-disconnectedparts-workshop", false);
@@ -132,7 +130,31 @@ public class WorkspaceSaverTest {
         assertNull(((BinaryCircuitGate) loaded.getLocalCircuit().getCircuitComponents().get(1)).getInputConnection2());
     }
 
+    @Test
+    //saves a file to a valid path normally
+    public void testSaveToFileNormalFullPath() {
+        LogicalCircuit testCirc;
+        LogicalExpression testExp = new LogicalExpression();
+        testExp.setLogicalExpression("((A ∧ B) ∨ (~C ∧ D))");
+        testCirc = testExp.generateCircuit();
+        testWorkSpace.setCircuit(testCirc);
+        testWorkSpace.setExpression(testExp);
 
+
+        String saveResult = testWorkSpaceSaver.saveToFile("./data/test-writeto-nonempty-workshop.json" ,
+                testWorkSpace, true);
+        assertEquals("successfully saved!", saveResult);
+
+        testLoader.loadWorkSpaceFromFile("./data/test-writeto-nonempty-workshop.json", true);
+        PatriceWorkspace loaded = testPatriceApp.getWorkspaceByName("test");
+        assertEquals("((A ∧ B) ∨ (~C ∧ D))", loaded.getLocalExpression().getLogicalExpression());
+        assertEquals(9, loaded.getLocalCircuit().getCircuitComponents().size());
+        for (int i = 1; i < loaded.getLocalCircuit().getCircuitComponents().size(); i++) {
+            assertEquals(String.valueOf(i), loaded.getLocalCircuit().getCircuitComponents().get(i).getComponentName());
+        }
+        assertEquals("OUTPUT", loaded.getLocalCircuit().getCircuitComponents().get(0).getComponentName());
+        assertEquals("((A ∧ B) ∨ (~C ∧ D))", loaded.getLocalExpression().getLogicalExpression());
+    }
 
 
 

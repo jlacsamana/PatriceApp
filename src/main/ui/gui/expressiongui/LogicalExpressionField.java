@@ -78,6 +78,7 @@ public class LogicalExpressionField extends JPanel {
                 ((InteractableCircuitArea) parent.getInteractiveCircuitSpace()).setLocalExpression(
                         ((InteractableCircuitArea)
                         parent.getInteractiveCircuitSpace()).getLocalCircuit().generateExpression());
+
                 expressionField.setText(
                         (((InteractableCircuitArea)
                         parent.getInteractiveCircuitSpace()).getLocalExpression().getLogicalExpression()

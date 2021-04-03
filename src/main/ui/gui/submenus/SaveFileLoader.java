@@ -28,7 +28,7 @@ public class SaveFileLoader extends ClosableMenuItem implements ActionListener {
     public SaveFileLoader(PatriceGuiMainMenu parent) {
         super();
         selector = new JFileChooser();
-        selector.setFileFilter(new FileNameExtensionFilter("json","*.json"));
+        selector.setFileFilter(new FileNameExtensionFilter("json","json"));
         container.add(selector);
         selector.addActionListener(this::actionPerformed);
         this.parent = parent;

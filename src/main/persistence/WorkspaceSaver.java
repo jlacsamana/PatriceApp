@@ -154,9 +154,14 @@ public class WorkspaceSaver {
     //EFFECTS: opens (or creates a file) at the specified file path and saves the data of the given PATRICE workspace
     //to it. Closes when finished. If it fails to do so at any step, returns a message informing of
     //where the failure occurred. If successful, returns a message notifying of the success.
-    public String saveToFile(String outputDestination, PatriceWorkspace workspaceToSave) {
+    //if useFullPath is true, takes a full path instead
+    public String saveToFile(String outputDestination, PatriceWorkspace workspaceToSave, boolean useFullPath) {
         try {
-            open("./data/" + outputDestination + ".json");
+            if (useFullPath) {
+                open(outputDestination);
+            } else {
+                open("./data/" + outputDestination + ".json");
+            }
         } catch (FileNotFoundException e) {
             return "specified path to save to is invalid";
         }

@@ -2,6 +2,9 @@ package ui.gui.submenus;
 
 
 import model.CircuitComponent;
+import persistence.WorkspaceSaver;
+import ui.cli.PatriceApplication;
+import ui.cli.PatriceWorkspace;
 import ui.gui.circuitgui.CircuitComponentGUI;
 import ui.gui.circuitgui.InteractableCircuitArea;
 import ui.gui.expressiongui.LogicalExpressionField;
@@ -9,6 +12,8 @@ import ui.gui.expressiongui.LogicalExpressionField;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //Represents the GUI shell for an individual workspace
 public class PatriceGuiWorkSpace extends ClosableMenuItem {
@@ -88,15 +93,24 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
         buttons.setLayout(new GridLayout());
         JButton saveWorkspaceState = new JButton("Save to file");
         buttons.add(saveWorkspaceState);
-        assignSaveVehavior(saveWorkspaceState);
+        assignSaveBehavior(saveWorkspaceState);
         return buttons;
     }
 
     //MODIFIES: saveWorkspaceState
     //EFFECTS: assigns the save state behavior to saveWorkspaceState
-    private void assignSaveVehavior(JButton saveWorkspaceState) {
+    private void assignSaveBehavior(JButton saveWorkspaceState) {
         saveWorkspaceState.addActionListener(e -> {
-
+            PatriceWorkspace dummyWorkSpace = new PatriceWorkspace(workSpaceName, false);
+            dummyWorkSpace.setCircuit(((InteractableCircuitArea) interactiveCircuitSpace).getLocalCircuit());
+            dummyWorkSpace.setExpression(((InteractableCircuitArea) interactiveCircuitSpace).getLocalExpression());
+            WorkspaceSaver saver = new WorkspaceSaver();
+            JFileChooser saveLocationChooser = new JFileChooser();
+            int result = saveLocationChooser.showDialog(this, "Save");
+            if (result == JFileChooser.APPROVE_OPTION) {
+                String savePath = saveLocationChooser.getSelectedFile().getAbsolutePath();
+                saver.saveToFile(savePath, dummyWorkSpace, true);
+            }
         });
     }
 
@@ -193,4 +207,5 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     public JPanel getLogicalExpressionField() {
         return logicalExpressionField;
     }
+
 }

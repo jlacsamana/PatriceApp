@@ -77,7 +77,7 @@ public class PatriceWorkspace {
         System.out.println("Enter a file name:");
         userInput = new Scanner(System.in);
         String fileName = userInput.nextLine();
-        String saveStatus = workspaceSaver.saveToFile(fileName, this);
+        String saveStatus = workspaceSaver.saveToFile(fileName, this, false);
         System.out.println(saveStatus);
     }
 
@@ -482,13 +482,13 @@ public class PatriceWorkspace {
 
     //MODIFIES: this
     //EFFECTS: sets this' current logical expression to the given one
-    public void debugSetExpression(LogicalExpression newExp) {
+    public void setExpression(LogicalExpression newExp) {
         this.localExpression = newExp;
     }
 
     //MODIFIES: this
     //EFFECTS: sets this' current logical circuit to the given one
-    public void debugSetCircuit(LogicalCircuit newCirc) {
+    public void setCircuit(LogicalCircuit newCirc) {
         this.localCircuit = newCirc;
     }
 
