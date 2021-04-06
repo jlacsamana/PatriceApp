@@ -32,3 +32,15 @@ a thoroughly more enjoyeable experience. <br> </br> <br>
 - As a user, I want to be able to have the program *generate a logical circuit* from a logical statement
 - As a user, I want to be able to save the data stored in a workspace to a file
 - As a user, I want to be able to load workspace data from a file
+
+## Phase 4: Task 2
+**Type Hierarchy**<br>
+Classes involved:
+- *CircuitGate*
+- *BinaryCircuitGate* extends *CircuitGate*
+- *AndGate* extends *BinaryCircuitGate*
+- *OrGate* extends *BinaryCircuitGate*
+- *NotGate* extends *CircuitGate*
+- *CircuitOutput* extends *CircuitGate*
+
+
