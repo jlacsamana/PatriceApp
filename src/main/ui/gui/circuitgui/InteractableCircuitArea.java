@@ -23,10 +23,7 @@ public class InteractableCircuitArea extends JPanel {
     CircuitComponentGUI currentlySelected = null;
     SelectedCircPartListener listener;
     ArrayList<CircuitComponentGUI> guiComponents;
-
     ArrayList<Connection> guiCompConnections;
-
-    boolean isConnecting = true;
 
     //EFFECTS: creates a new area that allows the user to interact with the circuit (a visual representation of it)
     public InteractableCircuitArea() {
@@ -341,21 +338,6 @@ public class InteractableCircuitArea extends JPanel {
     //EFFECTS: sets this' local logical Circuit
     public void setLocalCircuit(LogicalCircuit newCirc) {
         localCircuit = newCirc;
-    }
-
-    //EFFECTS: sets to connection mode or disconnect mode
-    public void setConnecting(boolean connecting) {
-        isConnecting = connecting;
-    }
-
-    //EFFECTS: returns whether connecting mode is on or disconnect mode
-    public boolean isConnecting() {
-        return isConnecting;
-    }
-
-    //EFFECTS: returns the list of connections
-    public ArrayList<Connection> getGuiCompConnections() {
-        return guiCompConnections;
     }
 
 }

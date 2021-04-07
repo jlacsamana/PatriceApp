@@ -3,7 +3,6 @@ package ui.gui.submenus;
 
 import model.CircuitComponent;
 import persistence.WorkspaceSaver;
-import ui.cli.PatriceApplication;
 import ui.cli.PatriceWorkspace;
 import ui.gui.circuitgui.CircuitComponentGUI;
 import ui.gui.circuitgui.InteractableCircuitArea;
@@ -12,14 +11,12 @@ import ui.gui.expressiongui.LogicalExpressionField;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 //Represents the GUI shell for an individual workspace
 public class PatriceGuiWorkSpace extends ClosableMenuItem {
     public final String workSpaceName;
-    private JPanel interactiveCircuitSpace;
-    private JPanel logicalExpressionField;
+    private InteractableCircuitArea interactiveCircuitSpace;
+    private LogicalExpressionField logicalExpressionField;
 
     JButton andBtn;
     JButton orBtn;
@@ -102,8 +99,8 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     private void assignSaveBehavior(JButton saveWorkspaceState) {
         saveWorkspaceState.addActionListener(e -> {
             PatriceWorkspace dummyWorkSpace = new PatriceWorkspace(workSpaceName, false);
-            dummyWorkSpace.setCircuit(((InteractableCircuitArea) interactiveCircuitSpace).getLocalCircuit());
-            dummyWorkSpace.setExpression(((InteractableCircuitArea) interactiveCircuitSpace).getLocalExpression());
+            dummyWorkSpace.setCircuit(interactiveCircuitSpace.getLocalCircuit());
+            dummyWorkSpace.setExpression(interactiveCircuitSpace.getLocalExpression());
             WorkspaceSaver saver = new WorkspaceSaver();
             JFileChooser saveLocationChooser = new JFileChooser();
             int result = saveLocationChooser.showDialog(this, "Save");
@@ -135,26 +132,17 @@ public class PatriceGuiWorkSpace extends ClosableMenuItem {
     //MODIFIES: this
     //EFFECTS: assigns behaviors to the Buttons that create new circuit parts
     private void assignCircButtonBehaviors() {
-        andBtn.addActionListener(e -> {
-            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.AND,
-                            (InteractableCircuitArea) interactiveCircuitSpace));
-        });
-        orBtn.addActionListener(e -> {
-            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.OR,
-                            (InteractableCircuitArea) interactiveCircuitSpace));
-        });
-        notBtn.addActionListener(e -> {
-            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.NOT,
-                            (InteractableCircuitArea) interactiveCircuitSpace));
-        });
-        varBtn.addActionListener(e -> {
-            ((InteractableCircuitArea) interactiveCircuitSpace).addNewGuiCircComp(
-                    new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.VARIABLE,
-                            (InteractableCircuitArea) interactiveCircuitSpace));
-        });
+        andBtn.addActionListener(e -> interactiveCircuitSpace.addNewGuiCircComp(
+                 new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.AND, interactiveCircuitSpace)));
+        orBtn.addActionListener(e -> interactiveCircuitSpace.addNewGuiCircComp(
+                new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.OR,
+                        interactiveCircuitSpace)));
+        notBtn.addActionListener(e -> interactiveCircuitSpace.addNewGuiCircComp(
+                new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.NOT,
+                        interactiveCircuitSpace)));
+        varBtn.addActionListener(e -> interactiveCircuitSpace.addNewGuiCircComp(
+                new CircuitComponentGUI(CircuitComponent.ComponentTypeIdentifier.VARIABLE,
+                        interactiveCircuitSpace)));
 
     }
 

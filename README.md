@@ -43,4 +43,16 @@ Classes involved:
 - *NotGate* extends *CircuitGate*
 - *CircuitOutput* extends *CircuitGate*
 
+## Phase 4: Task 3
+**What I would change in the design if I had more time** 
+<br>
+- The GUI save and load mechanism; both rely on instantiating the CLI version of the app
+and using the existing save/load infrastructure for that, so I would create a standalone
+save/load system for the GUI version
+- I would refactor the inner classes inside InteractiveCircuitArea that handle keyboard 
+input by assigning their associated behaviors to the listener using lambda functions instead
+- I would refactor the circuit -> expression translator implementation to be more easily modular
+ and readable
+
+
 

@@ -18,9 +18,9 @@ public class PatriceGuiMainMenu extends JLayeredPane {
     JButton loadWorkspaceBtn;
     JButton closeBtn;
 
-    JPanel bg;
-    JPanel infoPanel;
-    JPanel switchMenu;
+    MainMenuBG bg;
+    InformationPanel infoPanel;
+    SwitchMenu switchMenu;
 
     ArrayList<PatriceGuiWorkSpace> loadedWorkspaces;
 
